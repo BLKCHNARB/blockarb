@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: cabinet;
+        font-weight: 400;
+        src: url("/public/fonts/CabinetGrotesk-Regular.otf");
+    }
+}
+
+body {
+    overflow-x: hidden;
+}
+
+form#register {
+    position: relative;
+    overflow: hidden;
+    margin: 2em auto;
+    padding: 1em;
+    /* font-weight: 500; */
+}
+
+fieldset {
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    font-weight: 500;
+}
+
+fieldset:nth-of-type(1) {
+    position: relative;
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    right: 0;
+}
+
+fieldset:not(:nth-of-type(1)) {
+    position: absolute;
+    top: 0px;
+    right: -200%;
+    width: 100%;
+}
