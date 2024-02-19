@@ -8,19 +8,19 @@
         <ul class=" flex items-center space-x- pb-3 border-b border-gray-300" role="tablist">
             <li @click="openTab = 1" class=" font-bold cursor-pointer p-2 px-4"
                 :class=" openTab === 1 ? 'bg-secondary-400 rounded-md' : ''">
-                <a href="#tab-usd">Profile</a>
+                <a href="#profile">Profile</a>
             </li>
             <li @click="openTab = 2" class=" font-bold cursor-pointer p-2 px-4"
                 :class=" openTab === 2 ? 'bg-secondary rounded-md' : ''">
-                <a href="#tab-btc">Wallets</a>
+                <a href="#wallets">Wallets</a>
             </li>
             <li @click="openTab = 3" class=" font-bold cursor-pointer p-2 px-4"
                 :class=" openTab === 3 ? 'bg-secondary rounded-md' : ''">
-                <a href="#tab-eth">KYC</a>
+                <a href="#kyc">KYC</a>
             </li>
             <li @click="openTab = 4" class=" font-bold cursor-pointer p-2 px-4"
                 :class=" openTab === 4 ? 'bg-secondary rounded-md' : ''">
-                <a href="#tab-eth">Password</a>
+                <a href="#password">Password</a>
             </li>
             {{-- <li @click="openTab = 5" class=" font-bold cursor-pointer p-2 px-4"
                 :class=" openTab === 5 ? 'bg-secondary rounded-md' : ''">
@@ -29,7 +29,7 @@
         </ul>
 
         <div class=" mt-10">
-            <div class="" x-show="openTab === 1"
+            <div class="" x-show="openTab === 1" id="profile"
                 x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
                 x-transition:enter-start="transform translate-y-2 opacity-0"
                 x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"
@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <div class="" x-show="openTab === 2"
+            <div class="" x-show="openTab === 2" id="wallets"
                 x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
                 x-transition:enter-start="transform translate-y-2 opacity-0"
                 x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"
@@ -155,7 +155,7 @@
                     </div>
                 </div>
             </div>
-            <div class="" x-show="openTab === 3"
+            <div class="" x-show="openTab === 3" id="kyc"
                 x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
                 x-transition:enter-start="transform translate-y-2 opacity-0"
                 x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"
@@ -243,7 +243,7 @@
                 </div>
             </div>
 
-            <div class="" x-show="openTab === 4"
+            <div class="" x-show="openTab === 4" id="password"
                 x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
                 x-transition:enter-start="transform translate-y-2 opacity-0"
                 x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"
@@ -287,7 +287,7 @@
                 </div>
             </div>
 
-            <div class="" x-show="openTab === 5"
+            <div class="" x-show="openTab === 5" id=""
                 x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
                 x-transition:enter-start="transform translate-y-2 opacity-0"
                 x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"

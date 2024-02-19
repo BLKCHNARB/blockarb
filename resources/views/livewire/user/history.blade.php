@@ -1,4 +1,4 @@
-<div class="bg-white p-4 pt-8 lg:p-12 h-ful rounded-lg overflow-auto">
+<div class="bg-white p-4 pt-8 lg:p-12 lg:pt-8 h-ful rounded-lg overflow-auto">
 
     <div class=" mb-10 flex justify-between items-center">
         <h3 class=" text-2xl font-semibold"> History</h3>
@@ -6,25 +6,25 @@
 
     <div x-data="{ openTab: 1 }" class=" mb-10">
         <ul class=" flex items-center space-x-" role="tablist">
-            <li @click="openTab = 1" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 1 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">Deposits</a>
+            <li @click="openTab = 1" class=" cursor-pointer p-3 px-6 hover:bg-blue_100 rounded-[10px] mr-2 transition-all duration-200"
+                :class=" openTab === 1 ? 'bg-blue_600 rounded-[10px] text-white pointer-events-none' : 'text-black_800 hover:text-blue_600'">
+                <a href="#">Deposit</a>
             </li>
-            <li @click="openTab = 2" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 2 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">Withdrawals</a>
+            <li @click="openTab = 2" class=" cursor-pointer p-3 px-6 hover:bg-blue_100 rounded-[10px] mr-2 transition-all duration-200"
+                :class=" openTab === 2 ? 'bg-blue_600 rounded-[10px] text-white pointer-events-none' : 'text-black_800 hover:text-blue_600'">
+                <a href="#">Withdrawal</a>
             </li>
-            <li @click="openTab = 3" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 3 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">Compounds</a>
+            <li @click="openTab = 3" class=" cursor-pointer p-3 px-6 hover:bg-blue_100 rounded-[10px] mr-2 transition-all duration-200"
+                :class=" openTab === 3 ? 'bg-blue_600 rounded-[10px] text-white pointer-events-none' : 'text-black_800 hover:text-blue_600'">
+                <a href="#">Snowball</a>
             </li>
-            <li @click="openTab = 4" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 4 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">Transfers</a>
+            <li @click="openTab = 4" class=" cursor-pointer p-3 px-6 hover:bg-blue_100 rounded-[10px] mr-2 transition-all duration-200"
+                :class=" openTab === 4 ? 'bg-blue_600 rounded-[10px] text-white pointer-events-none' : 'text-black_800 hover:text-blue_600'">
+                <a href="#">Transfer</a>
             </li>
-            <li @click="openTab = 5" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 5 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">Top Ups</a>
+            <li @click="openTab = 5" class=" cursor-pointer p-3 px-6 hover:bg-blue_100 rounded-[10px] mr-2 transition-all duration-200"
+                :class=" openTab === 5 ? 'bg-blue_600 rounded-[10px] text-white pointer-events-none' : 'text-black_800 hover:text-blue_600'">
+                <a href="#">Top Up</a>
             </li>
         </ul>
 
@@ -104,7 +104,7 @@
                                     <tr class="text-center py-5 mx-auto">
                                         <td align="center" colspan="5">
                                             <div class="text-center py-5 mx-auto">
-                                                <h5 class=" text-x">You have no running Investments</h5>
+                                                <h5 class=" text-x">No records found. <a class="text-blue_600" href="{{ (route('invest')) }}">Make your first deposit</a> </h5>
                                             </div>
                                         </td>
                                     </tr>
@@ -217,7 +217,7 @@
                                     <tr class="text-center py-5 mx-auto">
                                         <td align="center" colspan="5">
                                             <div class="text-center py-5 mx-auto">
-                                                <h5 class=" text-x">You have no withdrawals</h5>
+                                                <h5 class=" text-x">No records found </h5>
                                             </div>
                                         </td>
                                     </tr>
@@ -283,7 +283,7 @@
                                     <tr class="text-center py-5 mx-auto">
                                         <td align="center" colspan="5">
                                             <div class="text-center py-5 mx-auto">
-                                                <h5 class=" text-x">You have no Compounds yet</h5>
+                                                <h5 class=" text-x">No records found </h5>
                                             </div>
                                         </td>
                                     </tr>
@@ -344,7 +344,7 @@
 
                                         <td
                                             class="px-6 py-4 whitespace-no-wrap border-b  border-gray-500 text-sm leading-5">
-                                            {{ $transfer->receive->email }}</td>
+                                            {{ $transfer->receiver }}</td>
                                         </td>
 
                                         <td
@@ -357,7 +357,7 @@
                                     <tr class="text-center py-5 mx-auto">
                                         <td align="center" colspan="5">
                                             <div class="text-center py-5 mx-auto">
-                                                <h5 class=" text-x">You have no Transfers yet</h5>
+                                                <h5 class=" text-x">No records found </h5>
                                             </div>
                                         </td>
                                     </tr>
@@ -422,7 +422,7 @@
                                     <tr class="text-center py-5 mx-auto">
                                         <td align="center" colspan="5">
                                             <div class="text-center py-5 mx-auto">
-                                                <h5 class=" text-x">You have no Top ups yet</h5>
+                                                <h5 class=" text-x">No records found </h5>
                                             </div>
                                         </td>
                                     </tr>

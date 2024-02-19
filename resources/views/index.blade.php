@@ -18,7 +18,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class=" font-amiri">
+<body class="">
     {{-- preloader --}}
 
     <div id="preloader" style="transition: all 2s ease-out"

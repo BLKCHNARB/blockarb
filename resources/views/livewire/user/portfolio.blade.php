@@ -53,13 +53,13 @@
 
                         <td class="px-6 py-4 whitespace-no-wrap border-b  border-gray-500 text-sm leading-5">
                             {{ number_format($investment->amount, 2) }}
-                            {{ $investment->token_id == 1 ? 'USD' : ($investment->token_id == 2 ? 'BTC' : 'ETH') }}</td>
+                            {{ $investment->token->name }}</td>
 
                         <td class="px-6 py-4 whitespace-no-wrap border-b  border-gray-500 text-sm leading-5">
                             {{ $investment->percentage }}%</td>
 
                         <td class="px-6 py-4 whitespace-no-wrap border-b  border-gray-500 text-sm leading-5">
-                            {{ $investment->updated_at->format('Y-m-d') }}</td>
+                            {{ $investment->updated_at?->format('Y-m-d') }}</td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b  border-gray-500 text-sm leading-5">
                             <button wire:click="topup({{ $investment->id }})" type="button"
                                 class=" text text-green-600">top up</button>
@@ -88,6 +88,13 @@
         </table>
 
         <x-confirmation-modal wire:model='topup'>
+
+            <x-slot name="close">
+                <span wire:click="cancel">
+                    x
+                </span>
+            </x-slot>
+
             <x-slot name="title">
                 Top Up - {{ $token ? $token->name : ""}}
             </x-slot>
@@ -121,6 +128,13 @@
         </x-confirmation-modal>
 
         <x-confirmation-modal wire:model='confirm'>
+
+            <x-slot name="close">
+                <span wire:click="cancel">
+                    x
+                </span>
+            </x-slot>
+
             <x-slot name="title">
                 Top Up - {{ $investment ? $investment->token->name : ""}}
             </x-slot>

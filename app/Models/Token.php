@@ -17,7 +17,7 @@ class Token extends Model
     ];
 
     public function plans() {
-        return $this->belongsToMany(Plan::class, 'plan_tokens')->withTimestamps()->withPivot('maximum','minimum','percentage', 'id', 'duration');
+        return $this->belongsToMany(Plan::class, 'plan_tokens')->withTimestamps()->withPivot('maximum','minimum','percentage', 'id', 'duration', 'performance_fee');
     }
 
     public function investments() {

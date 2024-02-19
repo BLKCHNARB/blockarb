@@ -1,3 +1,11 @@
+import './bootstrap';
+
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
 function toggleFieldsets() {
     let fieldsets = document.querySelectorAll("fieldset");
     let nexts = document.querySelectorAll("fieldset .next");

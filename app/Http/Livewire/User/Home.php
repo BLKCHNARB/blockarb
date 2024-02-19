@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\DB;
 class Home extends Component
 {
 
-    public $account = 0, $referral_link, $chart_data, $btcChartData, $ethChartData, $usdtChartData, $btc, $eth, $usdt, $btcProfitTotal = 0, $btcCapitalTotal = 0, $ethProfitTotal = 0, $ethCapitalTotal = 0, $usdtProfitTotal = 0, $usdtCapitalTotal = 0;
+    public $deposits, $withdrawals, $compounds, $transfers, $topups, $allActivies, $usdtChange;
+    public $account = 0, $wallets = [], $referral_link, $chart_data, $btcChartData, $ethChartData, $usdtChartData, $btc, $eth, $usdt, $btcProfitTotal = 0, $btcCapitalTotal = 0, $ethProfitTotal = 0, $ethCapitalTotal = 0, $usdtProfitTotal = 0, $usdtCapitalTotal = 0, $usdtDuration, $usdtPercentage;
 
     public function render()
     {
@@ -73,8 +74,26 @@ class Home extends Component
 
         $this->usdtProfitTotal = $this->usdt->sum('profit');
         $this->usdtCapitalTotal = $this->usdt->sum('amount');
-        
-        // dd($this->eth->sum('amount'));
+        $this->usdtPercentage = $this->usdt->sum('percentage');
+        $this->usdtDuration = $this->usdt->sum('duration');
 
+        $this->deposits = Auth()->user()->deposits;
+        $this->withdrawals = Auth()->user()->withdrawals;
+        $this->compounds = Auth()->user()->compounds;
+        $this->transfers = Auth()->user()->transfers;
+        $this->topups = Auth()->user()->topups;
+
+        if ($user->bitcoin_address) {
+            $this->wallets[] = $user->bitcoin_address;
+            // dd($this->wallets);
+        }
+        
+        if ($user->ethereum_address) {
+            $this->wallets[] = $user->ethereum_address;
+        }
+        
+        if ($user->usdt_address) {
+            $this->wallets[] = $user->usdt_address;
+        }
     }
 }

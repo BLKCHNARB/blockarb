@@ -11,49 +11,36 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: {
-                    DEFAULT: '#091F4B',
-                    50: '#f6f9ff',
-                    100: '#e8effc',
-                    200: '#bbcff7',
-                    300: '#8daff1',
-                    400: '#608eec',
-                    500: '#326ee6',
-                    600: '#1955cd',
-                    700: '#13429f',
-                    800: '#0e2f72',
-                },
-                secondary: {
-                    DEFAULT: '#F2B950',
-                    100: '#fdf6e7',
-                    200: '#fae3b8',
-                    300: '#f6d088',
-                    400: '#f3bd59',
-                    500: '#efaa29',
-                    600: '#d69010',
-                    700: '#a6700c',
-                    800: '#775009',
-                }
+                gray_40: '#FAFAFA',
+                gray_50: '#F6F7F9',
+                gray_100: '#E2E6EC',
+                gray_200: '#D4DAE2',
+                blue_100: '#E8EDFF',
+                blue_300: '#476FFC',
+                blue_600: '#194BFB',
+                blue_800: '#1744E4',
+                black_200: '#96989E',
+                black_400: '#666A72',
+                black_600: '#484D56',
+                black_800: '#1A202C',
+                black_900: '#1A1C1E',
+                neutral_800: '#170F49',
+                success: '#22C55E',
+                failed: '#FF4747',
+                warning: '#FACC15',
             },
 
-            borderRadius: {
-                sb: "0.25rem"
+            fontSize: {
+                xxs: "",
+                xs: "",
+                s: "0.75rem", //12px
+                sm: "0.875rem", //14px
+                base: "1rem", //16px
+                md: "1.125rem", //18px
+                lg: "1.25rem", //20px
+                xl: "1.5rem", //24px
+                xxl: "2rem", //32px
             },
-
-            backgroundImage: {
-                'clients': "url('/public/images/clients.jpg')",
-                'about' : "url('/public/images/about.jpg')"
-            }
-
-        },
-        fontFamily: {
-            // sans: ['Nunito', ...defaultTheme.fontFamily.sans],
-            roboto: ["Source Sans Pro", "sans-serif"],
-            poppins: ["Poppins", "sans-serif"],
-            amiri: ["amiri", "sans-serif"],
-            gilroy: ["gilroy", "sans-serif"],
-            cabinet: ["cabinet", "sans-serif"],
-            isidora: ["isidora", "sans-serif"]
         },
     },
 

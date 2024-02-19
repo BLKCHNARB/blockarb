@@ -115,6 +115,13 @@ if(!function_exists('formatNumber')) {
 
 }
 
+// if (!function_exists('formatDate')) {
+//     function formatDate($dateString) {
+//         $date = new DateTime($dateString);
+//         return $date->format('jS M, Y');
+//     }
+// }
+
 if(!function_exists('getProduct')) {
 
     function getProduct($id){

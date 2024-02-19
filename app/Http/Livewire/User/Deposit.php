@@ -13,7 +13,7 @@ use Livewire\Component;
 class Deposit extends Component
 {
 
-    public $step = 0, $selectedToken, $selectedPlan, $plans = [], $min, $max, $percentage, $duration, $tokens = [], $amount, $address, $service;
+    public $step = 0, $selectedToken, $selectedPlan, $plans = [], $min, $max, $percentage, $performance_fee, $duration, $token_id, $tokens = [], $amount, $address, $service, $confirm = false;
 
     public function mount() {
         $tokens = Token::all();
@@ -24,8 +24,11 @@ class Deposit extends Component
         $token = Token::findorFail($this->selectedToken);
         $this->plans = $token->plans;
         // foreach ($token->plans as $plan) {
-        //     dd($plan->pivot);
+        //     dd($plan);
         // }
+
+        // Reset the selectedPlan property
+        $this->selectedPlan = null;
     }
 
     public function updatedSelectedPlan() {
@@ -35,15 +38,36 @@ class Deposit extends Component
         // foreach ($plan as $plan) {
         //     dd($plan->minimum);
         // }
+      
         $this->min = $plan->minimum;
         $this->max = $plan->maximum;
         $this->percentage = $plan->percentage;
         $this->duration = $plan->duration;
+        $this->performance_fee = $plan->performance_fee;
+
+        $token = Token::findorFail($this->selectedToken);
+        $this->plans = $token->plans;
+    }
+
+    protected $listeners = ['updatedAmount'];
+
+    public function updatedAmount($value) {
+            // Do something with the updated amount value
+    }
+
+    public function updated($propertyName){
+        if ($propertyName === 'amount') {
+            $this->updatedAmount($this->amount);
+
+            $token = Token::findorFail($this->selectedToken);
+            $this->plans = $token->plans;
+        }
     }
 
     protected $rules = [
         'token' => 'required',
         'amount' => 'required',
+        'plan' => 'required'
     ];
 
     public function validateToken() {
@@ -52,7 +76,19 @@ class Deposit extends Component
         ]);
     }
 
+    public function validatePlan() {
+        $token = Token::findorFail($this->selectedToken);
+        $this->plans = $token->plans;
+
+        $this->validateOnly('selectedPlan', [
+            'selectedPlan' => 'required',
+        ]);
+    }
+
     public function validateAmount() {
+        $token = Token::findorFail($this->selectedToken);
+        $this->plans = $token->plans;
+
         $this->validateOnly('amount', [
             // 'amount' => 'required|max:10|min:3'
             'amount' => 'required|lte:'.$this->max.'|gte:'.$this->min
@@ -60,7 +96,9 @@ class Deposit extends Component
     }
 
     public function validateOne() {
+       
         $this->validateToken();
+        $this->validatePlan();
         $this->validateAmount();
     }
 
@@ -101,9 +139,12 @@ class Deposit extends Component
     // }
 
     function next() {
-        $this->step === 0 ? $this->validateOne() : $this->createOrder();
+        
+        $this->createOrder();
         // $this->step === 0 ? $this->validateOne() : ($this->step === 1 ? $this->validateTwo() : ($this->step === 2 ? $this->validateThree() : ''));
         $this->step++;
+
+        $this->confirm = false;
     }
 
     function updateMin($token) {
@@ -114,6 +155,24 @@ class Deposit extends Component
         } else if($token == "btc") {
             $this->min = "1 ETH";
         }
+    }
+
+    public function confirm()
+    {
+        $token = Token::findorFail($this->selectedToken);
+        $this->plans = $token->plans;
+
+        $this->validateOne();
+
+        $this->confirm = true;
+    }
+
+    public function cancel()
+    {
+        $token = Token::findorFail($this->selectedToken);
+        $this->plans = $token->plans;
+
+        $this->confirm = false;
     }
 
     public function render()

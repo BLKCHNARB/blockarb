@@ -1,15 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-    @font-face {
-        font-family: cabinet;
-        font-weight: 400;
-        src: url("/public/fonts/CabinetGrotesk-Regular.otf");
-    }
-}
-
 
 [x-cloak] {
     display: none !important;
@@ -19,10 +12,24 @@ html {
     scroll-behavior: smooth;
 }
 
+body {
+    font-family: 'Outfit', sans-serif;
+    @apply max-w-[1440px] mx-auto;
+}
+
+.max-width {
+    @apply max-w-[1440px] mx-auto;
+}
+
+h1, h2 {
+    font-family: 'Manrope', sans-serif;
+}
+
 .dz-image img {
     width: 100%;
     height: 100%;
 }
+
 .dropzone.dz-started .dz-message {
     display: block !important;
 }
@@ -59,15 +66,43 @@ html {
     top: 144px;
 } */
 
-h5,
-h6,
-p,
-a,
-input,
-label {
-    @apply font-cabinet;
+
+.overflow::-webkit-scrollbar {
+    display: none;
 }
 
-input:checked + label {
-	border-color: #091F4B;
+.nav-width {
+    width: calc(100% - 17.5rem);
 }
+
+.slot-h {
+    min-height: calc(100vh - 10.3rem);
+}
+
+circle {
+    fill: none;
+    stroke: #fdfdfe;
+    stroke-width: 4px;
+    stroke-dasharray: 450;
+    stroke-dashoffset: 449;
+    animation: spin 1s linear forwards;
+}
+
+svg.svg {
+    position: absolute;
+    left: 1.1rem;
+    top: 1.11em;
+    transform: rotate(-90deg);
+}
+
+svg.svg2 {
+    top: 3.1rem;
+}
+
+.box-shadow {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.input:focus-within {
+    @apply border-2 border-blue_600 
+  }

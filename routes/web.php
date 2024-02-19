@@ -25,6 +25,8 @@ use App\Http\Livewire\User\Profile;
 use App\Http\Livewire\User\Settings;
 use App\Http\Livewire\User\Transfer;
 use App\Http\Livewire\User\Withdrawal;
+use App\Http\Livewire\User\Topup;
+use App\Http\Livewire\User\Snowball;
 use Illuminate\Mail\Markdown;
 
 /*
@@ -115,6 +117,8 @@ Route::group(['middleware' => ['auth', 'role:user'], 'prefix' => 'user'], functi
     Route::get('/settings', Settings::class )->name('settings');
     Route::get('/deposit', Deposit::class )->name('deposit');
     Route::get('/withdraw', Withdrawal::class )->name('withdrawal');
+    Route::get('/topup', Topup::class )->name('topup');
+    Route::get('/snowball', Snowball::class )->name('snowball');
     Route::post('/updatepaymentstatus', [HomeController::class, 'updatepaymentstatus'])->name('user.updatepaymentstatus');
     Route::get('mail', function () {
         $markdown = new Markdown(view(), config('mail.markdown'));

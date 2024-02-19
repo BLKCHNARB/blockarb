@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('plan_token', function (Blueprint $table) {
+        Schema::create('plan_tokens', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('token_id')->unsigned();
             $table->foreign('token_id')->references('id')->on('tokens')->onDelete('cascade');
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->float('maximum');
             $table->float('percentage');
             $table->float('duration');
+            $table->float('performance_fee');
             $table->timestamps();
         });
     }

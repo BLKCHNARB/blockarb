@@ -1,29 +1,323 @@
-<div class=" bg-white p-4 pt-8 lg:p-12 h-full rounded-lg">
-    <div class=" mb-5 lg:flex justify-between items-center">
-        <h5 class=" text-sm font-bold"> Here's an overview of the performance of your BlockArb digital assets </h5>
-        {{-- <div class=" flex items-center space-x-4 mt-5 lg:mt-0">
-            <a href="{{ route('deposit') }}" class=" flex items-center bg-primary text-gray-200 rounded-sb py-[6px] px-4">
-                <span class=" mr-2">Deposit</span>
-                <svg class=" inline" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    aria-hidden="true" role="img" width="20" height="20" preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M7 11V7l-5 5l5 5v-4h10v4l5-5l-5-5v4H7Z" />
-                </svg>
-            </a>
+<style>
+    .hero-overview {
+        background: linear-gradient(to right, #194BFB, #194afb, #194afb, #194afb3e), url('/images/overview-img.jpeg');
+        background-size: auto, calc(28rem);
+        background-position: center, {{ $account && $deposits->isNotEmpty() ? 'calc(100% + 45px)' : 'calc(100% + 100px)' }};
+        background-repeat: no-repeat;
+    }
 
-            <a href="{{ route('withdrawal') }}"
-                class=" flex items-center bg-secondary text-gray-900 rounded-sb py-[6px] px-4">
-                <span class=" mr-2">Withdraw</span>
-                <svg width="20" height="20" class=" inline" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                </svg>
-            </a>
-        </div> --}}
+    
+    svg.svg2 circle {
+        stroke: {{ $account ? '#fdfdfe' : '#B8BABE' }};
+        animation: spin2 1s linear forwards;
+    }
+
+    @keyframes spin {
+        100% {
+            stroke-dashoffset: {{ (count($this->wallets) == 1) ? '395' : ((count($this->wallets) == 2) ? '335' : ((count($this->wallets) == 3 ) ? '250' : '449')) }};
+        }
+    }
+
+    @keyframes spin2 {
+        100% {
+            stroke-dashoffset: {{ $deposits->isNotEmpty() ? '250' : '449' }};
+        }
+    }
+</style>
+
+<div class=" bg-white rounded-[20px]">
+    {{-- overview page --}}
+    <main class="flex justify-between items-start gap-6 relative">
+       
+        {{-- main content area --}}
+        <div class=" h-fit {{ $account && $deposits->isNotEmpty() ? 'w-full' : 'w-[100%]' }}">
+        
+              {{-- Hero section --}}
+              <div class="hero-overview flex items-center w-full h-[16.25rem] text-white p-7 rounded-[18px]">
+                <div class="flex flex-col justify-center gap-[0.938rem] {{ $account && $deposits->isNotEmpty() ? 'w-[45%]' : 'w-[60%]' }}">
+                    <h1 class="font-semibold text-xl leading-[1.875rem]">Supercharge Your Financial Potential with Arbitrage Trading!</h1>
+                    <p class="text-sm font-medium leading-[1.416rem] opacity-70">Deposit into a plan now to experience the power of secure arbitrage trading and never worry about market volatility.</p>
+                    <a class="w-[10rem] mt-3" href="{{ !$account ? route('settings') : route('invest') }}">
+                        <x-button type='primaryDM' >Start Your Plan</x-button>
+                    </a>
+                </div>
+            </div>
+
+        {{-- my balance section --}}
+        <div x-data="{ show: false }"
+            class=" items-center w-full h-fit text-black_800 p-6 rounded-[18px] border mt-6">
+           
+            {{-- Heading --}}
+            <div class="flex items-center justify-between">
+                {{-- heading title and hide/show icon --}}
+                <div class="flex items-center">
+                    <h2 class=" mr-4 font-extrabold text-lg">
+                        My Balance
+                    </h2>
+                    <div class=" cursor-pointer relative top-[1px] ">
+                        <img src="{{asset('svg/Show.svg')}}" alt="show icon" :class="{ 'block': show == true, 'hidden': show == false } " @click="show = false" >
+                        <img src="{{asset('svg/Hide.svg')}}" alt="hide icon" :class="{ 'block': show == false, 'hidden': show == true } " @click="show = true">    
+                    </div>
+                </div>
+
+                {{-- action buttons --}}
+                <div class=" flex ">
+                    <span class="w-[8rem] mr-3">
+                        <x-button> Deposit </x-button>
+                    </span>
+                    <span >
+                        <x-button type='secondary' > Withdraw </x-button>
+                    </span>
+                </div>
+            </div>
+
+           {{-- balance --}}
+           <div x-data="{ openTab: 1 }" class=" mt-8 ">
+            <ul class=" flex items-center " role="tablist">
+                <li @click="openTab = 1" class=" cursor-pointer p-2 px-5 text-sm font-semibold "
+                    :class=" openTab === 1 ? 'bg-blue_100 text-blue_600 rounded-full ' : 'hover:text-black_800 text-black_200'">
+                    <span>USD</span>
+                </li>
+                <li @click="openTab = 2" class=" cursor-pointer p-2 px-5 text-sm font-semibold "
+                    :class=" openTab === 2 ? 'bg-blue_100 text-blue_600 rounded-full ' : 'hover:text-black_800 text-black_200'">
+                    <span>BTC</span>
+                </li>
+                <li @click="openTab = 3" class=" cursor-pointer p-2 px-5 text-sm font-semibold "
+                    :class=" openTab === 3 ? 'bg-blue_100 text-blue_600 rounded-full ' : 'hover:text-black_800 text-black_200'">
+                    <span>ETH</span>
+                </li>
+            </ul>
+    
+            <div class=" mt-10">
+                {{-- USDT balance container --}}
+                <div class="" x-show="openTab === 1" id="tab-usdt"
+                    x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
+                    x-transition:enter-start="transform translate-y-2 opacity-0"
+                    x-transition:enter-end="transform translate-y-0 opacity-100" >
+
+                    <div class="transition duration-700 ease-out h-[9rem] flex justify-between gap-5">
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 text-sm ">Capital invested</span>
+                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">${{ formatNumber($usdtCapitalTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span> </span> <span class=" text-base text-black_200 ">USD</span> </div>
+                            {{-- <div>{{ $usdtChange }}</div> --}}
+                         </div>  
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 text-sm ">Profit gathered</span>
+                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">${{ formatNumber($usdtProfitTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">USD</span> </div>
+                            <span>{{ $usdtPercentage ? ( $usdtPercentage / 100 ) * $usdtCapitalTotal /  $usdtDuration : '' }}</span>
+                        </div>  
+                    </div>
+                </div>
+
+                {{--BTC balance container --}}
+                <div class="" x-show="openTab === 2" id="tab-btc"
+                    x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
+                    x-transition:enter-start="transform translate-y-2 opacity-0"
+                    x-transition:enter-end="transform translate-y-0 opacity-100" >
+
+                    <div class="transition duration-700 ease-out h-[9rem] flex justify-between gap-5">
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 text-sm ">Capital invested</span>
+                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($btcCapitalTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">BTC</span> </div>
+                        </div>  
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 text-sm ">Profit gathered</span>
+                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($btcProfitTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">BTC</span> </div>
+                        </div>  
+                    </div>
+                </div>
+
+                {{--ETH balance container --}}
+                <div class="" x-show="openTab === 3" id="tab-eth"
+                    x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
+                    x-transition:enter-start="transform translate-y-2 opacity-0"
+                    x-transition:enter-end="transform translate-y-0 opacity-100" >
+
+                    <div class="transition duration-700 ease-out h-[9rem] flex justify-between gap-5">
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 text-sm ">Capital invested</span>
+                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($ethCapitalTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">ETH</span> </div>
+                        </div>  
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 text-sm ">Profit gathered</span>
+                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($ethProfitTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">ETH</span> </div>
+                        </div>  
+                    </div>
+                </div>
+                </div> 
+            </div>
+        </div>
+
+        {{-- recent activity section --}}
+        <div class=" items-center w-full h-fit text-black_800 p-6 rounded-[18px] border mt-6 ">
+            
+            {{-- Heading --}}
+            <div class="flex items-center justify-between">
+                
+                {{-- heading title and hide/show icon --}}
+                <h2 class=" mr-4 font-extrabold text-lg">
+                    Activities
+                </h2>
+
+                {{-- all activities button --}}
+                <div class=" flex ">
+                    <a href="{{ route('history') }}" >
+                        <x-button type='secondary' icon='svg/arrow-right.svg' > View all </x-button>
+                    </a>
+                </div>
+
+            </div>
+
+            {{-- Few activites --}}
+
+            @if($transfers->isEmpty() && $deposits->isEmpty() && $transfers->isEmpty() && $compounds->isEmpty() && $topups->isEmpty())
+             <div class=" text-center w-full">
+                No activites
+             </div>
+            @else 
+            @if($deposits->isNotEmpty())
+            @php
+                $latestDeposit = $deposits->sortByDesc('created_at')->first();
+            @endphp
+
+            <div class="flex gap-5 w-full">
+                <img src="{{ asset('svg/topup.svg') }}" alt="deposit icon">
+                <div class="w-full border-b py-5 flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-base font-medium">Deposit <span class="uppercase">{{ $latestDeposit->token }}</span></span>
+                        <span class="text-success text-sm capitalize mt-2">confirmed <span class="text-black_200"> | {{ $latestDeposit->created_at->format('jS M, Y') }}</span></span>
+                    </div>
+                    <span class="text-black_600 font-semibold">+{{ formatNumber($latestDeposit->amount, 2) }}  {{ $latestDeposit->token }}</span>
+                </div>
+            </div>
+        @else
+            <div></div>
+        @endif
+
+        {{-- Compounding --}}
+        @if($compounds->isNotEmpty())
+            @php
+             $latestCompound = $compounds->sortByDesc('created_at')->first();
+            @endphp
+
+            <div class="flex gap-5 w-full">
+                <img src="{{ asset('svg/compound.svg') }}" alt="deposit icon">
+                <div class="w-full border-b py-5 flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-base font-medium">Compound <span class="uppercase">{{ $latestCompound->token->name }}</span></span>
+                        <span class="{{$latestCompound->status == 1 ? 'text-success' : 'text-failed'}} text-sm capitalize mt-2">{{$latestCompound->status == 1 ? 'confirmed' : 'failed'}} <span class="text-black_200"> | {{ $latestCompound->created_at->format('jS M, Y') }}</span></span>
+                    </div>
+                    <span class="text-black_600 font-semibold">+{{ formatNumber($latestCompound->amount, 2) }} {{ $latestCompound->token->name }}</span>
+                </div>
+            </div>
+        @else
+            <div></div>
+        @endif
+
+        {{-- Withdrawal --}}
+        @if($withdrawals->isNotEmpty())
+        @php
+            $latestWithdraw = $withdrawals->sortByDesc('created_at')->first();
+        @endphp
+
+            <div class="flex gap-5 w-full">
+                <img src="{{ asset('svg/remove.svg') }}" alt="deposit icon">
+                <div class="w-full border-b py-5 flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-base font-medium">Withdraw <span class="uppercase">{{ $latestWithdraw->token->name }}</span> from <span class=" capitalize ">{{ $latestWithdraw->purse }}</span></span>
+                        <span class="{{$latestWithdraw->processed == 1 ? 'text-success' : 'text-failed'}} text-sm capitalize mt-2">{{$latestWithdraw->processed == 1 ? 'confirmed' : 'failed'}}<span class="text-black_200"> | {{ $latestWithdraw->created_at->format('jS M, Y') }}</span></span>
+                    </div>
+                    <span class="text-black_600 font-semibold">-{{ formatNumber($latestWithdraw->amount, 2) }} {{ $latestWithdraw->token->name }}</span>
+                </div>
+            </div>
+        @else
+            <div></div>
+        @endif
+
+        {{-- Topup --}}
+        @if($topups->isNotEmpty())
+        @php
+            $latestTopup = $topups->sortByDesc('created_at')->first();
+        @endphp
+
+            <div class="flex gap-5 w-full">
+                <img src="{{ asset('svg/topup.svg') }}" alt="deposit icon">
+                <div class="w-full border-b py-5 flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-base font-medium">Top up <span class="uppercase">{{ $latestTopup->token->name }}</span></span>
+                        <span class=" text-success text-sm capitalize mt-2"> Confirmed <span class="text-black_200"> | {{ $latestTopup->created_at->format('jS M, Y') }}</span></span>
+                    </div>
+                    <span class="text-black_600 font-semibold">+{{ formatNumber($latestTopup->amount, 2) }} {{ $latestTopup->token->name }}</span>
+                </div>
+            </div>
+        @else
+            <div></div>
+        @endif
+
+        {{-- transfer --}}
+        @if($transfers->isNotEmpty())
+        @php
+            $latestTransfer = $transfers->sortByDesc('created_at')->first();
+        @endphp
+
+            <div class="flex gap-5 w-full">
+                <img src="{{ asset('svg/remove.svg') }}" alt="deposit icon">
+                <div class="w-full py-5 flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-base font-medium">Transfer <span class="uppercase">{{ $latestTransfer->token->name }}</span> to {{$latestTransfer->receiver}} </span>
+                        <span class=" text-success text-sm capitalize mt-2"> Confirmed <span class="text-black_200"> | {{ $latestWithdraw->created_at->format('jS M, Y') }}</span></span>
+                    </div>
+                    <span class="text-black_600 font-semibold">-{{ formatNumber($latestTransfer->amount, 2) }} {{ $latestTransfer->token->name }}</span>
+                </div>
+            </div>
+        @else
+            <div></div>
+        @endif
+        @endif
+        </div>
     </div>
 
-    @if (!$account)
+       {{-- aside section/ getting started --}}
+        <div class="w-[25rem] {{ $account && $deposits->isNotEmpty() ? 'hidden' : 'block' }} h-fit border rounded-[18px] p-6 sticky top-[7.5rem]">
+            <h2 class=" mr-4 text-center font-extrabold text-lg">
+                Get started here
+            </h2>
+
+            {{-- input wallets --}}
+            <div class='relative'>
+                <svg class="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="65px" height="65px">
+                    <circle cx="32.5" cy="32.5" r="28" stroke-linecap="round"/>
+                  </svg>                                                  
+                <div class='bg-blue_600 rounded-[20px] w-full p-5 mt-8'>
+                    <div class="flex text-sm text-white font-semibold justify-between items-center w-full mb-5">
+                        <div class=" text-s rounded-full flex items-center justify-center w-[4.063rem] h-[4.063rem] bg-blue_600 border-4 border-[#6586FC]">
+                            {{ (count($this->wallets) == 1) ? '33' : ((count($this->wallets) == 2) ? '66' : ((count($this->wallets) == 3) ? '100' : '0')) }}%
+                        </div>
+                        <span class=" w-[60%]">Input your wallet address</span>
+                    </div>
+                    <a href="{{route('settings')}}"><x-button type='primaryDM'>{{ count($this->wallets) < 1 ? 'Begin' : (count($this->wallets) <= 2 ? 'Finish up' : 'Done') }}</x-button></a>
+                </div>
+            </div>
+
+            {{-- make deposit --}}
+            <div class="relative">
+                <svg class="svg2 svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="65px" height="65px">
+                    <circle cx="32.5" cy="32.5" r="28" stroke-linecap="round"/>
+                  </svg> 
+            </div>
+            <div class='{{ !$account ? 'bg-gray_500 border' : 'bg-blue_600 border-none' }} rounded-[20px] w-full p-5 mt-8'>
+                <div class="flex text-sm {{ !$account ? 'text-black_800 opacity-60' : 'text-white opacity-100'}} font-semibold justify-between items-center w-full mb-5">
+                    <div class=" rounded-full text-s flex items-center justify-center w-[4.063rem] h-[4.063rem] bg-transparent border-4 {{ $account ? 'border-[#6586FC]' : 'border-[#F6F7F9]'}}">
+                        {{ $deposits->isNotEmpty() ? '100' : '0' }}%
+                    </div>
+                    <span class=" w-[60%]">Make your first deposit</span>
+                </div>
+                <a href="{{route('invest')}}"><x-button type="{{ !$account ? 'deactivated' : 'primaryDM' }}" >Begin</x-button></a>
+            </div>
+        </div>
+    </main>
+
+    {{-- @if (!$account)
         <div class="mb-10">
             <div class=" rounded-sb p-3 lg:flex justify-between items-center border border-red-500 bg-red-50">
                 <div class=" flex">
@@ -54,377 +348,16 @@
         </div>
     @endif
 
-    <div x-data="{ openTab: 1 }" class=" mb-10">
-        <ul class=" flex items-center space-x-" role="tablist">
-            <li @click="openTab = 1" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 1 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">USD</a>
-            </li>
-            <li @click="openTab = 2" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 2 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">BTC</a>
-            </li>
-            <li @click="openTab = 3" class=" font-bold cursor-pointer p-2 px-4"
-                :class=" openTab === 3 ? 'bg-secondary rounded-md' : ''">
-                <a href="#">ETH</a>
-            </li>
-        </ul>
+     --}}
 
-        <div class=" mt-10">
-            <div class="" x-show="openTab === 1"
-                x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
-                x-transition:enter-start="transform translate-y-2 opacity-0"
-                x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"
-                x-transition:leave-start=" opacity-100 transform translate-y-0" x-transition:leave-end=" opacity-0 transform -translate-y-2" --}}>
-                <div class="transition duration-700 ease-out">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
-
-                        <div
-                            class="  borde border-gray-300 shadow-m rounded-m col-span-5 fle flex-col justify-between space-y- divide-">
-
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 p-5">
-                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M0.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M3.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M6.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M11 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M13.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M0.5 13.5H13.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Capital</h5>
-                                        <h5 class=" text-xl font-bold">${{ formatNumber($usdtCapitalTotal, 4) }}</h5>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 text-gray-100 p-5">
-                                        <svg class=" text-white" width="20" height="20" viewBox="0 0 14 8"
-                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.5 7.5H13.5V3.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M13.5 7.5L7.85 1.85C7.75654 1.75839 7.63088 1.70707 7.5 1.70707C7.36912 1.70707 7.24346 1.75839 7.15 1.85L4.85 4.15C4.75654 4.24161 4.63088 4.29293 4.5 4.29293C4.36912 4.29293 4.24346 4.24161 4.15 4.15L0.5 0.5"
-                                                stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Profit</h5>
-                                        <h5 class=" text-xl font-bold">${{ formatNumber($usdtProfitTotal, 4) }}</h5>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 p-5">
-                                        <svg width="20" height="20" viewBox="0 0 14 14" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_6_5759)">
-                                                <path
-                                                    d="M9 7.5C11.4853 7.5 13.5 6.60457 13.5 5.5C13.5 4.39543 11.4853 3.5 9 3.5C6.51472 3.5 4.5 4.39543 4.5 5.5C4.5 6.60457 6.51472 7.5 9 7.5Z"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path
-                                                    d="M4.5 5.5V11.5C4.5 12.6 6.5 13.5 9 13.5C11.5 13.5 13.5 12.6 13.5 11.5V5.5"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M13.5 8.5C13.5 9.6 11.5 10.5 9 10.5C6.5 10.5 4.5 9.6 4.5 8.5"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path
-                                                    d="M8.9 1.5C7.73149 0.778878 6.37133 0.430119 5 0.500003C2.51 0.500003 0.5 1.4 0.5 2.5C0.5 3.09 1.08 3.62 2 4"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M2 10C1.08 9.62 0.5 9.09 0.5 8.5V2.5" stroke="#ffffff"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M2 7C1.08 6.62 0.5 6.09 0.5 5.5" stroke="#ffffff"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_6_5759">
-                                                    <rect width="14" height="14" fill="white" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Available Balance</h5>
-                                        <h5 class=" text-xl font-bold">
-                                            ${{ formatNumber($usdtProfitTotal + $usdtCapitalTotal, 4) }}</h5>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="chart-usd text-center border border-gray-300 mt-5 lg:mt-0 shadow-m p-5 rounded-md col-span-7">
-                            <canvas id="chart-usd"></canvas>
-                            {{-- <a href="" class=" text-blue-700 text-center font-bold">Compound</a> --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="" x-show="openTab === 2"
-                x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
-                x-transition:enter-start="transform translate-y-2 opacity-0"
-                x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"
-                x-transition:leave-start=" opacity-100 transform translate-y-0" x-transition:leave-end=" opacity-0 transform -translate-y-2" --}}>
-                <div class="transition duration-700 ease-out">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
-                        {{--  --}}
-                        <div
-                            class="  borde border-gray-300 shadow-m rounded-m col-span-5 fle flex-col justify-between space-y- divide-">
-
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 p-5">
-                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M0.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M3.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M6.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M11 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M13.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M0.5 13.5H13.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Capital</h5>
-                                        <h5 class=" text-xl font-bold">{{ formatNumber($btcCapitalTotal, 4) }} BTC</h5>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 text-gray-100 p-5">
-                                        <svg class=" text-white" width="20" height="20" viewBox="0 0 14 8"
-                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.5 7.5H13.5V3.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M13.5 7.5L7.85 1.85C7.75654 1.75839 7.63088 1.70707 7.5 1.70707C7.36912 1.70707 7.24346 1.75839 7.15 1.85L4.85 4.15C4.75654 4.24161 4.63088 4.29293 4.5 4.29293C4.36912 4.29293 4.24346 4.24161 4.15 4.15L0.5 0.5"
-                                                stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Profit</h5>
-                                        <h5 class=" text-xl font-bold">{{ formatNumber($btcProfitTotal, 4) }} BTC</h5>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 p-5">
-                                        <svg width="20" height="20" viewBox="0 0 14 14" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_6_5759)">
-                                                <path
-                                                    d="M9 7.5C11.4853 7.5 13.5 6.60457 13.5 5.5C13.5 4.39543 11.4853 3.5 9 3.5C6.51472 3.5 4.5 4.39543 4.5 5.5C4.5 6.60457 6.51472 7.5 9 7.5Z"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path
-                                                    d="M4.5 5.5V11.5C4.5 12.6 6.5 13.5 9 13.5C11.5 13.5 13.5 12.6 13.5 11.5V5.5"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M13.5 8.5C13.5 9.6 11.5 10.5 9 10.5C6.5 10.5 4.5 9.6 4.5 8.5"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path
-                                                    d="M8.9 1.5C7.73149 0.778878 6.37133 0.430119 5 0.500003C2.51 0.500003 0.5 1.4 0.5 2.5C0.5 3.09 1.08 3.62 2 4"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M2 10C1.08 9.62 0.5 9.09 0.5 8.5V2.5" stroke="#ffffff"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M2 7C1.08 6.62 0.5 6.09 0.5 5.5" stroke="#ffffff"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_6_5759">
-                                                    <rect width="14" height="14" fill="white" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Available Balance</h5>
-                                        <h5 class=" text-xl font-bold">
-                                            {{ formatNumber($btcProfitTotal + $btcCapitalTotal, 4) }} BTC</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="chart-usd text-center border border-gray-300 mt-5 lg:mt-0 shadow-m p-5 rounded-md col-span-7">
-                            <canvas id="chart-btc"></canvas>
-                            {{-- <a href="" class=" text-blue-700 text-center font-bold">Compound</a> --}}
-                        </div>
-                        {{--  --}}
-                    </div>
-                </div>
-            </div>
-            <div class="" x-show="openTab === 3"
-                x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
-                x-transition:enter-start="transform translate-y-2 opacity-0"
-                x-transition:enter-end="transform translate-y-0 opacity-100" {{-- x-transition:leave="transition origin-top ease-out duration-200"
-                x-transition:leave-start=" opacity-100 transform translate-y-0" x-transition:leave-end=" opacity-0 transform -translate-y-2" --}}>
-                <div class="transition duration-700 ease-out">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
-                        <div
-                            class="  borde border-gray-300 shadow-m rounded-m col-span-5 fle flex-col justify-between space-y- divide-">
-
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 p-5">
-                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M0.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M3.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M6.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M11 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M13.5 0.5V10.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M0.5 13.5H13.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Capital</h5>
-                                        <h5 class=" text-xl font-bold">{{ formatNumber($ethCapitalTotal, 4) }} ETH</h5>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 text-gray-100 p-5">
-                                        <svg class=" text-white" width="20" height="20" viewBox="0 0 14 8"
-                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.5 7.5H13.5V3.5" stroke="#ffffff" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M13.5 7.5L7.85 1.85C7.75654 1.75839 7.63088 1.70707 7.5 1.70707C7.36912 1.70707 7.24346 1.75839 7.15 1.85L4.85 4.15C4.75654 4.24161 4.63088 4.29293 4.5 4.29293C4.36912 4.29293 4.24346 4.24161 4.15 4.15L0.5 0.5"
-                                                stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Profit</h5>
-                                        <h5 class=" text-xl font-bold">{{ formatNumber($ethProfitTotal, 4) }} ETH</h5>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class=" p-5 rounded-md border shadow-s border-gray-300 mt-3">
-                                <div class="flex items-center">
-                                    <div class=" rounded-md bg-primary-600 p-5">
-                                        <svg width="20" height="20" viewBox="0 0 14 14" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_6_5759)">
-                                                <path
-                                                    d="M9 7.5C11.4853 7.5 13.5 6.60457 13.5 5.5C13.5 4.39543 11.4853 3.5 9 3.5C6.51472 3.5 4.5 4.39543 4.5 5.5C4.5 6.60457 6.51472 7.5 9 7.5Z"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path
-                                                    d="M4.5 5.5V11.5C4.5 12.6 6.5 13.5 9 13.5C11.5 13.5 13.5 12.6 13.5 11.5V5.5"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M13.5 8.5C13.5 9.6 11.5 10.5 9 10.5C6.5 10.5 4.5 9.6 4.5 8.5"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path
-                                                    d="M8.9 1.5C7.73149 0.778878 6.37133 0.430119 5 0.500003C2.51 0.500003 0.5 1.4 0.5 2.5C0.5 3.09 1.08 3.62 2 4"
-                                                    stroke="#ffffff" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M2 10C1.08 9.62 0.5 9.09 0.5 8.5V2.5" stroke="#ffffff"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M2 7C1.08 6.62 0.5 6.09 0.5 5.5" stroke="#ffffff"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_6_5759">
-                                                    <rect width="14" height="14" fill="white" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-
-                                    <div class=" ml-3">
-                                        <h5 class=" text-sm text-gray-500">Available Balance</h5>
-                                        <h5 class=" text-xl font-bold">
-                                            {{ formatNumber($ethProfitTotal + $ethCapitalTotal, 4) }} ETH</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="chart-usd text-center border border-gray-300 mt-5 lg:mt-0 shadow-m p-5 rounded-md col-span-7">
-                            <canvas id="chart-eth"></canvas>
-                            {{-- <a href="" class=" text-blue-700 text-center font-bold">Compound</a> --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-10">
+    {{-- <div class="mb-10">
         <div class=" rounded-sb border border-gray-300 bg-gray-50 p-3">
             <h3 class=" font-semibold text-xl">Refer friends and family to BlockArb and earn more</h3>
             <p class=" mt-2">Use the below link to invite your friends & earn 2% of their every deposit.</p>
             <div
-                class=" mt-6 rounded-sb flex lg:flex-nowrap flex-wrap p-1 justify-between items-center border border-gray-300 bg-white">
+                class=" mt-6 rounded-sb flex lg:flex-nowrap flex-wrap p-1 justify-between items-center border border-gray-300 bg-white"> --}}
 
-                <div class=" flex">
+                {{-- <div class=" flex">
                     <svg class="text-red-500 inline mr-3 flex-none" width="20" height="20"
                         viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -438,8 +371,8 @@
                             fill="currentColor" />
                     </svg>
                     <h5 class=" text-sm inline text-ellipsis" id="copy-target">{{ $referral_link }}</h5>
-                </div>
-
+                </div> --}}
+                {{-- 
                 <button
                     class=" border border-gray-700 btn-clip flex items-center text-gray-500 rounded-sb py-1 w-full lg:w-auto mt-3 lg:mt-0 justify-center px-4 font-roboto"
                     data-clipboard-target="#copy-target">
@@ -451,14 +384,34 @@
                             ry="2"></rect>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                     </svg>
-                </button>
-            </div>
-        </div>
-    </div>
+                </button> --}}
+            {{-- </div> --}}
+        {{-- </div> --}}
+    {{-- </div> --}}
 </div>
 
 @push('scripts')
-    <script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let currentNumber = 0;
+        const targetNumber = 6000;
+        const counterElement = document.querySelector(".number-animate");
+        const updateNumber = () => {
+            if (currentNumber >= targetNumber) return;
+            const difference = targetNumber - currentNumber;
+            const step = Math.max(1, Math.floor(difference / 25));
+            currentNumber = Math.min(currentNumber + step, targetNumber);
+            counterElement.textContent = currentNumber.toLocaleString();
+            setTimeout(updateNumber, 50);
+        };
+        updateNumber();
+    });
+    </script>
+    
+
+   {{--}} <script>
+
         let btcChartData = @js($btcChartData);
         let ethChartData = @js($ethChartData);
         let usdtChartData = @js($usdtChartData);
@@ -724,5 +677,5 @@
             document.getElementById('chart-eth').getContext("2d"),
             ethConfig
         );
-    </script>
-@endpush
+    </script> --}}
+@endpush 

@@ -10,6 +10,6 @@ class Deposit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'amount', 'token'
+        'user_id', 'amount', 'token', 'plan'
     ];
 }

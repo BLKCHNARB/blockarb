@@ -7,7 +7,7 @@ use App\Models\Token;
 
 class Invest extends Component
 {
-    public $account = 0, $usdts, $btcs, $eths;
+    public $account = 0, $usdts, $btcs, $eths, $confirm = false;
 
     public function render()
     {
@@ -32,5 +32,15 @@ class Invest extends Component
         
         $this->eths = Token::find(3);
         // $this->eths = $tokens->plans;
+    }
+
+    public function confirm()
+    {
+        $this->confirm = true;
+    }
+
+    public function cancel()
+    {
+        $this->confirm = false;
     }
 }

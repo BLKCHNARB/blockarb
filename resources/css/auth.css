@@ -1,17 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    @font-face {
-        font-family: cabinet;
-        font-weight: 400;
-        src: url("/public/fonts/CabinetGrotesk-Regular.otf");
-    }
-}
-
 body {
     overflow-x: hidden;
+    @apply max-w-[1440px] mx-auto;
+    font-family: 'Outfit', sans-serif;
+}
+
+.max-width {
+    @apply max-w-[1440px] mx-auto;
 }
 
 form#register {

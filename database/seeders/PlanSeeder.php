@@ -16,15 +16,15 @@ class PlanSeeder extends Seeder
     public function run()
     {
         Plan::create([
+            'name' => 'Retail'
+        ]);
+
+        Plan::create([
             'name' => 'Business'
         ]);
 
         Plan::create([
-            'name' => 'Standard'
-        ]);
-
-        Plan::create([
-            'name' => 'Professional'
+            'name' => 'Enterprise'
         ]);
     }
 }

@@ -16,15 +16,15 @@ class TokenSeeder extends Seeder
     public function run()
     {
         Token::create([
+            'name' => 'USDT'
+        ]);
+
+        Token::create([
             'name' => 'Bitcoin'
         ]);
 
         Token::create([
             'name' => 'Ethereum'
-        ]);
-
-        Token::create([
-            'name' => 'USDT'
         ]);
     }
 }
