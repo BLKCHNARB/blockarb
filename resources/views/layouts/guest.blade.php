@@ -10,19 +10,17 @@
 
     <!-- Fonts -->
     <link rel="icon" type="image/x-icon" href={{asset('favicon.png')}}>
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"> --}}
-
+    
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
-    <div class=" font-amiri text-gray-700 antialiased">
+    <div class=" text-gray-700 antialiased">
 
         {{-- preloader --}}
 
@@ -171,7 +169,7 @@
                     <li><a href="{{ route('landing') }}">Home</a></li>
                     <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
                         <div class="flex items-center " @mouseover="open=true">
-                            <span class=" mr-2 font-roboto">About</span>
+                            <span class=" mr-2 ">About</span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -202,7 +200,7 @@
                     </li>
                     <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
                         <div class="flex items-center " @mouseover="open=true">
-                            <span class=" mr-2 font-roboto">Products</span>
+                            <span class=" mr-2 ">Products</span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -234,7 +232,7 @@
 
                     <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
                         <div class="flex items-center " @mouseover="open=true">
-                            <span class=" mr-2 font-roboto">Careers</span>
+                            <span class=" mr-2 ">Careers</span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -465,22 +463,18 @@
         </footer>
     </div>
 
-<!--StartofTawk.toScript-->
+<!-- Smartsupp Live Chat script -->
 <script type="text/javascript">
-    var Tawk_API = Tawk_API || {},
-        Tawk_LoadStart = new Date();
-    (function() {
-        var
-            s1 = document.createElement("script"),
-            s0 = document.getElementsByTagName("script")[0];
-        s1.async = true;
-        s1.src = 'https://embed.tawk.to/6395f279b0d6371309d3dc5c/default';
-        s1.charset = 'UTF-8';
-        s1.setAttribute('crossorigin', '*');
-        s0.parentNode.insertBefore(s1, s0);
-    })();
-</script>
-<!--End of Tawk.to Script-->
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = '4fd1c89762a2b3405110e073657c9ea76ef86c2d';
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+    </script>
+    <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 
 </body>
 

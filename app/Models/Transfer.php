@@ -13,6 +13,7 @@ class Transfer extends Model
         'user_id',
         'token_id',
         'amount',
+        'purse',
         'receiver'
     ];
 

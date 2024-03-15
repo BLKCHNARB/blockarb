@@ -4,11 +4,12 @@ namespace App\Http\Livewire\User;
 
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 use Livewire\Component;
 
 class Settings extends Component
 {
-    public $user, $firstName, $email, $lastName, $country, $address, $phone, $wallet, $password;
+    public $user, $firstName, $email, $lastName, $country, $address, $phone, $wallet, $password, $updated = false, $updated_message, $fail = false, $failure_message;
 
     public function render()
     {
@@ -30,21 +31,34 @@ class Settings extends Component
     }
 
     public function updateProfile() {
-        $this->validate([
+        $rules = [
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
             'address' => 'string|required',
             'country' => 'string|required',
             'phone' => 'string|required'
-        ]);
+        ];
+        
+        // Check if the email has been updated
+        if ($this->email !== $this->user->email) {
+            // Add email validation rule
+            $rules['email'] = 'required|string|email|max:255|unique:users';
+        }
+        
+        // Validate the request data
+        $this->validate($rules);
 
-        $this->user->address = $this->address;
+        $this->user->first_name = $this->firstName;
+        $this->user->last_name = $this->lastName;
+        $this->user->email = $this->email;
         $this->user->country = $this->country;
+        $this->user->address = $this->address;
         $this->user->phone = $this->phone;
         $this->user->save();
 
-        $this->dispatchBrowserEvent(
-            'alert',
-            ['type' => 'success', 'title' => 'Profile Update',  'message' => 'Profile has been updated']
-        );
+        $this->updated = true;
+        $this->updated_message = "Profile details updated successfully";
+
     }
 
     public function updateWallet() {
@@ -53,10 +67,15 @@ class Settings extends Component
         ]);
 
         if(!$this->wallet['bitcoin'] && !$this->wallet['ethereum'] && !$this->wallet['usdt']) {
-            return $this->dispatchBrowserEvent(
-                'alert',
-                ['type' => 'error', 'title' => 'Wallet Update',  'message' => 'Please enter valid addresses']
-            );
+            
+            $this->fail = true;
+            $this->failure_message = "Can not update empty Wallet address";
+
+            $this->wallet['bitcoin'] = $this->user->bitcoin_address;
+            $this->wallet['ethereum'] = $this->user->ethereum_address;
+            $this->wallet['usdt'] = $this->user->usdt_address;
+
+            return;
         }
 
         $this->user->bitcoin_address = $this->wallet['bitcoin'];
@@ -64,50 +83,39 @@ class Settings extends Component
         $this->user->usdt_address = $this->wallet['usdt'];
         $this->user->save();
 
-        $this->dispatchBrowserEvent(
-            'alert',
-            ['type' => 'success', 'title' => 'Wallet Update',  'message' => 'Wallet has been updated']
-        );
+        $this->updated = true;
+        $this->updated_message = "Your wallet address has been updated successfully";
+
     }
 
     public function updatePassword() {
 
         $this->validate([
-            'password.current' => 'required',
-            'password.new' => 'required|min:8|string',
-            'password.confirm' => 'required|min:8|string'
+            'password.current' => ['required', function ($attribute, $value, $fail) {
+                if (!(Hash::check($value, Auth()->user()->password))) {
+                    $fail('Incorrect password');
+                }
+            }],
+
+            'password.new' => ['required', 'min:8', 'string', function ($attribute, $value, $fail) {
+                if (strcmp($this->password['current'], $this->password['new']) == 0) {
+                    $fail('New Password cannot be same as your current password.');
+                }
+            }],
+
+            'password.confirm' => ['required', 'min:8', 'string', function ($attribute, $value, $fail) {
+                if (!strcmp($this->password['new'], $this->password['confirm']) == 0) {
+                    $fail('Password should match New password');
+                }
+            }]
         ]);
-        if (!(Hash::check($this->password['current'], Auth()->user()->password))) {
-            // The passwords matches
-            return $this->dispatchBrowserEvent(
-                'alert',
-                ['type' => 'error', 'title' => 'Password Update',  'message' => 'Your current password does not match with the password']
-            );
-        }
-
-        if(strcmp($this->password['current'], $this->password['new']) == 0){
-            // Current password and new password same
-            return $this->dispatchBrowserEvent(
-                'alert',
-                ['type' => 'error', 'title' => 'Password Update',  'message' => 'New Password cannot be same as your current password.']
-            );
-        }
-
-        if(!strcmp($this->password['new'], $this->password['confirm']) == 0){
-            // Current password and new password same
-            return $this->dispatchBrowserEvent(
-                'alert',
-                ['type' => 'error', 'title' => 'Password Update',  'message' => 'Password confirmation should match the password']
-            );
-        }
 
         $this->user->password = bcrypt($this->password['new']);
         $this->user->save();
 
-        $this->dispatchBrowserEvent(
-            'alert',
-            ['type' => 'success', 'title' => 'Password Update',  'message' => 'Password has been updated']
-        );
+        $this->updated = true;
+        $this->updated_message = "Your password has been updated";
+
         $this->reset(['password']);
 
         event(new PasswordReset($this->user));

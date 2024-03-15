@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('profit')->default(0);
             $table->float('percentage');
             $table->integer('duration');
+            $table->float('performance_fee');
             $table->timestamps();
         });
     }

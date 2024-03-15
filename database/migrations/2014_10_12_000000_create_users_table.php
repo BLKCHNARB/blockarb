@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
             $table->string('age')->nullable();
-            $table->string('dob')->nullable();
+            $table->timestamp('dob')->nullable();
             $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('residence')->nullable();

@@ -19,6 +19,7 @@ class Order extends Model
         "amount",
         "address",
         "percentage",
+        "performance_fee",
         "duration",
         "status"
     ];

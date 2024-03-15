@@ -110,15 +110,13 @@ Route::group(['middleware' => ['auth', 'role:user'], 'prefix' => 'user'], functi
     Route::get('/profile', Profile::class )->name('profile');
     Route::get('/invest', Invest::class )->name('invest');
     Route::get('/portfolio', Portfolio::class )->name('portfolio');
-    Route::get('/history', History::class )->name('history');
+    Route::get('/activity', History::class )->name('history');
     Route::get('/transfer', Transfer::class )->name('transfer');
-    Route::get('/downlines', Downlines::class )->name('downlines');
+    Route::get('/affilate', Downlines::class )->name('downlines');
     Route::get('/otc', Otc::class )->name('otc');
     Route::get('/settings', Settings::class )->name('settings');
     Route::get('/deposit', Deposit::class )->name('deposit');
     Route::get('/withdraw', Withdrawal::class )->name('withdrawal');
-    Route::get('/topup', Topup::class )->name('topup');
-    Route::get('/snowball', Snowball::class )->name('snowball');
     Route::post('/updatepaymentstatus', [HomeController::class, 'updatepaymentstatus'])->name('user.updatepaymentstatus');
     Route::get('mail', function () {
         $markdown = new Markdown(view(), config('mail.markdown'));

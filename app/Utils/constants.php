@@ -355,11 +355,12 @@ if(!function_exists('updateOrder')) {
             $investment->amount += $order->amount;
             $investment->save();
 
-            Topup::create([
-                'user_id' => $user->id,
-                'token_id' => $order->token_id,
-                'amount' => $order->amount,
-            ]);
+            
+            // Topup::create([
+            //     'user_id' => $user->id,
+            //     'token_id' => $order->token_id,
+            //     'amount' => $order->amount,
+            // ]);
         } else {
             $investment = Investment::create([
                 'user_id' => $user->id,
@@ -367,15 +368,16 @@ if(!function_exists('updateOrder')) {
                 'plan_id' => $order->plan_id,
                 'amount' => $order->amount,
                 'percentage' => $order->percentage,
+                'performance_fee' => $order->performance_fee,
                 'duration' => $order->duration,
             ]);
         }
 
-        Deposit::create([
-            'user_id' => $user->id,
-            'amount' => $order->amount,
-            'token' => $order->token->name
-        ]);
+        // Deposit::create([
+        //     'user_id' => $user->id,
+        //     'amount' => $order->amount,
+        //     'token' => $order->token->name
+        // ]);
 
         if($referrer) {
             Reward::create([

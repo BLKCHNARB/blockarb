@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -23,6 +23,10 @@ body {
 
 h1, h2 {
     font-family: 'Manrope', sans-serif;
+}
+
+.main {
+    @apply bg-white rounded-[20px]
 }
 
 .dz-image img {
@@ -56,6 +60,9 @@ h1, h2 {
     position: relative;
 }
 
+.base-text {
+    @apply base:text-base text-sm;
+}
 /* .dropzone .dz-preview.dz-complete .dz-success-mark {
     opacity: 1;
 }
@@ -66,17 +73,24 @@ h1, h2 {
     top: 144px;
 } */
 
-
 .overflow::-webkit-scrollbar {
     display: none;
 }
 
 .nav-width {
-    width: calc(100% - 17.5rem);
-}
+    width: calc(100% - 18.3rem);
+} 
 
 .slot-h {
     min-height: calc(100vh - 10.3rem);
+}
+
+input.input {
+    @apply base:text-[1.1rem] text-[.9rem] base:py-3 py-[0.6rem] base:px-4 px-3 mt-1 placeholder-gray-400 base:rounded-[15px] rounded-[13px] block bg-transparent w-full border border-black_200 focus:outline-none focus:border transition-all focus:border-blue_600 hover:border-blue_600;
+}
+
+.div-input {
+    @apply base:text-[1.1rem] text-[.9rem] base:py-[.85rem] py-[0.75rem] base:px-4 px-3 mt-1 placeholder-gray-400 base:rounded-[15px] rounded-[13px] bg-transparent w-full border border-black_200 focus:outline-none focus:border transition-all focus:border-blue_600 hover:border-blue_600;
 }
 
 circle {
@@ -91,12 +105,8 @@ circle {
 svg.svg {
     position: absolute;
     left: 1.1rem;
-    top: 1.11em;
+    top: 3.11em;
     transform: rotate(-90deg);
-}
-
-svg.svg2 {
-    top: 3.1rem;
 }
 
 .box-shadow {
@@ -104,5 +114,32 @@ svg.svg2 {
 }
 
 .input:focus-within {
-    @apply border-2 border-blue_600 
+    @apply border-2 border-blue_600;
   }
+
+.dot-container {
+    @apply flex px-[16px] py-[12px] rounded-[6px] items-center cursor-pointer font-medium hover:text-blue_600 hover:bg-blue_100 transition-all;
+}
+
+.dot-container:hover > div {
+    @apply opacity-100;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url("/public/SVG/calendar.svg");
+    cursor: pointer;
+}
+
+
+/* responsiveness */
+@media (max-width: 1076px) {
+    .nav-width {
+        width: calc(100% - 15.3rem);
+    }
+}
+
+@media (max-width: 868px) {
+    .nav-width {
+        width: 100% ;
+    }
+}

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address');
             $table->float('percentage');
             $table->integer('duration');
+            $table->float('performance_fee');
             $table->integer('status');
             $table->timestamps();
         });

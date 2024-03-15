@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\User;
 
-use App\Models\Compound;
 use App\Models\Investment;
 use App\Models\Order;
 use App\Models\PlanToken;
@@ -14,7 +13,7 @@ use Livewire\Component;
 class Transfer extends Component
 {
 
-    public $tokens, $investments, $amount, $selectedToken, $selectedInvestment, $maxAmount, $email, $selectedTransferToken, $selectedTransferAmount, $maxTransferAmount;
+    public $tokens, $investments, $receiver, $selectedPurse, $selectedInvestment, $email, $selectedTransferToken, $selectedTransferAmount, $maxTransferAmount, $fail = false, $failure_message, $successful, $confirm;
 
     public function mount()
     {
@@ -26,92 +25,88 @@ class Transfer extends Component
         return view('livewire.user.transfer')->layout('layouts.user.index');
     }
 
-    public function updatedSelectedToken()
+    public function updatedSelectedTransferToken()
     {
-        if ($this->selectedToken) {
-            $this->selectedInvestment = $this->investments->where('token_id', '=', $this->selectedToken)->first();
-            $this->maxAmount = $this->selectedInvestment->profit;
+        if ($this->selectedTransferToken) {
+            $this->selectedInvestment = $this->investments->where('token_id', '=', $this->selectedTransferToken)->first();
+
+            $this->selectedPurse = null;
+            $this->selectedTransferAmount = null;
+            
+        }
+       
+    }
+
+    public function updatedSelectedPurse() {
+        if($this->selectedPurse) {
+            if($this->selectedPurse == "profit") {
+                $this->maxTransferAmount = $this->selectedInvestment->profit;
+            } elseif($this->selectedPurse == "capital") {
+                $this->maxTransferAmount = $this->selectedInvestment->amount;
+            }
+
+            $this->selectedTransferAmount = null;
         }
     }
 
     public function rules()
     {
         return [
-            'amount' => 'required|gt:0|lt:' . $this->maxAmount,
-            'selectedToken' => 'required',
-        ];
-    }
-
-    public function alertSuccess($type, $title, $message)
-    {
-        $this->dispatchBrowserEvent(
-            'alert',
-            ['type' => $type, 'title' => $title,  'message' => $message]
-        );
-    }
-
-    public function compound()
-    {
-        $this->validate();
-
-        Compound::create([
-            'user_id' => Auth()->user()->id,
-            'token_id' => $this->selectedToken,
-            'amount' => $this->amount,
-            'status' => 0,
-        ]);
-
-        $this->alertSuccess('success', 'Compound Investment', 'You transaction is being processed');
-    }
-
-    public function updatedSelectedTransferToken()
-    {
-        if ($this->selectedTransferToken) {
-            $this->selectedInvestment = $this->investments->where('token_id', '=', $this->selectedTransferToken)->first();
-            $this->maxTransferAmount = $this->selectedInvestment->profit;
-        }
-    }
-
-    public function validateToken()
-    {
-        $this->validateOnly('selectedTransferToken', [
-            'selectedTransferToken' => 'required'
-        ]);
-    }
-
-    public function validateAmount()
-    {
-        $this->validateOnly('selectedTransferAmount', [
             'selectedTransferAmount' => 'required|gt:0|lt:' . $this->maxTransferAmount,
-        ]);
+            'selectedTransferToken' => 'required',
+            'selectedPurse' => 'required',
+            
+        ];
     }
 
     public function validateEmail()
     {
-        if ($this->email === Auth()->user()->email) {
-            return $this->alertSuccess('error', 'Funds Transfer', 'cannot transfer funds to self');
-        }
 
         $this->validateOnly('email', [
-            'email' => ['required', 'string', 'email', 'max:255', 'exists:users']
+            'email' => ['required', 'string', 'email', 'max:255', function ($attribute, $value) {
+                if ($value === Auth()->user()->email) {
+                    // $this->fail = true;
+                    $this->failure_message = "You can not transfer to self. You can only transfer to family and friends.";
+                }
+                elseif (!User::where('email', $value)->exists()) {
+                   
+                    // $this->fail = true;
+                    $this->failure_message = "User not found, transfers can only be made to Blockarb user's account";
+                }
+             }]
         ]);
     }
 
     public function validateTransfer()
     {
-        $this->validateToken();
-        $this->validateAmount();
+        $this->validate();
         $this->validateEmail();
+    }
+
+    public function confirmTransfer() {
+        $this->validateTransfer();
+
+        if ($this->failure_message) {
+            
+            $this->fail = true; 
+            return; 
+        }
+
+        $receiver = User::where('email', '=', $this->email)->first();
+        $this->receiver = $receiver;
+
+        $this->confirm = true;
     }
 
     public function transfer()
     {
-        $this->validateTransfer();
+
+        $this->confirm = false;
 
         $receiver = User::where('email', '=', $this->email)->first();
+        $this->receiver = $receiver;
         $receiver_investment = $receiver->investments->where('token_id', $this->selectedTransferToken)->first();
-        $plan = PlanToken::where('token_id', $this->selectedTransferToken)->where('minimum', '<=', $this->selectedTransferAmount)->where('maximum', '>=', $this->selectedTransferAmount)->first();
-        // dd($plan);
+        
         if ($receiver_investment) {
             $receiver_investment->amount += $this->selectedTransferAmount;
             $receiver_investment->save();
@@ -120,26 +115,35 @@ class Transfer extends Component
             $order = Order::create([
                 'user_id' => $receiver->id,
                 'token_id' => $this->selectedTransferToken,
-                'plan_id' => $plan->plan_id,
+                'plan_id' => $this->selectedInvestment->plan_id,
                 'amount' => $this->selectedTransferAmount,
-                'percentage' => $plan->percentage,
+                'percentage' => $this->selectedInvestment->percentage,
                 'address' => Token::findorFail($this->selectedTransferToken)->address,
-                'duration' => $plan->duration,
+                'duration' => $this->selectedInvestment->duration,
+                'performance_fee' => $this->selectedInvestment->performance_fee,
                 'status' => 0,
             ]);
 
             updateOrder($order->id);
         }
+
         $sender_investment = Auth()->user()->investments->where('token_id', $this->selectedTransferToken)->first();
-        $sender_investment->profit -= $this->selectedTransferAmount;
+        // dd($sender_investment);
+        if ($this->selectedPurse === 'capital') {
+            $sender_investment->amount -= $this->selectedTransferAmount;
+        } elseif ($this->selectedPurse === 'profit') {
+            $sender_investment->profit -= $this->selectedTransferAmount;
+        }
         $sender_investment->save();
         
         ModelsTransfer::create([
             'user_id' => Auth()->user()->id,
             'token_id' => $this->selectedTransferToken,
             'amount' => $this->selectedTransferAmount,
-            'receiver' => $receiver->id
+            'purse' => $this->selectedPurse,
+            'receiver' => $receiver->email
         ]);
-        $this->alertSuccess('success', 'Funds Transfer', 'Funds transferred successfully');
+
+        $this->successful = true;
     }
 }

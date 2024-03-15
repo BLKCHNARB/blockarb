@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('token_id');
             $table->float('amount');
             $table->string('receiver');
+            $table->string("purse");
             $table->timestamps();
         });
     }

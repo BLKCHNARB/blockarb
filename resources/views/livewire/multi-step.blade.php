@@ -1,107 +1,113 @@
-<div class=" font-cabinet">
+<div class=" ">
     @if ($step === 0)
         <div class="">
-            <h5 class=" text-base text-center mt-3 text-gray-500"> Complete the verification steps below.</h5>
+            <div class=" ">
+                <h3 class=" base:text-lg text:md font-bold"> Identity Verification</h3>
+                @if ($basic == false || $identity == false)
+                <h5 class="base-text mt-3">To comply with regulation you will have to go through identity
+                    verification.
+                </h5>
+                @else
+                <h5 class="mt-3 mb-10 base:text-lg text:md text-neutral_800">
+                    Verification process completed successfully! You now have access to all our features.
+                </h5>
+                @endif
+            </div>
+            <h5 class=" base-text text-center mb-5 base:mt-10 mt-7  text-gray-500 {{ $basic == false || $identity == false ? 'block' : 'hidden' }}"> Complete the verification steps below.</h5>
 
-            <div class=" border borde-gray-300 mt-3 rounded-md bg-primary-50">
-                <div class="p-3 border-b borde-gray-300">
+            <div class=" ">
+                <div class="base:p-5 p-4 border mb-5 rounded-[15px]">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h4 class=" text-lg font-semibold">Basic Information</h4>
-                            <h5 class=" text-sm text-gray-400">Your personal Information for identity</h5>
+                            <h4 class=" base:text-lg text:md font-semibold">Basic Information</h4>
+                            <h5 class=" base:text-sm text-s text-black_200 mt-2">Your personal Information for identity</h5>
                         </div>
 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        <img src="{{ asset('svg/Check-circle.svg') }}" alt="check" class="{{ $basic == false ? 'block' : 'hidden' }} base:w-[1.5rem] w-[1.15rem]">
+                        <img src="{{ asset('svg/green_check.svg') }}" alt="check" class="{{ $basic == true ? 'block' : 'hidden' }} base:w-[1.5rem] w-[1.15rem]">
                     </div>
                 </div>
 
-                <div class="p-3 bg-primary-50">
+                <div class="base:p-5 p-4 border rounded-[15px]">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h4 class=" text-lg font-semibold">Identity Documents</h4>
-                            <h5 class=" text-sm text-gray-400">Submit proof of identity document</h5>
+                            <h4 class=" base:text-lg text:md font-semibold">Identity Documents</h4>
+                            <h5 class=" base:text-sm text-s text-black_200 mt-2">Submit proof of identity document</h5>
                         </div>
 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        <img src="{{ asset('svg/Check-circle.svg') }}" alt="check" class="{{ $identity == false ? 'block' : 'hidden'}} base:w-[1.5rem] w-[1.15rem]">
+                        <img src="{{ asset('svg/green_check.svg') }}" alt="check" class="{{ $identity == true ? 'block' : 'hidden'}} base:w-[1.5rem] w-[1.15rem]">
                     </div>
                 </div>
+
+                <div class=" mt-10 w-full flex justify-center items-center">
+                    <x-button type="{{ $basic == false || $identity == false ? 'primary' : 'deactivated' }}"  wire:click="next" class="w-[50%] ">Proceed</x-button>
+                </div>
+
             </div>
         </div>
+
     @elseif ($step === 1)
-        <div class=" px-5">
-            <h5 class=" text-lg mt-3 text-gray-600 font-semibold"> Basic Information</h5>
-            <h5 class=" text-base text-gray-400">Your personal information required for identification.</h5>
-            <div>
-                <div class="md:grid grid-cols-2 gap-12">
-                    <div class="mt-5 ">
-                        <label class=" block" for="firstName">First Name</label>
-                        <input placeholder="Enter Your First Name" value="" wire:model="firstName"
-                            class=" pl-0 text-sm text-gray-400 placeholder-gray-300 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
-                            type="text" name="firstName" id="firstName">
-                        @error('firstName')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mt-5 ">
-                        <label class=" block" for="lastName">Last Name</label>
-                        <input wire:model="lastName" placeholder="Enter Your Date Of Birth" value=""
-                            class=" pl-0 text-sm text-gray-400 placeholder-gray-300 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
-                            type="text" name="lastName" id="lastName">
-                        @error('lastName')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
-                        @enderror
+        <div class="">
+            <div class=" ">
+                <h3 class=" font-bold base:text-lg sm:text:md text-base text-black_800 flex w-full mb-3"> <span wire:click='previous' class="flex cursor-pointer text-black_400 base:mr-10 mr-5 hover:text-black_800 hover:scale-105">Identity Verificatiion <img src="{{ asset('svg/right-arrow.svg') }}" alt="navigation" class="base:pl-10 pl-5"> </span>  Basic Information </h3>
+                <span class=" base-text text-black_400 mt-5 mb-7">Your personal information required for identification.</span>
+            </div>
+        
+            <main>
+                {{-- Name --}}
+                    <div class="flex w-full gap-5 base:mt-7 mt-5">
+                        <label class="w-1/2 ">
+                            <span class="text-black_200 font-medium base-text">First name</span>
+                            <input wire:model = "firstName" placeholder="Enter first name" value="{{$firstName}}" class=" input"
+                            type="text" name="firstname" id="firstname">
+                            @error('firstName')
+                                <span class="error text-sm text-failed ">{{ $message }}</span>
+                            @enderror
+                        </label>
+                        <label class="w-1/2 ">
+                            <span class="text-black_200 font-medium base-text">Last name</span>
+                            <input wire:model = "lastName" placeholder="Enter last name" value="{{$lastName}}"
+                                class=" input" type="text" name="lastname" id="lastname">
+                            @error('lastName')
+                                <span class="error text-sm text-failed ">{{ $message }}</span>
+                            @enderror
+                        </label>
                     </div>
 
-                </div>
-
-                <div class="md:grid grid-cols-2 gap-12">
-                    <div class="mt-5 ">
-                        <label class=" block" for="fullname">Phone Number</label>
-                        <input placeholder="Enter Your Phone Number" value="" wire:model="phone"
-                            class=" pl-0 text-sm text-gray-400 placeholder-gray-300 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
-                            type="tel" name="phone" id="phone">
-                        @error('phone')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="mt-5 ">
-                        <label class=" block" for="dob">Date Of Birth</label>
-                        <input wire:model="dob" placeholder="Enter Your Date Of Birth" value=""
-                            class=" pl-0 text-sm text-gray-400 placeholder-gray-300 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
-                            type="text" name="dob" id="dob">
+                    {{-- Date of birth --}}
+                    <div class="w-full base:mt-7 mt-5">
+                        <label class="w-full">
+                            <span class="text-black_200 font-medium base-text">Date of birth</span>
+                            <input wire:model="dob" placeholder="Enter date of birth" value="{{$dob}}"
+                                    class="input" type="date"
+                                    name="dob" id="dob">
+                        </label>
                         @error('dob')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
+                            <span class="error text-sm text-failed ">{{ $message }}</span>
                         @enderror
                     </div>
 
-                </div>
-
-                <div class="md:grid grid-cols-2 gap-12">
-                    <div class="mt-5 ">
-                        <label class=" block" for="gender">Gender</label>
+                    {{-- Gender --}}
+                    <div class="w-full base:mt-7 mt-5">
+                        <lebel for='gender' class="text-black_200 font-medium base-text">Gender</lebel>
                         <select wire:model="gender"
-                            class=" font-roboto pl- rounded-none text-sm text-gray-400 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
+                            class=" div-input "
                             name="gender" id="gender">
                             <option value="">Select</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
                         @error('gender')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
+                            <span class="error text-sm text-failed ">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="mt-5 ">
-                        <label class=" block" for="nationality">Nationality</label>
+
+                    {{-- Nationality --}}
+                    <div class="w-full base:mt-7 mt-5">
+                        <lebel for='nationality' class="text-black_200 font-medium base-text">Nationality</lebel>
                         <select wire:model="nationality"
-                            class=" font-roboto pl- rounded-none text-sm text-gray-400 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
+                            class=" div-input "
                             name="nationality" id="nationality">
                             <option value="">Select Country</option>
                             <option value="Afghanistan">Afghanistan</option>
@@ -347,31 +353,40 @@
                             <option value="Zambia">Zambia</option>
                             <option value="Zimbabwe">Zimbabwe</option>
                         </select>
-
                         @error('nationality')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
+                            <span class="error text-sm text-failed ">{{ $message }}</span>
                         @enderror
-
                     </div>
-                </div>
 
-                <div class="md:grid grid-cols-2 gap-12">
-                    <div class="mt-5 ">
-                        <label class=" block" for="address">Address</label>
-                        <input wire:model="address" placeholder="Enter Your Address" value=""
-                            class=" pl-0 text-sm text-gray-400 placeholder-gray-300 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
-                            type="text" name="address" id="address">
+                     {{-- Phone number --}}
+                     <div class="w-full base:mt-7 mt-5">
+                        <label class="w-full">
+                            <span class="text-black_200 font-medium base-text">Phone number</span>
+                            <input wire:model = "phone" placeholder="Enter Phone number" value="{{$phone}}" class="input" type="tel" name="phone" id="phone">
+                        </label>
+                        @error('phone')
+                            <span class="error text-sm text-failed ">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Home address --}}
+                    <div class="w-full base:mt-7 mt-5">
+                        <label class="w-full">
+                            <span class="text-black_200 font-medium base-text">Home Address</span>
+                            <input wire:model="address" placeholder="Enter home address" value="{{$address}}" class="input" type="text" name="address" id="address">
+                        </label>
                         @error('address')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
+                            <span class="error text-sm text-failed ">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="mt-5">
-                        <label class=" block" for="residence">Country of Residence</label>
+                    {{-- Country of residence --}}
+                    <div class="w-full base:mt-7 mt-5">
+                        <label for='residence' class="text-black_200 font-medium base-text">Country of residence</label>
                         <select wire:model="residence"
-                            class=" font-roboto pl- rounded-none text-sm text-gray-400 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
+                            class=" div-input "
                             name="residence" id="residence">
-                            <option value="">Select Residence</option>
+                            <option value="">Select Country of residence</option>
                             <option value="Afghanistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
                             <option value="Algeria">Algeria</option>
@@ -615,81 +630,15 @@
                             <option value="Zambia">Zambia</option>
                             <option value="Zimbabwe">Zimbabwe</option>
                         </select>
-
                         @error('residence')
-                            <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
+                            <span class="error text-sm text-failed ">{{ $message }}</span>
                         @enderror
                     </div>
 
-                </div>
+            </main>
 
-                {{-- <div class=" flex flex-wrap mt-5">
-                    <div class="basis-1/2 py-3">
-                        <h5 class=" text-sm text-gray-400">Full Name</h5>
-                        <h5 class=" text-base">Doyin Chokupo</h5>
-                    </div>
-
-                    <div class="basis-1/2 py-3">
-                        <h5 class=" text-sm text-gray-400">Phone</h5>
-                        <h5 class=" text-base">+1474558744</h5>
-                    </div>
-
-                    <div class="basis-1/2 py-3">
-                        <h5 class=" text-sm text-gray-400">Date of Birth</h5>
-                        <h5 class=" text-base">05/23/21</h5>
-                    </div>
-
-                    <div class="basis-1/2 py-3">
-                        <h5 class=" text-sm text-gray-400">Gender</h5>
-                        <h5 class=" text-base">Male</h5>
-                    </div>
-
-                    <div class="basis-1/2 py-3">
-                        <h5 class=" text-sm text-gray-400">Nationality</h5>
-                        <h5 class=" text-base">USA</h5>
-                    </div>
-
-                    <div class="basis-1/2 py-3">
-                        <h5 class=" text-sm text-gray-400">Country of Residence</h5>
-                        <h5 class=" text-base">United States of America</h5>
-                    </div>
-                </div> --}}
-
-            </div>
-
-            {{-- <div class=" border borde-gray-300 mt-3 rounded-md bg-primary-50">
-                <div class="p-3 border-b borde-gray-300">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h4 class=" text-lg font-semibold"></h4>
-                            <h5 class=" text-sm text-gray-400">Your personal Information for identity</h5>
-                        </div>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                </div>
-
-                <div class="p-3 bg-primary-50">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h4 class=" text-lg font-semibold">Identity Documents</h4>
-                            <h5 class=" text-sm text-gray-400">Submit proof of identity document</h5>
-                        </div>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                </div>
-            </div> --}}
             <div class=" flex items-center text-gray-400 mt-5">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M12 6C12.5523 6 13 6.44772 13 7V13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13V7C11 6.44772 11.4477 6 12 6Z"
@@ -701,256 +650,94 @@
                         d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z"
                         fill="currentColor" />
                 </svg>
-                <h5 class=" text-sm text-gray-400 ml-3">Please carefully fill out the form with your personal details.
+                <h5 class=" base:text-sm text-s text-gray-400 ml-3">Please carefully fill out the form with your personal details.
                 </h5>
+            </div>
+
+            <div class=" mt-10 w-full flex justify-center items-center">
+                <x-button wire:click="next" class="w-[50%] ">Proceed</x-button>
+            </div>
+
+            <div class=" base:mt-10 mt-5 w-full flex justify-center items-center">
+                <x-button type='secondary' wire:click="previous" class="w-[50%] ">Back to previous</x-button>
             </div>
         </div>
     @elseif ($step === 2)
         <div class="">
 
-            <h5 class=" text-lg mt-3 text-gray-600 font-semibold">Identity Document</h5>
-            <h5 class=" text-base text-gray-400">Verify your identity using any of your following document.</h5>
+            <div class=" ">
+                <h3 class=" font-bold base:text-lg sm:text:md text-base text-black_800 flex w-full mb-3"> <span wire:click="$set('step', 0)" class="flex cursor-pointer text-black_400 base:mr-10 mr-5 hover:text-black_800 hover:scale-105">Identity Verification <img src="{{ asset('svg/right-arrow.svg') }}" alt="navigation" class="base:pl-10 pl-5"> </span>  Identity Documents </h3>
+                <span class=" base-text text-black_800 my-5">Verify your identity using any of your following document.</span>
+            </div>
+           
+            <div class=" mt-10">
+                <h4 class="mb-5">Select Document Type</h4>
+                <div class=" grid gap-8 mb-3">
 
-            <div class=" mt-5">
-                <h5 class="">Select Document Type</h5>
-                <div class="  mt-2">
-                    <ul class="flex flex-wrap ">
-                        <li class=" flex-grow p-3">
-                            <input type="radio" wire:model="document" id="passport" value="passport"
-                                class=" absolute h-0 w-0 opacity-0">
-                            <label for="passport" class=" border border-gray-300 rounded-md p-3 block cursor-pointer">
-                                <div class=" flex items-center justify-between text-gray-500">
-                                    <div class=" ">
-                                        <?xml version="1.0" standalone="no"?>
-                                        <!DOCTYPE svg
-                                            PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-                                        <svg class=" inline mr-3" version="1.0" xmlns="http://www.w3.org/2000/svg"
-                                            width="25" height="25" viewBox="0 0 512.000000 512.000000"
-                                            preserveAspectRatio="xMidYMid meet">
+                    <label for="passport" class="px-2 py-1 rounded cursor-pointer hover:scale-x-105 duration-300 transition-all" onclick="navigateToNextSection()" wire:click="clear">
+                        <input type="radio" id="passport" wire:model="document" value="passport" class="hidden">
+                        <div class="flex items-center w-full base:gap-6 gap-4">
+                            <div class="">
+                                <img src="{{ asset('svg/passport.svg') }}" alt="passport icon" >
+                            </div>
+                            <div class="base:w-[65%] w-[80%]">
+                                <p class="font-semibold base:text-lg text-md mb-1">Passport</p>
+                                <p class="base-text">Upload a government-issued passport for verification.</p>
+                            </div>
+                            <div class="base:w-[1.5rem] w-[1.3rem]">
+                                <img src="{{ asset('svg/coin-active.svg') }}" alt="" class="{{ $document === 'passport' ? 'block' : 'hidden' }}">
+                                <img src="{{ asset('svg/radio.svg') }}" alt="" class="{{ $document === 'passport' ? 'hidden' : 'block' }}">
+                            </div>
+                        </div>
+                    </label>
 
-                                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                                fill="currentColor" stroke="none">
-                                                <path
-                                                    d="M2525 5102 c-107 -38 -188 -117 -222 -217 -8 -25 -54 -192 -102 -373
-l-88 -327 -939 -5 -939 -5 -35 -22 c-20 -12 -46 -40 -58 -62 l-22 -39 2 -1804
-3 -1803 24 -34 c13 -18 42 -42 65 -52 39 -18 88 -19 1064 -19 l1023 0 617
--166 c339 -91 642 -168 673 -171 42 -4 76 0 129 16 62 19 81 31 135 84 46 45
-68 77 83 117 11 30 255 932 542 2005 515 1921 522 1951 517 2025 -2 45 -13 94
--26 123 -29 67 -113 148 -181 175 -30 12 -512 144 -1070 293 -711 191 -1034
-274 -1080 276 -45 2 -81 -2 -115 -15z m1159 -432 c556 -149 1023 -275 1038
--281 41 -17 96 -82 104 -125 4 -20 2 -58 -4 -83 -6 -25 -243 -912 -526 -1970
--312 -1162 -524 -1937 -537 -1958 -27 -43 -85 -73 -142 -73 -39 0 -632 152
--645 165 -3 3 4 5 15 5 37 0 142 61 179 103 46 54 69 99 83 165 7 36 11 273
-11 753 0 662 1 700 18 695 66 -20 71 -19 78 11 4 15 24 90 44 166 25 94 34
-140 26 143 -6 2 -42 13 -80 24 -54 15 -72 17 -78 7 -4 -6 -8 295 -8 671 0 500
-3 682 11 682 7 0 46 -10 89 -21 l77 -21 103 -339 104 -338 68 -17 c38 -9 70
--15 72 -13 2 2 0 139 -3 304 -4 165 -6 303 -4 306 1 4 40 -4 85 -16 46 -13
-102 -28 125 -34 40 -11 45 -17 98 -110 53 -94 58 -99 101 -111 24 -7 46 -11
-48 -9 2 2 0 64 -5 137 l-9 133 70 104 c38 57 71 109 72 115 2 7 -17 18 -41 25
-l-43 14 -99 -59 -98 -58 -122 33 c-67 19 -123 36 -126 38 -2 3 66 119 152 260
-85 140 155 260 155 265 0 7 -110 42 -134 42 -3 0 -121 -108 -262 -240 -145
--136 -263 -239 -271 -236 -7 3 -67 20 -133 37 -118 31 -122 34 -152 75 -33 46
--95 95 -155 122 -33 15 -86 18 -389 22 l-350 5 86 320 c47 176 94 334 103 352
-27 50 82 83 141 83 34 0 381 -89 1060 -270z m-699 -682 c39 -21 71 -56 84 -91
-8 -20 11 -522 11 -1638 0 -1337 -2 -1615 -14 -1642 -17 -42 -66 -83 -114 -97
--25 -6 -478 -10 -1349 -10 l-1313 0 0 1750 0 1750 1333 -2 c1217 -3 1335 -4
-1362 -20z" />
-                                                <path
-                                                    d="M3395 2828 c-14 -46 -35 -128 -35 -141 0 -10 25 -21 80 -35 l80 -20
-11 42 c6 22 15 58 21 79 7 23 8 41 2 46 -8 7 -131 41 -149 41 -3 0 -7 -6 -10
--12z" />
-                                                <path
-                                                    d="M3725 2738 c-8 -24 -35 -136 -35 -145 0 -13 150 -47 159 -37 9 11 41
-124 41 145 0 11 -22 21 -72 32 -87 20 -87 20 -93 5z" />
-                                                <path
-                                                    d="M4040 2588 c-12 -44 -18 -84 -13 -88 9 -9 153 -44 157 -39 8 12 42
-160 37 164 -4 2 -41 12 -83 23 l-76 20 -22 -80z" />
-                                                <path
-                                                    d="M3730 2125 c-24 -91 -41 -167 -39 -168 11 -9 160 -43 163 -38 10 16
-87 324 82 328 -6 6 -136 43 -152 43 -6 0 -30 -74 -54 -165z" />
-                                                <path
-                                                    d="M3437 1033 c-116 -433 -154 -589 -145 -594 18 -12 148 -42 154 -37 5
-5 314 1154 314 1168 0 4 -30 15 -67 24 -38 9 -75 19 -83 21 -13 4 -45 -106
--173 -582z" />
-                                                <path
-                                                    d="M1590 3649 c-470 -41 -852 -396 -935 -869 -70 -398 113 -819 453
--1043 95 -62 140 -84 258 -123 260 -85 530 -66 779 56 278 135 473 374 558
-684 19 70 22 106 22 256 -1 182 -8 228 -56 360 -163 444 -603 721 -1079 679z
-m144 -207 c61 -97 143 -303 161 -404 l7 -38 -216 0 c-119 0 -216 2 -216 5 0 3
-9 39 21 81 36 132 80 238 146 352 33 56 63 57 97 4z m-315 -44 c-30 -59 -93
--238 -114 -325 l-17 -73 -189 0 -188 0 21 38 c63 107 175 227 279 296 50 33
-202 106 222 106 4 0 -2 -19 -14 -42z m662 -18 c138 -68 286 -207 354 -332 l26
--48 -189 0 -189 0 -13 63 c-15 70 -68 230 -105 313 -14 31 -25 58 -25 60 0 6
-78 -25 141 -56z m-826 -770 l0 -220 -206 0 -206 0 -12 70 c-20 112 -11 317 16
-363 2 4 95 7 206 7 l202 0 0 -220z m689 114 c5 -56 5 -154 1 -218 l-7 -116
--248 0 -247 0 -7 31 c-8 41 -8 337 0 378 l7 31 246 -2 246 -3 9 -101z m597 49
-c17 -76 17 -253 0 -325 l-12 -58 -207 0 -207 0 0 220 0 220 207 0 207 0 12
--57z m-1241 -605 c21 -91 60 -210 97 -296 19 -46 33 -85 30 -88 -10 -10 -145
-53 -219 102 -40 27 -101 76 -134 110 -62 62 -154 188 -154 211 0 10 43 13 184
-13 l184 0 12 -52z m595 15 c-14 -77 -77 -250 -127 -346 -50 -94 -53 -98 -82
--95 -28 3 -36 12 -82 102 -45 86 -110 260 -130 349 l-6 27 217 0 217 0 -7 -37z
-m565 33 c0 -11 -47 -85 -86 -137 -61 -80 -155 -163 -242 -214 -72 -43 -181
--90 -188 -82 -2 2 14 43 35 93 36 83 91 254 91 281 0 6 4 23 10 37 l10 26 185
-0 c102 0 185 -2 185 -4z" />
-                                                <path
-                                                    d="M814 1027 c-3 -8 -4 -47 -2 -88 l3 -74 873 -3 872 -2 0 90 0 90 -870
-0 c-720 0 -872 -2 -876 -13z" />
-                                            </g>
-                                        </svg>
+                    <label for="national" class=" px-2 py-1 rounded cursor-pointer hover:scale-x-105 duration-300 transition-all" onclick="navigateToNextSection()" wire:click="clear">
+                        <input type="radio" id="national" wire:model="document" value="national" class="hidden">
+                        <div class="flex items-center w-full base:gap-6 gap-4">
+                            <div class="">
+                                <img src="{{ asset('svg/national-id.svg') }}" alt="national-id icon" >
+                            </div>
+                            <div class="base:w-[65%] w-[80%]">
+                                <p class="font-semibold base:text-lg text-md mb-1">National ID</p>
+                                <p class="base-text">Upload a government-issued ID for verification.</p>
+                            </div>
+                            <div class="base:w-[1.5rem] w-[1.3rem]">
+                                <img src="{{ asset('svg/coin-active.svg') }}" alt="" class="{{ $document === 'national' ? 'block' : 'hidden' }}">
+                                <img src="{{ asset('svg/radio.svg') }}" alt="" class="{{ $document === 'national' ? 'hidden' : 'block' }}">
+                            </div>
+                        </div>
+                    </label>
 
-                                        <h5 class=" text-sm inline-block">Passport</h5>
-                                    </div>
-
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </label>
-                        </li>
-                        <li class="basis-1/2 p-3">
-                            <input type="radio" wire:model="document" id="national" value="national"
-                                class=" absolute h-0 w-0 opacity-0">
-                            <label for="national" class=" border border-gray-300 rounded-md p-3 block cursor-pointer">
-                                <div class=" flex items-center justify-between text-gray-500">
-                                    <div class=" ">
-                                        <?xml version="1.0" standalone="no"?>
-                                        <!DOCTYPE svg
-                                            PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-                                        <svg class=" inline mr-3" version="1.0" xmlns="http://www.w3.org/2000/svg"
-                                            width="25" height="25" viewBox="0 0 512.000000 512.000000"
-                                            preserveAspectRatio="xMidYMid meet">
-
-                                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                                fill="currentColor" stroke="none">
-                                                <path
-                                                    d="M345 4396 c-84 -21 -147 -57 -211 -121 -65 -65 -105 -136 -123 -223
--16 -76 -16 -2910 0 -2984 37 -172 175 -310 347 -347 75 -16 4328 -16 4404 0
-170 36 311 178 347 347 16 76 16 2910 0 2984 -37 172 -176 311 -347 347 -81
-17 -4349 14 -4417 -3z m4395 -306 c26 -13 47 -34 60 -60 20 -39 20 -56 20
--1470 0 -1414 0 -1431 -20 -1470 -13 -26 -34 -47 -60 -60 -39 -20 -54 -20
--2181 -20 l-2141 0 -40 22 c-24 14 -48 38 -59 60 -18 36 -19 82 -19 1470 1
-1361 2 1435 19 1467 10 18 35 44 57 57 l39 24 2143 0 c2128 0 2143 0 2182 -20z" />
-                                                <path
-                                                    d="M1345 3800 c-198 -44 -352 -180 -417 -368 -18 -53 -23 -89 -23 -172
-0 -124 23 -202 85 -299 l39 -61 -58 -39 c-76 -52 -169 -144 -218 -217 -102
--150 -142 -279 -150 -474 -5 -125 -4 -139 16 -178 14 -28 34 -48 61 -62 38
--20 57 -20 770 -20 713 0 732 0 770 20 27 14 47 34 61 62 20 39 21 53 16 178
--7 194 -48 324 -148 471 -50 75 -143 167 -217 218 l-61 41 40 62 c59 92 84
-182 84 303 0 77 -6 115 -23 167 -56 164 -183 291 -348 349 -67 23 -215 33
--279 19z m190 -307 c92 -31 165 -134 165 -233 0 -132 -118 -250 -250 -250 -60
-0 -130 30 -175 75 -98 98 -98 252 0 350 69 70 164 91 260 58z m89 -812 c199
--70 321 -216 370 -443 l6 -28 -550 0 -549 0 5 33 c49 282 289 477 569 463 55
--3 113 -13 149 -25z" />
-                                                <path
-                                                    d="M2698 3789 c-43 -22 -78 -81 -78 -129 0 -50 35 -107 80 -130 38 -20
-57 -20 870 -20 813 0 832 0 870 20 45 23 80 80 80 130 0 50 -35 107 -80 130
--38 20 -57 20 -872 20 -810 -1 -834 -1 -870 -21z" />
-                                                <path
-                                                    d="M2698 3189 c-43 -22 -78 -81 -78 -129 0 -50 35 -107 80 -130 38 -20
-57 -20 870 -20 813 0 832 0 870 20 45 23 80 80 80 130 0 50 -35 107 -80 130
--38 20 -57 20 -872 20 -810 -1 -834 -1 -870 -21z" />
-                                                <path
-                                                    d="M3498 2389 c-23 -12 -46 -35 -58 -59 -19 -37 -20 -58 -20 -470 0
--412 1 -433 20 -470 13 -26 34 -47 60 -60 37 -19 58 -20 470 -20 412 0 433 1
-470 20 26 13 47 34 60 60 19 37 20 58 20 470 0 412 -1 433 -20 470 -13 26 -34
-47 -60 60 -38 19 -58 20 -472 20 -411 -1 -435 -2 -470 -21z m722 -529 l0 -250
--250 0 -250 0 0 250 0 250 250 0 250 0 0 -250z" />
-                                                <path
-                                                    d="M678 1589 c-43 -22 -78 -81 -78 -129 0 -50 35 -107 80 -130 38 -20
-57 -20 770 -20 713 0 732 0 770 20 45 23 80 80 80 130 0 50 -35 107 -80 130
--38 20 -57 20 -772 20 -710 -1 -734 -2 -770 -21z" />
-                                            </g>
-                                        </svg>
-
-                                        <h5 class=" text-sm inline-block">National ID</h5>
-                                    </div>
-
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </label>
-                        </li>
-                        <li class=" flex-grow p-3">
-                            <input type="radio" wire:model="document" id="driver" value="driver"
-                                class=" absolute h-0 w-0 opacity-0">
-                            <label for="driver" class=" border border-gray-300 rounded-md p-3 block cursor-pointer">
-                                <div class=" flex items-center justify-between text-gray-500">
-                                    <div class=" ">
-                                        <?xml version="1.0" standalone="no"?>
-                                        <!DOCTYPE svg
-                                            PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-                                        <svg class=" inline mr-3" version="1.0" xmlns="http://www.w3.org/2000/svg"
-                                            width="25" height="25" viewBox="0 0 512.000000 512.000000"
-                                            preserveAspectRatio="xMidYMid meet">
-
-                                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                                                fill="currentColor" stroke="none">
-                                                <path
-                                                    d="M510 4294 c-180 -38 -357 -177 -439 -344 -74 -151 -71 -88 -71 -1390
-0 -1302 -3 -1239 71 -1390 83 -169 260 -307 444 -345 105 -22 3985 -22 4090 0
-240 50 450 260 500 500 22 105 22 2365 0 2470 -50 240 -260 450 -500 500 -102
-21 -3995 21 -4095 -1z m4101 -315 c79 -37 133 -90 171 -167 l33 -67 0 -1185 0
--1185 -33 -67 c-38 -77 -92 -130 -171 -167 l-56 -26 -1995 0 -1995 0 -55 26
-c-82 39 -135 90 -172 167 l-33 67 0 1185 0 1185 26 55 c46 99 120 164 222 196
-34 10 404 12 2022 11 l1980 -2 56 -26z" />
-                                                <path
-                                                    d="M1101 3398 c-5 -13 -70 -153 -145 -313 -126 -270 -137 -290 -172
--308 -20 -10 -55 -37 -78 -61 -78 -77 -106 -168 -106 -341 0 -175 25 -257 102
--341 37 -40 144 -104 175 -104 10 0 13 -30 13 -140 l0 -140 150 0 150 0 0 135
-0 135 445 0 445 0 0 -135 0 -135 150 0 150 0 0 138 0 137 50 18 c100 35 188
-126 216 223 12 43 15 92 12 232 -3 169 -4 179 -30 227 -32 62 -94 128 -145
-154 -36 18 -45 34 -182 330 l-144 311 -524 0 -523 0 -9 -22z m928 -415 c35
--75 65 -143 68 -150 4 -11 -81 -13 -461 -13 -256 0 -466 3 -466 8 0 4 30 71
-67 150 l66 142 332 0 331 0 63 -137z m319 -475 c8 -8 12 -54 12 -140 0 -116
--2 -128 -19 -138 -13 -6 -253 -10 -708 -10 -579 0 -692 2 -709 14 -16 12 -19
-29 -22 126 -3 89 -1 116 12 135 l16 25 703 0 c533 0 706 -3 715 -12z" />
-                                                <path
-                                                    d="M2984 3317 c-2 -7 -3 -76 -2 -152 l3 -140 760 0 760 0 0 150 0 150
--758 3 c-615 2 -759 0 -763 -11z" />
-                                                <path
-                                                    d="M2984 2697 c-2 -7 -3 -76 -2 -152 l3 -140 510 0 510 0 0 150 0 150
--508 3 c-410 2 -509 0 -513 -11z" />
-                                                <path
-                                                    d="M2984 2087 c-2 -7 -3 -76 -2 -152 l3 -140 760 0 760 0 0 150 0 150
--758 3 c-615 2 -759 0 -763 -11z" />
-                                            </g>
-                                        </svg>
-
-                                        <h5 class=" text-sm inline-block">Driver's license</h5>
-                                    </div>
-
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </label>
-                        </li>
-                    </ul>
+                    <label for="driver" class=" px-2 py-1 rounded cursor-pointer hover:scale-x-105 duration-300 transition-all" onclick="navigateToNextSection()" wire:click="clear">
+                        <input type="radio" id="driver" wire:model="document" value="driver" class="hidden">
+                        <div class="flex items-center w-full base:gap-6 gap-4">
+                            <div class="">
+                                <img src="{{ asset('svg/license.svg') }}" alt="driver icon" >
+                            </div>
+                            <div class="base:w-[65%] w-[80%]">
+                                <p class="font-semibold base:text-lg text-md mb-1">Driver's License</p>
+                                <p class="base-text">Upload a government-issued driver's license for verification.</p>
+                            </div>
+                            <div class="base:w-[1.5rem] w-[1.3rem]">
+                                <img src="{{ asset('svg/coin-active.svg') }}" alt="" class="{{ $document === 'driver' ? 'block' : 'hidden' }}">
+                                <img src="{{ asset('svg/radio.svg') }}" alt="" class="{{ $document === 'driver' ? 'hidden' : 'block' }}">
+                            </div>
+                        </div>
+                    </label>
+                    
                     @error('document')
-                        <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
+                        <span class="error text-sm text-failed ">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
 
-            <div class=" mt-5">
-                <label class=" mb-3" for="issuedBy">Issued by Country</label>
+            @if ($document)
+            <div class="w-full pt-5 mt-8" id="issued_by">
+                <label for='issuedBy' class="text-black_200 font-medium base-text">Country Issued by</label>
                 <select wire:model="issuedBy"
-                    class=" font-roboto pl- rounded-none text-sm text-gray-400 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
+                    class=" div-input "
                     name="issuedBy" id="issuedBy">
-                    <option value="">Select Issuer Country</option>
+                    <option value="">Select Country</option>
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Albania">Albania</option>
                     <option value="Algeria">Algeria</option>
@@ -1195,201 +982,193 @@ c-82 39 -135 90 -172 167 l-33 67 0 1185 0 1185 26 55 c46 99 120 164 222 196
                     <option value="Zimbabwe">Zimbabwe</option>
                 </select>
                 @error('issuedBy')
-                    <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="mt-5">
-                <label class=" block" for="fullname">Document Number</label>
-                <input wire:model="documentNumber" placeholder="Enter Your Document Number" value=""
-                    class=" pl-0 text-sm text-gray-400 placeholder-gray-300 mt-2 block bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b border-gray-300"
-                    type="text" name="fullname" id="fullname">
-                @error('documentNumber')
-                    <span class="error text-sm text-red-500 font-roboto">{{ $message }}</span>
+                    <span class="error base:text-sm text-s text-failed ">{{ $message }}</span>
                 @enderror
             </div>
 
+            <div class="w-full mt-7">
+                <label class="w-full">
+                    <span class="text-black_200 font-medium base-text">Document Number</span>
+                    <input wire:model="documentNumber" placeholder="Enter Your Document Number" value=""
+                        class="input" type="text" name="documentNumber" id="documentNumber">
+                </label>
+                @error('documentNumber')
+                    <span class="error base:text-sm text-s text-failed ">{{ $message }}</span>
+                @enderror
+            </div>
+            @endif
+
+            <div class=" mt-10 w-full flex justify-center items-center">
+                <x-button wire:click="next" class="w-[50%] ">Proceed</x-button>
+            </div>
+
+            <div class=" base:mt-10 mt-5 w-full flex justify-center items-center">
+                <x-button type='secondary' wire:click="previous" class="w-[50%] ">Back to previous</x-button>
+            </div>
         </div>
     @elseif ($step === 3)
-        <div class=" px-5">
-            <h5 class=" text-lg mt-3 text-gray-600 font-semibold"> Upload Document</h5>
-            <h5 class=" text-base text-gray-400">To verify, please upload a copy of your National ID.</h5>
-            <div class=" mt-5">
-                <h5 class=" mb-3">To avoid delays when verifying account, please make sure below</h5>
-                <ul class=" text-gray-500">
+        <div class="">
+            <div class=" ">
+                <h3 class=" font-bold base:text-lg text-base text-black_800 flex w-full mb-3"> <span wire:click="$set('step', 0)" class=" cursor-pointer text-black_400 base:mr-10 mr-5 base:flex hidden hover:text-black_800 hover:scale-105">Identity Verification <img src="{{ asset('svg/right-arrow.svg') }}" alt="navigation" class="base:pl-10 pl-5"> </span> <span wire:click='previous' class="flex cursor-pointer text-black_400 base:mr-10 mr-5 hover:text-black_800 hover:scale-105"> Identity Documents <img src="{{ asset('svg/right-arrow.svg') }}" alt="navigation" class="base:pl-10 pl-5"> </span> Upload Document </h3>
+                <span class=" base-text text-black_400 my-6">To verify, please upload a copy of your {{ $document == "national" ? 'National Id' : ($document == 'passport' ? 'Passport' : "Driver's License") }}.</span>
+            </div>
+            <div class=" mt-8">
+                <h5 class=" mb-3">To avoid delays when verifying account, please make sure of the below</h5>
+                <ul class="">
                     <li>
                         <div class=" flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round"
                                 class="feather feather-check-circle">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
-                            <h5 class=" ml-3 text-sm">Document should be good condition and clearly visible.</h5>
+                            <h5 class=" ml-3 base-text">Document should be good condition and clearly visible.</h5>
                         </div>
                     </li>
 
                     <li class=" mt-2">
                         <div class=" flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round"
                                 class="feather feather-check-circle">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
-                            <h5 class=" ml-3 text-sm">Make sure that there is no light glare on the image.</h5>
+                            <h5 class=" ml-3 base-text">Make sure that there is no light glare on the image.</h5>
                         </div>
                     </li>
                 </ul>
 
                 <div class=" mt-5">
-                    <h5 class=" font-semibold">National ID</h5>
+                    {{-- <h5 class=" font-semibold text-lg">{{ $document == "national" ? 'National Id' : ($document == 'passport' ? 'Passport' : "Driver's License") }}</h5> --}}
                     <form wire:submit.prevent="save" enctype="multipart/form-data">
-                        <div class="md:fle">
-                            <div class="flex-grow p-5">
-                                {{-- <div class="">
-                                    <label
-                                        class="fre w-full h-32 border border-gray-200 p-10 rounded-sm cursor-pointer block text-center text-gray-500"
-                                        for="front">
-                                        <div class="droparea">Drop File here OR Select</div>
-                                        <input class="frontId opacity-0 absolute top-0 left-0 w-full " id="front" type="file"
-                                            name="front">
-                                    </label>
-                                    <p id="filename"></p>
-                                </div> --}}
-                                {{-- <form action="/file-upload" class="dropzone" id="dropzone"></form> --}}
-                                {{-- <form action="/file-upload" class="dropzone" id="dropzone">
-                                    <div class="dz-default dz-message">
-                                        <span class=" block text-gray-400 text-center text-sm">Drop file here</span>
-                                        <span class=" mt-1 block text-gray-400 text-center">OR</span>
-                                        <button type="button"
-                                            class=" mt-1 bg-gray-200 rounded-sm text-sm p-[5px]">Select</button>
-                                    </div>
-                                </form> --}}
-                                <div>
+                        <div class="">
+                            <div class="">
+                                <div class="w-full flex justify-center items-center flex-col">
                                     @if ($front)
-                                        Front Preview:
-                                        <img class=" mb-4 w-40 h-40 rounded-2xl object-cover border-[3px] border-yellow-500"
-                                            src="{{ $front->temporaryUrl() }}">
+                                        <span class="font-semibold base:text-lg text-base mt-5 mb-3">Front Preview:</span>
+                                        <img class="mb-4 w-fit h-[13rem] rounded-2xl object-contain border-[3px] border-blue_600" src="{{ $front->temporaryUrl() }}">
+                                        <label for="front" class=""><span class=" text-neutral_800 underline font-bold cursor-pointer base-text">Upload a different file</span></label>
+                                        <input type="file" name="front" id="front" wire:model="front" class="hidden">
+                                        <div class=" mt-2 base-text" wire:loading wire:target="front">Uploading...</div>
+                                    @else
+                                    <h4 class=" font-semibold base:text-lg text-base my-5">{{ $document == "national" ? 'National Id' : ($document == 'passport' ? 'Passport' : "Driver's License") }} (Document Front)</h4>
+                                    <label for="front" class="rounded-[8px] border-2 border-dashed border-black bg-[#F5F5F5] w-full h-[12.5rem] flex justify-center items-center "><span class=" text-neutral_800 underline font-bold cursor-pointer base-text">Upload file</span></label>
+                                    <input type="file" name="front" id="front" wire:model="front" class="hidden">
+                                    <div class=" mt-2 base-text" wire:loading wire:target="front">Uploading...</div>
                                     @endif
-                                    <input type="file" name="front" id="front" wire:model="front">
-                                    <div class=" mt-2" wire:loading wire:target="front">Uploading...</div>
                                     @error('front')
-                                        <span class=" text-sm text-red-500">{{ $message }}</span>
+                                        <span class=" base:text-sm text-s w-full text-failed">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <h5 class=" text-sm mt-3 text-gray-500 italic">Front</h5>
                             </div>
-                            <div class="flex-grow p-5">
-                                {{-- <div class="">
-                                    <label
-                                        class="fre w-full h-32 border border-gray-200 p-10 rounded-sm cursor-pointer block text-center text-gray-500"
-                                        for="back">
-                                        <div class="droparea">Drop File here OR Select</div>
-                                        <input class="frontId opacity-0 absolute top-0 left-0 w-full " id="back" type="file"
-                                            name="">
-                                    </label>
-                                    <p id="filename"></p>
-                                </div> --}}
 
-                                {{-- <form action="/file-upload" class="dropzone" id="dropzone2">
-                                    <div class="dz-default dz-message">
-                                        <span class=" block text-gray-400 text-center text-sm">Drop file here</span>
-                                        <span class=" block text-gray-400 text-center mt-1">OR</span>
-                                        <button type="button"
-                                            class=" mt-1 bg-gray-200 rounded-sm text-sm p-[5px]">Select</button>
-                                    </div>
-                                </form> --}}
-                                <div>
+                            @if ( $document == "national" ||  $document == 'driver')
+                            <div class="">
+                                <div class="w-full flex justify-center items-center flex-col mt-3">
                                     @if ($back)
-                                        Back Preview:
-                                        <img class="mb-4 w-40 h-40 rounded-2xl object-cover border-[3px] border-yellow-500" src="{{ $back->temporaryUrl() }}">
+                                        <span class="font-semibold base:text-lg text-base my-5">Back Preview:</span>
+                                        <img class="mb-4 w-fit h-[13rem] rounded-2xl object-contain border-[3px] border-blue_600" src="{{ $back->temporaryUrl() }}">
+                                        <label for="back" class=""><span class=" text-neutral_800 underline font-bold cursor-pointer base-text">Upload a different file</span></label>
+                                        <input type="file" name="back" id="back" wire:model="back" class="hidden">
+                                        <div class=" mt-2 base-text" wire:loading wire:target="back">Uploading...</div>
+                                    @else
+                                    <h4 class=" font-semibold base:text-lg text-base mt-5 mb-3">{{ $document == "national" ? 'National Id' : ($document == 'passport' ? 'Passport' : "Driver's License") }} (Document back)</h4>
+                                    <label for="back" class="rounded-[8px] border-2 border-dotted border-black bg-[#F5F5F5] w-full h-[12.5rem] flex justify-center items-center "><span class=" text-neutral_800 underline font-bold cursor-pointer base-text">Upload file</span></label>
+                                    <input type="file" name="back" id="back" wire:model="back" class="hidden">
+                                    <div class=" mt-2 base-text" wire:loading wire:target="back">Uploading...</div>
                                     @endif
-                                    <input type="file" name="back" id="back" wire:model="back">
-                                    <div class=" mt-2" wire:loading wire:target="back">Uploading...</div>
                                     @error('back')
-                                        <span class=" text-sm text-red-500">{{ $message }}</span>
+                                        <span class=" base:text-sm text-s w-full text-failed">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <h5 class=" text-sm mt-3 text-gray-500 italic">Back</h5>
                             </div>
+                            @endif
                         </div>
                     </form>
 
                 </div>
             </div>
+            <div class=" mt-10 w-full flex justify-center items-center">
+                <x-button wire:click="next" class="w-[50%] ">Proceed</x-button>
+            </div>
+
+            <div class=" base:mt-10 mt-5 w-full flex justify-center items-center">
+                <x-button type='secondary' wire:click="previous" class="w-[50%] ">Back to previous</x-button>
+            </div>
         </div>
     @elseif ($step === 4)
-        <div class=" px-5">
-            <h5 class=" text-lg mt-3 text-gray-600 font-semibold"> Basic Information</h5>
-            <div class=" mt-3 min-w-full">
+        <div class="">
+            <h5 class=" base:text-lg text-md text-gray-600 font-semibold"> Basic Information</h5>
+            <div class=" mt-3">
                 <div class="">
                     <div class=" flex items-center py-4 whitespace-nowrap border-b border-gray-300 justify-between">
-                        <h5 class="">Fullname</h5>
-                        <h5 class="">{{ $firstName . ' ' . $lastName }}</h5>
+                        <h5 class="base-text">Fullname</h5>
+                        <h5 class="base-text font-semibold">{{ $firstName . ' ' . $lastName }}</h5>
                     </div>
 
                     <div class=" flex items-center py-4 whitespace-nowrap border-b border-gray-300 justify-between">
-                        <h5 class="">Phone</h5>
-                        <h5 class="">{{ $phone }}</h5>
+                        <h5 class="base-text">Phone</h5>
+                        <h5 class="base-text font-semibold">{{ $phone }}</h5>
                     </div>
 
                     <div class=" flex items-center py-4 whitespace-nowrap border-b border-gray-300 justify-between">
-                        <h5 class="">Date of Birth</h5>
-                        <h5 class="">{{ $dob }}</h5>
+                        <h5 class="base-text">Date of Birth</h5>
+                        <h5 class="base-text font-semibold">{{ $dob }}</h5>
                     </div>
 
                     <div class=" flex items-center py-4 whitespace-nowrap border-b border-gray-300 justify-between">
-                        <h5 class="">Gender</h5>
-                        <h5 class="">{{ $gender }}</h5>
+                        <h5 class="base-text">Gender</h5>
+                        <h5 class="base-text font-semibold">{{ $gender }}</h5>
                     </div>
 
                     <div class=" flex items-center py-4 whitespace-nowrap border-b border-gray-300 justify-between">
-                        <h5 class="">Nationality</h5>
-                        <h5 class="">{{ $nationality }}</h5>
+                        <h5 class="base-text">Nationality</h5>
+                        <h5 class="base-text font-semibold">{{ $nationality }}</h5>
                     </div>
 
                     <div class=" flex items-center py-4 whitespace-nowrap border-b border-gray-300 justify-between">
-                        <h5 class="">Country of
+                        <h5 class="base-text">Country of
                             Residence
                         </h5>
-                        <h5 class="">{{ $residence }}</h5>
+                        <h5 class="base-text font-semibold">{{ $residence }}</h5>
                     </div>
                 </div>
             </div>
 
-            <div class=" mt-5">
-                <h5 class=" font-semibold">Uploaded Documents</h5>
-                <div class="flex">
-                    <div class=" grow p-3">
-                        <div class="">
-                            <img class="mb-4 w-40 h-40 rounded-2xl object-cover border-[3px] border-yellow-500" src="{{ $front->temporaryUrl() }}" alt="">
+            <div class=" mt-8">
+                <h5 class="  base:text-lg text-md mt-3 text-gray-600 font-semibold">Uploaded Documents</h5>
+                <div class="">
+                    <div class="">
+                        <div class="mt-6">
+                            <img class="mb-2 w-fit h-[13rem] rounded-2xl object-contain border-[3px] border-blue_600" src="{{ $front?->temporaryUrl() }}" alt="">
                         </div>
-                        <h5 class=" text-sm capitalize">{{$document}} / Front</h5>
+                        <h5 class=" text-sm capitalize">{{ $document == "national" ? 'National Id' : ($document == 'passport' ? 'Passport' : "Driver's License") }} / Front</h5>
                     </div>
 
-                    <div class=" grow p-3">
+                   @if ( $document == "national" ||  $document == 'driver')
                         <div class="">
-                            <img class="mb-4 w-40 h-40 rounded-2xl object-cover border-[3px] border-yellow-500" src="{{ $back->temporaryUrl() }}" alt="">
+                            <div class="mt-6">
+                                <img class="mb-2 w-fit h-[13rem] rounded-2xl object-contain border-[3px] border-blue_600" src="{{ $back?->temporaryUrl() }}" alt="">
+                            </div>
+                            <h5 class=" text-sm capitalize">{{ $document == "national" ? 'National Id' : ($document == 'passport' ? 'Passport' : "Driver's License") }} / Back</h5>
                         </div>
-                        <h5 class=" text-sm capitalize">{{$document}} / Back</h5>
-                    </div>
+                   @endif
                 </div>
+            </div>
+
+            <div class=" mt-10 w-full flex justify-center items-center">
+                <x-button wire:click="next" class="w-[50%] ">Proceed</x-button>
+            </div>
+
+            <div class=" base:mt-10 mt-5 w-full flex justify-center items-center">
+                <x-button type='secondary' wire:click="previous" class="w-[50%] ">Back to previous</x-button>
             </div>
         </div>
     @endif
-
-    <div class="lg:p-5">
-        <button wire:click="next"
-            class=" py-2 w-full px-3 bg-secondary text-gray-800 mt-8 rounded-sm text-center font-semibold block">Proceed</button>
-    </div>
-
-    <div class="lg:p-5">
-        <button wire:click="previous"
-            class=" py-2 w-full px-3 mt-4 text-primary rounded-sm text-center block capitalize">Back to
-            previous</button>
-    </div>
 </div>
 
 @push('scripts')
@@ -1401,29 +1180,12 @@ c-82 39 -135 90 -172 167 l-33 67 0 1185 0 1185 26 55 c46 99 120 164 222 196
                 addRemoveLinks: true,
                 // Configuration options go here
             };
-
-
-
-            // let fileInput = document.getElementById("reek")
-            // console.log(fileInput)
-            // let filenameContainer = document.querySelector('.filename');
-            // let dropzone = document.querySelector('.droparea');
-
-            // if (fileInput) {
-            //     fileInput.addEventListener('change', function() {
-            //         console.log('first')
-            //         filenameContainer.innerText = fileInput.value.split('\\').pop();
-            //     });
-
-            //     fileInput.addEventListener('dragenter', function() {
-            //         dropzone.classList.add('dragover');
-            //     });
-
-            //     fileInput.addEventListener('dragleave', function() {
-            //         dropzone.classList.remove('dragover');
-            //     });
-            // }
-
         })
+
+        function navigateToNextSection() {
+           setTimeout(() => {
+            window.location.href = '#issued_by';
+           }, 750); 
+        }
     </script>
 @endpush

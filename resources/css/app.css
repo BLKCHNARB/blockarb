@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -13,8 +13,100 @@ html {
 }
 
 body {
-    font-family: "Outfit", sans-serif;
+    font-family: "Poppins", sans-serif;
     @apply max-w-[1440px] mx-auto;
+}
+
+h1, h2 {
+  font-family: 'Manrope', sans-serif;
+}
+
+h3, h4, h5, h6 {
+  font-family: "Manrope", sans-serif;
+}
+
+.padding-y {
+  @apply md:py-5 base:py-4 py-2
+}
+
+.padding-x {
+  @apply md:px-14 base:px-8 px-5
+}
+
+.flex-center {
+  @apply justify-center items-center
+}
+
+.dot-container {
+  @apply flex px-[16px] py-[12px] rounded-[6px] items-center cursor-pointer font-medium hover:text-blue_600 hover:bg-blue_100 transition-all;
+}
+
+.dot-container:hover > div {
+  @apply opacity-100;
+}
+
+.mission-cards {
+  @apply relative flex flex-col md:w-[33%] base:w-[45%] w-[90%] text-center items-center justify-center p-8 rounded-[20px] top-0 base:hover:-top-5 hover:scale-x-105 transition-all duration-300;
+  box-shadow: 0px 3px 15px #a1b5fe;
+}
+
+.mission-cards .heading {
+  @apply absolute -top-5 font-bold base:text-[1.2rem] text-[.9rem] bg-blue_600 rounded-[30px] py-[9px] px-[30px] text-white;
+  box-shadow: 0px 3px 15px #0337d240;
+}
+
+.service-cards {
+  @apply relative bg-white border-transparent flex flex-col md:w-[33%] base:w-[45%] w-[90%] p-8 rounded-[20px] transition-all border-b-2 sm:hover:scale-y-105 hover:scale-x-105;
+  box-shadow: 0px 0px 10px #00000027;
+}
+
+.service-cards .heading {
+  @apply font-bold my-5 base:text-[1.2rem] text-[1rem];
+}
+
+.service-cards.btc {
+  @apply border-yellow-500;
+}
+
+.service-cards.eth{
+  @apply border-black;
+}
+
+.service-cards.usdt {
+  @apply border-green-500;
+}
+
+.good-card-parent {
+  @apply flex flex-col gap-7 sm:w-[50%] w-full;
+}
+
+.good-card {
+  @apply relative flex flex-col w-full items-start justify-start p-8 rounded-[20px] transition-all duration-300 leading-7;
+  box-shadow: 0px 3px 15px #012ba840;
+}
+
+.good-card-up {
+  @apply top-0 sm:hover:-top-5 sm:hover:scale-x-100 hover:scale-x-105;
+}
+
+.good-card-down {
+  @apply bottom-0 sm:hover:-bottom-5 sm:hover:scale-x-100 hover:scale-x-105;
+}
+
+.good-card .heading {
+  @apply font-bold py-4 my-3 w-full base:text-[1.2rem] text-[1rem] border-b;
+}
+
+.lg-text {
+  @apply base:text-xxl text-lg
+}
+
+.base-text {
+  @apply base:text-base text-sm
+}
+
+.sm-text {
+  @apply base:text-sm text-s
 }
 
 .dz-image img {

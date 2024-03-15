@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('token');
+            $table->integer("token_id");
             $table->float('amount');
             $table->timestamps();
         });

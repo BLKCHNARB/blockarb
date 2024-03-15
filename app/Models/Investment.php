@@ -18,6 +18,7 @@ class Investment extends Model
         'plan_id',
         'amount',
         'profit',
+        "performance_fee",
         'percentage',
         'duration'
     ];

@@ -9,6 +9,14 @@ module.exports = {
     ],
 
     theme: {
+        screens: {
+            xs: "360px",
+            sm: "480px",
+            base: "680px",
+            md: "868px",
+            lg: "1076px",
+            xl: "1440px",
+        },
         extend: {
             colors: {
                 gray_40: '#FAFAFA',
@@ -32,7 +40,7 @@ module.exports = {
 
             fontSize: {
                 xxs: "",
-                xs: "",
+                xs: "0.625rem", //10px
                 s: "0.75rem", //12px
                 sm: "0.875rem", //14px
                 base: "1rem", //16px
@@ -40,9 +48,10 @@ module.exports = {
                 lg: "1.25rem", //20px
                 xl: "1.5rem", //24px
                 xxl: "2rem", //32px
+                xxxl: "3rem", //32px
+                xxxxl: "4rem", //32px
             },
         },
     },
 
-    plugins: [require('@tailwindcss/forms')],
 };

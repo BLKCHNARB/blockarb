@@ -11,20 +11,15 @@ use Livewire\Component;
 class Withdrawal extends Component
 {
 
-    public $amount, $selectedToken, $selectedPurse, $maxAmount, $selectedInvestment, $tokens = [], $investments;
-
-    public function alertSuccess()
-    {
-        $this->dispatchBrowserEvent(
-            'alert',
-            ['type' => 'success', 'title' => 'Withdrawal',  'message' => 'Withdrawal placed successfully!']
-        );
-    }
+    public $amount, $selectedToken, $selectedPurse, $selectedWallet, $wallet, $maxAmount, $selectedInvestment, $tokens = [], $investments, $successful = false, $fail = false;
 
     public function updatedSelectedToken()
     {
         if ($this->selectedToken) {
             $this->selectedInvestment = $this->investments->where('token_id', '=', $this->selectedToken)->first();
+
+            $this->selectedPurse = null;
+            $this->amount = null;
         }
     }
 
@@ -35,6 +30,8 @@ class Withdrawal extends Component
             } elseif($this->selectedPurse == "capital") {
                 $this->maxAmount = $this->selectedInvestment->amount;
             }
+
+            $this->amount = null;
         }
     }
 
@@ -43,13 +40,36 @@ class Withdrawal extends Component
         return [
             'amount' => 'required|gt:0|lt:' . $this->maxAmount,
             'selectedToken' => 'required',
-            'selectedPurse' => 'required'
+            'selectedPurse' => 'required',
+            
         ];
     }
 
     public function withdraw()
     {
         $this->validate();
+
+        // dd($this->selectedInvestment->token_id);
+
+        $this->selectedWallet = $this->selectedInvestment->token_id;
+
+        if ($this->selectedWallet === 1 && !$this->wallet['usdt'] ) {
+
+            $this->fail = true;
+            return;
+
+        } elseif ($this->selectedWallet === 2 && !$this->wallet['bitcoin']) {
+            
+            $this->fail = true;
+            return;
+            
+        } elseif ($this->selectedWallet === 3 && !$this->wallet['ethereum']) {
+
+            $this->fail = true;
+            return;
+            
+        }
+
         ModelsWithdrawal::create([
             'user_id' => Auth()->user()->id,
             'amount' => $this->amount,
@@ -57,7 +77,13 @@ class Withdrawal extends Component
             'purse' => $this->selectedPurse,
             'processed' => 0,
         ]);
-        $this->alertSuccess();
+
+        $this->successful = true;
+    }
+
+    public function close()
+    {
+        $this->successful = false;
     }
 
     public function render()
@@ -70,9 +96,10 @@ class Withdrawal extends Component
         $tokens = Token::all();
         $this->tokens = $tokens;
         $this->investments = Investment::where('user_id', '=', Auth()->user()->id)->with('token')->get();
-        // dd($this->investments);
-        // foreach ($this->investments as $investment) {
-        //     dd($investment->token->name);
-        // }
+      
+        $user = Auth()->user();
+        $this->wallet['bitcoin'] = $user->bitcoin_address;
+        $this->wallet['ethereum'] = $user->ethereum_address;
+        $this->wallet['usdt'] = $user->usdt_address;
     }
 }

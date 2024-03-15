@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class Downlines extends Component
 {
-    public $referral_link, $referral_id,$referrals;
+    public $referral_link, $referral_id, $referrals;
 
     public function render()
     {

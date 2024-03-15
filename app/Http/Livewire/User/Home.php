@@ -74,9 +74,7 @@ class Home extends Component
 
         $this->usdtProfitTotal = $this->usdt->sum('profit');
         $this->usdtCapitalTotal = $this->usdt->sum('amount');
-        $this->usdtPercentage = $this->usdt->sum('percentage');
-        $this->usdtDuration = $this->usdt->sum('duration');
-
+        
         $this->deposits = Auth()->user()->deposits;
         $this->withdrawals = Auth()->user()->withdrawals;
         $this->compounds = Auth()->user()->compounds;

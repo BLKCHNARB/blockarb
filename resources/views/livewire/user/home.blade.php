@@ -1,14 +1,31 @@
 <style>
     .hero-overview {
         background: linear-gradient(to right, #194BFB, #194afb, #194afb, #194afb3e), url('/images/overview-img.jpeg');
+        background-size: auto, calc(29rem);
+        background-position: center, {{ $account && $deposits->isNotEmpty() ? 'calc(100% + 45px)' : 'calc(100% + 100px)' }};
+        background-repeat: no-repeat;
+    }
+/* 
+    @media (max-width: 1076px) {
+        .hero-overview {
+        background: linear-gradient(to right, #194BFB, #194afb, #194afb, #194afb3e), url('/images/overview-img.jpeg');
         background-size: auto, calc(28rem);
         background-position: center, {{ $account && $deposits->isNotEmpty() ? 'calc(100% + 45px)' : 'calc(100% + 100px)' }};
         background-repeat: no-repeat;
     }
+    } */
 
+    @media (max-width: 868px) {
+        .hero-overview {
+        background: linear-gradient(to right, #194BFB, #194afb, #194afb3e), url('/images/overview-img.jpeg');
+        background-size: cover;
+        background-position: center, {{ $account && $deposits->isNotEmpty() ? 'calc(100% + 45px)' : 'calc(100% + 100px)' }};
+        background-repeat: no-repeat;
+    }
+    }
     
     svg.svg2 circle {
-        stroke: {{ $account ? '#fdfdfe' : '#B8BABE' }};
+        stroke: {{ $deposits->isNotEmpty() ? '#fdfdfe' : '#B8BABE' }};
         animation: spin2 1s linear forwards;
     }
 
@@ -25,19 +42,19 @@
     }
 </style>
 
-<div class=" bg-white rounded-[20px]">
+<div class=" bg-white rounded-[20px] md:px-0 px-4">
     {{-- overview page --}}
-    <main class="flex justify-between items-start gap-6 relative">
+    <main class="flex lg:flex-row md:flex-col-reverse base:flex-row flex-col-reverse justify-between items-start gap-6 relative mt-5">
        
         {{-- main content area --}}
-        <div class=" h-fit {{ $account && $deposits->isNotEmpty() ? 'w-full' : 'w-[100%]' }}">
+        <div class="w-full">
         
-              {{-- Hero section --}}
-              <div class="hero-overview flex items-center w-full h-[16.25rem] text-white p-7 rounded-[18px]">
-                <div class="flex flex-col justify-center gap-[0.938rem] {{ $account && $deposits->isNotEmpty() ? 'w-[45%]' : 'w-[60%]' }}">
-                    <h1 class="font-semibold text-xl leading-[1.875rem]">Supercharge Your Financial Potential with Arbitrage Trading!</h1>
-                    <p class="text-sm font-medium leading-[1.416rem] opacity-70">Deposit into a plan now to experience the power of secure arbitrage trading and never worry about market volatility.</p>
-                    <a class="w-[10rem] mt-3" href="{{ !$account ? route('settings') : route('invest') }}">
+            {{-- Hero section --}}
+            <div class="hero-overview flex items-center w-full h-fit text-white p-7 rounded-[18px]">
+                <div class="flex flex-col justify-center gap-[0.938rem] {{ $account && $deposits->isNotEmpty() ? 'md:w-[45%]' : 'lg:w-[70%] md:w-[60%] ' }} sm:w-[80%] w-full">
+                    <h1 class="font-semibold md:text-xl text-lg md:leading-[1.875rem] leading-[1.675rem] font-['Outfit']">Supercharge Your Financial Potential with Arbitrage Trading!</h1>
+                    <p class="text-sm md:font-medium font-normal md:leading-[1.416rem] leading-[1.1rem] opacity-70">Deposit into a plan now to experience the power of secure arbitrage trading and never worry about market volatility.</p>
+                    <a class="w-[11rem] mt-3" href="{{ !$account ? route('settings') : route('invest') }}">
                         <x-button type='primaryDM' >Start Your Plan</x-button>
                     </a>
                 </div>
@@ -45,66 +62,77 @@
 
         {{-- my balance section --}}
         <div x-data="{ show: false }"
-            class=" items-center w-full h-fit text-black_800 p-6 rounded-[18px] border mt-6">
+            class=" items-center w-full h-fit text-black_800 md:p-6 p-4 rounded-[18px] border mt-6">
            
             {{-- Heading --}}
-            <div class="flex items-center justify-between">
+            <div class="md:flex block items-center justify-between">
+                
+                {{-- action buttons mobile view --}}
+                <div class=" md:hidden flex justify-end mb-7">
+                    <a href="{{ route('invest') }}" class="w-[8rem] mr-3">
+                        <x-button> Deposit </x-button>
+                    </a>
+                    <a href="{{ route('withdrawal') }}" >
+                        <x-button type='secondary' > Withdraw </x-button>
+                    </a>
+                </div>
+
                 {{-- heading title and hide/show icon --}}
                 <div class="flex items-center">
-                    <h2 class=" mr-4 font-extrabold text-lg">
+                    <h3 class=" mr-4 font-extrabold md:text-lg sm:text-md text-base">
                         My Balance
-                    </h2>
+                    </h3>
                     <div class=" cursor-pointer relative top-[1px] ">
-                        <img src="{{asset('svg/Show.svg')}}" alt="show icon" :class="{ 'block': show == true, 'hidden': show == false } " @click="show = false" >
-                        <img src="{{asset('svg/Hide.svg')}}" alt="hide icon" :class="{ 'block': show == false, 'hidden': show == true } " @click="show = true">    
+                        <img src="{{asset('svg/Show.svg')}}" alt="show icon" class="md:w-[1.5rem] w-[1rem]" :class="{ 'block': show == true, 'hidden': show == false } " @click="show = false" >
+                        <img src="{{asset('svg/Hide.svg')}}" alt="hide icon" class="md:w-[1.5rem] w-[1rem]" :class="{ 'block': show == false, 'hidden': show == true } " @click="show = true">    
                     </div>
                 </div>
 
-                {{-- action buttons --}}
-                <div class=" flex ">
-                    <span class="w-[8rem] mr-3">
+                {{-- action buttons desktop view --}}
+                <div class=" md:flex hidden">
+                    <a href="{{ route('invest') }}" class="w-[8rem] mr-3">
                         <x-button> Deposit </x-button>
-                    </span>
-                    <span >
+                    </a>
+                    <a href="{{ route('withdrawal') }}" >
                         <x-button type='secondary' > Withdraw </x-button>
-                    </span>
+                    </a>
                 </div>
             </div>
 
            {{-- balance --}}
-           <div x-data="{ openTab: 1 }" class=" mt-8 ">
+           <div x-data="{ openTab: 1 }" class=" md:mt-8 mt-5 ">
             <ul class=" flex items-center " role="tablist">
-                <li @click="openTab = 1" class=" cursor-pointer p-2 px-5 text-sm font-semibold "
+                <li @click="openTab = 1" class=" cursor-pointer p-2 md:px-5 px-4 md:text-sm text-s font-semibold "
                     :class=" openTab === 1 ? 'bg-blue_100 text-blue_600 rounded-full ' : 'hover:text-black_800 text-black_200'">
                     <span>USD</span>
                 </li>
-                <li @click="openTab = 2" class=" cursor-pointer p-2 px-5 text-sm font-semibold "
+                <li @click="openTab = 2" class=" cursor-pointer p-2 md:px-5 px-4 md:text-sm text-s font-semibold "
                     :class=" openTab === 2 ? 'bg-blue_100 text-blue_600 rounded-full ' : 'hover:text-black_800 text-black_200'">
                     <span>BTC</span>
                 </li>
-                <li @click="openTab = 3" class=" cursor-pointer p-2 px-5 text-sm font-semibold "
+                <li @click="openTab = 3" class=" cursor-pointer p-2 md:px-5 px-4 md:text-sm text-s font-semibold "
                     :class=" openTab === 3 ? 'bg-blue_100 text-blue_600 rounded-full ' : 'hover:text-black_800 text-black_200'">
                     <span>ETH</span>
                 </li>
             </ul>
     
-            <div class=" mt-10">
+            <div class=" md:mt-10 mt-7">
                 {{-- USDT balance container --}}
                 <div class="" x-show="openTab === 1" id="tab-usdt"
                     x-transition:enter="transition origin-bottom ease-out duration-500 delay-200"
                     x-transition:enter-start="transform translate-y-2 opacity-0"
                     x-transition:enter-end="transform translate-y-0 opacity-100" >
 
-                    <div class="transition duration-700 ease-out h-[9rem] flex justify-between gap-5">
-                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
-                            <span class=" text-black_200 text-sm ">Capital invested</span>
-                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">${{ formatNumber($usdtCapitalTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span> </span> <span class=" text-base text-black_200 ">USD</span> </div>
-                            {{-- <div>{{ $usdtChange }}</div> --}}
-                         </div>  
-                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
-                            <span class=" text-black_200 text-sm ">Profit gathered</span>
-                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">${{ formatNumber($usdtProfitTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">USD</span> </div>
-                            <span>{{ $usdtPercentage ? ( $usdtPercentage / 100 ) * $usdtCapitalTotal /  $usdtDuration : '' }}</span>
+                    <div class="transition duration-700 ease-out h-fit flex justify-between md:gap-5 gap-3">
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 md:text-sm text-s ">Capital invested</span>
+                            <div class=" mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($usdtCapitalTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span> </span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">USDT</span> </div>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/arrow-down.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.8rem]"> Start Date: &nbsp{{ $usdt->isNotEmpty() ? $usdt[0]->created_at->format('jS M, Y') : "-- -- --" }}. </span>
+                        </div>  
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 md:text-sm text-s ">Profit gathered</span>
+                            <div class=" mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($usdtProfitTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">USDT</span> </div>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $usdt->isNotEmpty() ? $usdt[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $usdt->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full " > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $usdt->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $usdt->isNotEmpty() ? formatNumber(( $usdt[0]->percentage / 100 ) * $usdt[0]->amount /  $usdt[0]->duration, 4) : '0' }} </span> </span>
                         </div>  
                     </div>
                 </div>
@@ -115,14 +143,16 @@
                     x-transition:enter-start="transform translate-y-2 opacity-0"
                     x-transition:enter-end="transform translate-y-0 opacity-100" >
 
-                    <div class="transition duration-700 ease-out h-[9rem] flex justify-between gap-5">
-                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
-                            <span class=" text-black_200 text-sm ">Capital invested</span>
-                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($btcCapitalTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">BTC</span> </div>
+                    <div class="transition duration-700 ease-out h-fit flex justify-between md:gap-5 gap-3">
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 md:text-sm text-s ">Capital invested</span>
+                            <div class=" mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($btcCapitalTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">BTC</span> </div>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/arrow-down.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.8rem]"> Start Date: &nbsp{{ $btc->isNotEmpty() ? $btc[0]->created_at->format('jS M, Y') : "-- -- --" }}. </span>
                         </div>  
-                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
-                            <span class=" text-black_200 text-sm ">Profit gathered</span>
-                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($btcProfitTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">BTC</span> </div>
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 md:text-sm text-s ">Profit gathered</span>
+                            <div class="mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($btcProfitTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">BTC</span> </div>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $btc->isNotEmpty() ? $btc[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $btc->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full " > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $btc->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $btc->isNotEmpty()  ? formatNumber(( $btc[0]->percentage / 100 ) * $btc[0]->amount /  $btc[0]->duration, 4) : '0' }} </span> </span>
                         </div>  
                     </div>
                 </div>
@@ -133,14 +163,16 @@
                     x-transition:enter-start="transform translate-y-2 opacity-0"
                     x-transition:enter-end="transform translate-y-0 opacity-100" >
 
-                    <div class="transition duration-700 ease-out h-[9rem] flex justify-between gap-5">
-                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
-                            <span class=" text-black_200 text-sm ">Capital invested</span>
-                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($ethCapitalTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">ETH</span> </div>
+                    <div class="transition duration-700 ease-out h-fit flex justify-between md:gap-5 gap-3">
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 md:text-sm text-s ">Capital invested</span>
+                            <div class=" mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($ethCapitalTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">ETH</span> </div>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/arrow-down.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.8rem]"> Start Date: &nbsp{{ $eth->isNotEmpty() ? $eth[0]->created_at->format('jS M, Y') : "-- -- --" }}. </span>
                         </div>  
-                       <div class=" border w-[50%] flex flex-col rounded-[18px] py-[2rem] px-[1.5rem] hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
-                            <span class=" text-black_200 text-sm ">Profit gathered</span>
-                            <div class=" mt-3 text-black_800 font-semibold text-xxl "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($ethProfitTotal, 4) }}</span> <span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" text-base text-black_200 ">ETH</span> </div>
+                       <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
+                            <span class=" text-black_200 md:text-sm text-s ">Profit gathered</span>
+                            <div class=" mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($ethProfitTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">ETH</span> </div>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $eth->isNotEmpty() ? $eth[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $eth->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full " > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $eth->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $eth->isNotEmpty()  ? formatNumber(( $eth[0]->percentage / 100 ) * $eth[0]->amount /  $eth[0]->duration, 4) : '0' }} </span> </span>
                         </div>  
                     </div>
                 </div>
@@ -149,15 +181,15 @@
         </div>
 
         {{-- recent activity section --}}
-        <div class=" items-center w-full h-fit text-black_800 p-6 rounded-[18px] border mt-6 ">
+        <div class=" items-center w-full h-fit text-black_800 md:p-6 p-4 rounded-[18px] border mt-6 ">
             
             {{-- Heading --}}
             <div class="flex items-center justify-between">
                 
                 {{-- heading title and hide/show icon --}}
-                <h2 class=" mr-4 font-extrabold text-lg">
+                <h3 class=" mr-4 font-extrabold md:text-lg sm:text-md text-base">
                     Activities
-                </h2>
+                </h3>
 
                 {{-- all activities button --}}
                 <div class=" flex ">
@@ -170,7 +202,7 @@
 
             {{-- Few activites --}}
 
-            @if($transfers->isEmpty() && $deposits->isEmpty() && $transfers->isEmpty() && $compounds->isEmpty() && $topups->isEmpty())
+            @if($transfers->isEmpty() && $deposits->isEmpty() && $withdrawals->isEmpty() && $compounds->isEmpty() && $topups->isEmpty())
              <div class=" text-center w-full">
                 No activites
              </div>
@@ -180,14 +212,14 @@
                 $latestDeposit = $deposits->sortByDesc('created_at')->first();
             @endphp
 
-            <div class="flex gap-5 w-full">
-                <img src="{{ asset('svg/topup.svg') }}" alt="deposit icon">
-                <div class="w-full border-b py-5 flex justify-between items-center">
+            <div class="flex md:gap-5 gap-4 w-full">
+                <img src="{{ asset('svg/topup.svg') }}" alt="deposit icon" class="md:w-[3.5rem] sm:w-[2.5rem] w-[2rem]">
+                <div class="w-full border-b md:py-5 py-3 flex justify-between items-center">
                     <div class="flex flex-col">
-                        <span class="text-base font-medium">Deposit <span class="uppercase">{{ $latestDeposit->token }}</span></span>
-                        <span class="text-success text-sm capitalize mt-2">confirmed <span class="text-black_200"> | {{ $latestDeposit->created_at->format('jS M, Y') }}</span></span>
+                        <span class="md:text-base sm:text-sm text-s font-medium">Deposit <span class="uppercase">{{ $latestDeposit->token }}</span></span>
+                        <span class="text-success md:text-sm sm:text-s text-xs capitalize md:mt-2 mt-1">confirmed <span class="text-black_200"> | {{ $latestDeposit->created_at->format('jS M, Y') }}</span></span>
                     </div>
-                    <span class="text-black_600 font-semibold">+{{ formatNumber($latestDeposit->amount, 2) }}  {{ $latestDeposit->token }}</span>
+                    <span class="w-fit text-black_600 font-semibold md:text-base sm:text-sm text-s">+{{ formatNumber($latestDeposit->amount, 2) }}  {{ $latestDeposit->token }}</span>
                 </div>
             </div>
         @else
@@ -200,14 +232,14 @@
              $latestCompound = $compounds->sortByDesc('created_at')->first();
             @endphp
 
-            <div class="flex gap-5 w-full">
-                <img src="{{ asset('svg/compound.svg') }}" alt="deposit icon">
-                <div class="w-full border-b py-5 flex justify-between items-center">
+            <div class="flex md:gap-5 gap-4 w-full">
+                <img src="{{ asset('svg/compound.svg') }}" alt="compound icon" class="md:w-[3.5rem] sm:w-[2.5rem] w-[2rem]">
+                <div class="w-full border-b md:py-5 py-3 flex justify-between items-center">
                     <div class="flex flex-col">
-                        <span class="text-base font-medium">Compound <span class="uppercase">{{ $latestCompound->token->name }}</span></span>
-                        <span class="{{$latestCompound->status == 1 ? 'text-success' : 'text-failed'}} text-sm capitalize mt-2">{{$latestCompound->status == 1 ? 'confirmed' : 'failed'}} <span class="text-black_200"> | {{ $latestCompound->created_at->format('jS M, Y') }}</span></span>
+                        <span class="md:text-base sm:text-sm text-s font-medium">Compound <span class="uppercase">{{ $latestCompound->token->name }}</span></span>
+                        <span class="{{$latestCompound->status == 1 ? 'text-success' : 'text-warning'}} md:text-sm sm:text-s text-xs capitalize md:mt-2 mt-1">{{$latestCompound->status == 1 ? 'successful' : 'processing...'}} <span class="text-black_200"> | {{ $latestCompound->created_at->format('jS M, Y') }}</span></span>
                     </div>
-                    <span class="text-black_600 font-semibold">+{{ formatNumber($latestCompound->amount, 2) }} {{ $latestCompound->token->name }}</span>
+                    <span class=" w-fit text-black_600 font-semibold md:text-base sm:text-sm text-s">+{{ formatNumber($latestCompound->amount, 2) }} {{ $latestCompound->token->name }}</span>
                 </div>
             </div>
         @else
@@ -220,14 +252,14 @@
             $latestWithdraw = $withdrawals->sortByDesc('created_at')->first();
         @endphp
 
-            <div class="flex gap-5 w-full">
-                <img src="{{ asset('svg/remove.svg') }}" alt="deposit icon">
-                <div class="w-full border-b py-5 flex justify-between items-center">
+            <div class="flex md:gap-5 gap-4 w-full">
+                <img src="{{ asset('svg/remove.svg') }}" alt="withdrawal icon" class="md:w-[3.5rem] sm:w-[2.5rem] w-[2rem]">
+                <div class="w-full border-b md:py-5 py-3 flex justify-between items-center">
                     <div class="flex flex-col">
-                        <span class="text-base font-medium">Withdraw <span class="uppercase">{{ $latestWithdraw->token->name }}</span> from <span class=" capitalize ">{{ $latestWithdraw->purse }}</span></span>
-                        <span class="{{$latestWithdraw->processed == 1 ? 'text-success' : 'text-failed'}} text-sm capitalize mt-2">{{$latestWithdraw->processed == 1 ? 'confirmed' : 'failed'}}<span class="text-black_200"> | {{ $latestWithdraw->created_at->format('jS M, Y') }}</span></span>
+                        <span class="md:text-base sm:text-sm text-s font-medium"> <span class="uppercase">{{ $latestWithdraw->token->name }}</span> withdrawal from <span class=" capitalize ">{{ $latestWithdraw->purse }}</span></span>
+                        <span class="{{$latestWithdraw->processed == 1 ? 'text-success' : 'text-warning'}} md:text-sm sm:text-s text-xs capitalize md:mt-2 mt-1">{{$latestWithdraw->processed == 1 ? 'successful' : 'processing...'}}<span class="text-black_200"> | {{ $latestWithdraw->created_at->format('jS M, Y') }}</span></span>
                     </div>
-                    <span class="text-black_600 font-semibold">-{{ formatNumber($latestWithdraw->amount, 2) }} {{ $latestWithdraw->token->name }}</span>
+                    <span class="w-fit text-black_600 font-semibold md:text-base sm:text-sm text-s">-{{ formatNumber($latestWithdraw->amount, 2) }} {{ $latestWithdraw->token->name }}</span>
                 </div>
             </div>
         @else
@@ -240,14 +272,14 @@
             $latestTopup = $topups->sortByDesc('created_at')->first();
         @endphp
 
-            <div class="flex gap-5 w-full">
-                <img src="{{ asset('svg/topup.svg') }}" alt="deposit icon">
-                <div class="w-full border-b py-5 flex justify-between items-center">
+            <div class="flex md:gap-5 gap-4 w-full">
+                <img src="{{ asset('svg/topup.svg') }}" alt="topup icon" class="md:w-[3.5rem] sm:w-[2.5rem] w-[2rem]">
+                <div class="w-full border-b md:py-5 py-3 flex justify-between items-center">
                     <div class="flex flex-col">
-                        <span class="text-base font-medium">Top up <span class="uppercase">{{ $latestTopup->token->name }}</span></span>
-                        <span class=" text-success text-sm capitalize mt-2"> Confirmed <span class="text-black_200"> | {{ $latestTopup->created_at->format('jS M, Y') }}</span></span>
+                        <span class="md:text-base sm:text-sm text-s font-medium">Top up <span class="uppercase">{{ $latestTopup->token->name }}</span></span>
+                        <span class="{{ $latestTopup->status == 1 ? 'text-success' : 'text-warning'}} md:text-sm sm:text-s text-xs capitalize md:mt-2 mt-1">{{$latestTopup->status == 1 ? 'successful' : 'processing...'}} <span class="text-black_200"> | {{ $latestTopup->created_at->format('jS M, Y') }}</span></span>
                     </div>
-                    <span class="text-black_600 font-semibold">+{{ formatNumber($latestTopup->amount, 2) }} {{ $latestTopup->token->name }}</span>
+                    <span class="w-fit text-black_600 font-semibold md:text-base sm:text-sm text-s">+{{ formatNumber($latestTopup->amount, 2) }} {{ $latestTopup->token->name }}</span>
                 </div>
             </div>
         @else
@@ -260,14 +292,14 @@
             $latestTransfer = $transfers->sortByDesc('created_at')->first();
         @endphp
 
-            <div class="flex gap-5 w-full">
-                <img src="{{ asset('svg/remove.svg') }}" alt="deposit icon">
-                <div class="w-full py-5 flex justify-between items-center">
-                    <div class="flex flex-col">
-                        <span class="text-base font-medium">Transfer <span class="uppercase">{{ $latestTransfer->token->name }}</span> to {{$latestTransfer->receiver}} </span>
-                        <span class=" text-success text-sm capitalize mt-2"> Confirmed <span class="text-black_200"> | {{ $latestWithdraw->created_at->format('jS M, Y') }}</span></span>
+            <div class="flex md:gap-5 gap-4 w-full">
+                <img src="{{ asset('svg/remove.svg') }}" alt="transfer icon" class="md:w-[3.5rem] sm:w-[2.5rem] w-[2rem]">
+                <div class="w-full md:py-5 py-3 flex justify-between items-center">
+                    <div class="flex flex-col w-[80%]">
+                        <span class="md:text-base sm:text-sm text-s font-medium">Transfer <span class="uppercase">{{ $latestTransfer->token->name }}</span> to {{$latestTransfer->receiver}} </span>
+                        <span class=" text-success md:text-sm sm:text-s text-xs capitalize md:mt-2 mt-1"> Confirmed <span class="text-black_200"> | {{ $latestWithdraw->created_at->format('jS M, Y') }}</span></span>
                     </div>
-                    <span class="text-black_600 font-semibold">-{{ formatNumber($latestTransfer->amount, 2) }} {{ $latestTransfer->token->name }}</span>
+                    <span class="w-fit text-black_600 font-semibold md:text-base sm:text-sm text-s">-{{ formatNumber($latestTransfer->amount, 2) }} {{ $latestTransfer->token->name }}</span>
                 </div>
             </div>
         @else
@@ -278,41 +310,45 @@
     </div>
 
        {{-- aside section/ getting started --}}
-        <div class="w-[25rem] {{ $account && $deposits->isNotEmpty() ? 'hidden' : 'block' }} h-fit border rounded-[18px] p-6 sticky top-[7.5rem]">
-            <h2 class=" mr-4 text-center font-extrabold text-lg">
+        <div class="lg:w-[25rem] md:w-full base:w-[20rem] w-full {{ $account && $deposits->isNotEmpty() ? 'hidden' : 'block' }} h-fit border rounded-[18px] md:p-6 p-4 lg:sticky md:relative base:sticky relative lg:top-[7.5rem] md:top-0 base:top-[5.5rem]">
+            <h3 class=" md:mr-4 text-center font-extrabold md:text-lg sm:text-md text-base">
                 Get started here
-            </h2>
+            </h3>
 
-            {{-- input wallets --}}
-            <div class='relative'>
-                <svg class="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="65px" height="65px">
-                    <circle cx="32.5" cy="32.5" r="28" stroke-linecap="round"/>
-                  </svg>                                                  
-                <div class='bg-blue_600 rounded-[20px] w-full p-5 mt-8'>
-                    <div class="flex text-sm text-white font-semibold justify-between items-center w-full mb-5">
-                        <div class=" text-s rounded-full flex items-center justify-center w-[4.063rem] h-[4.063rem] bg-blue_600 border-4 border-[#6586FC]">
-                            {{ (count($this->wallets) == 1) ? '33' : ((count($this->wallets) == 2) ? '66' : ((count($this->wallets) == 3) ? '100' : '0')) }}%
+            <div class="w-full sm:flex items-center justify-center overflow overflow-scroll">
+                <div class="w-fit flex items-center justify-center lg:gap-0 md:gap-8 base:gap-0 gap-4 lg:flex-col md:flex-row base:flex-col flex-row md:mt-0 ">
+                    {{-- add wallets --}}
+                    <div class='relative lg:w-full md:w-[47%] base:w-full sm:w-[50%] w-[15rem]'>
+                        <svg class="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="65px" height="65px">
+                            <circle cx="32.5" cy="32.5" r="28" stroke-linecap="round"/>
+                        </svg>                                                  
+                        <div class=' bg-blue_600 rounded-[20px] lg:w-full w-full p-5 mt-8'>
+                            <div class="flex text-sm text-white font-semibold justify-between items-center md:w-full w-[12rem] mb-5">
+                                <div class=" text-s rounded-full flex items-center justify-center w-[4.063rem] h-[4.063rem] bg-blue_600 border-4 border-[#6586FC]">
+                                    {{ (count($this->wallets) == 1) ? '33' : ((count($this->wallets) == 2) ? '66' : ((count($this->wallets) == 3) ? '100' : '0')) }}%
+                                </div>
+                                <span class=" w-[60%]">Input your wallet address</span>
+                            </div>
+                            <span onclick="addWalletsQuery()"><x-button type='primaryDM'>{{ count($this->wallets) < 1 ? 'Begin' : (count($this->wallets) <= 2 ? 'Finish up' : 'Done') }}</x-button></a>
                         </div>
-                        <span class=" w-[60%]">Input your wallet address</span>
                     </div>
-                    <a href="{{route('settings')}}"><x-button type='primaryDM'>{{ count($this->wallets) < 1 ? 'Begin' : (count($this->wallets) <= 2 ? 'Finish up' : 'Done') }}</x-button></a>
-                </div>
-            </div>
-
-            {{-- make deposit --}}
-            <div class="relative">
-                <svg class="svg2 svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="65px" height="65px">
-                    <circle cx="32.5" cy="32.5" r="28" stroke-linecap="round"/>
-                  </svg> 
-            </div>
-            <div class='{{ !$account ? 'bg-gray_500 border' : 'bg-blue_600 border-none' }} rounded-[20px] w-full p-5 mt-8'>
-                <div class="flex text-sm {{ !$account ? 'text-black_800 opacity-60' : 'text-white opacity-100'}} font-semibold justify-between items-center w-full mb-5">
-                    <div class=" rounded-full text-s flex items-center justify-center w-[4.063rem] h-[4.063rem] bg-transparent border-4 {{ $account ? 'border-[#6586FC]' : 'border-[#F6F7F9]'}}">
-                        {{ $deposits->isNotEmpty() ? '100' : '0' }}%
+    
+                    {{-- make deposit --}}
+                    <div class="relative lg:w-full md:w-[47%] base:w-full sm:w-[50%] w-[15rem]">
+                        <svg class="svg2 svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="65px" height="65px">
+                            <circle cx="32.5" cy="32.5" r="28" stroke-linecap="round"/>
+                        </svg> 
+                        <div class='{{ $deposits->isEmpty() ? 'bg-gray_500 border' : 'bg-blue_600 border-none' }} rounded-[20px] lg:w-full w-full p-5 mt-8'>
+                            <div class="flex text-sm {{ $deposits->isEmpty() ? 'text-black_800 opacity-60' : 'text-white opacity-100'}} font-semibold justify-between items-center w-full mb-5">
+                                <div class=" rounded-full text-s flex items-center justify-center w-[4.063rem] h-[4.063rem] bg-transparent border-4 {{ $deposits->isNotEmpty() ? 'border-[#6586FC]' : 'border-[#F6F7F9]'}}">
+                                    {{ $deposits->isNotEmpty() ? '100' : '0' }}%
+                                </div>
+                                <span class=" w-[60%]">Make your first deposit</span>
+                            </div>
+                            <a href="{{ route('invest')}}" class="{{ !$account ? 'pointer-events-none' : 'cursor-pointer' }}"><x-button type="{{ $deposits->isEmpty() ? 'deactivated' : 'primaryDM' }}" >{{ $deposits->isEmpty() ? 'Begin' : 'Done' }}</x-button></a>
+                        </div>
                     </div>
-                    <span class=" w-[60%]">Make your first deposit</span>
                 </div>
-                <a href="{{route('invest')}}"><x-button type="{{ !$account ? 'deactivated' : 'primaryDM' }}" >Begin</x-button></a>
             </div>
         </div>
     </main>
@@ -374,7 +410,7 @@
                 </div> --}}
                 {{-- 
                 <button
-                    class=" border border-gray-700 btn-clip flex items-center text-gray-500 rounded-sb py-1 w-full lg:w-auto mt-3 lg:mt-0 justify-center px-4 font-roboto"
+                    class=" border border-gray-700 btn-clip flex items-center text-gray-500 rounded-sb py-1 w-full lg:w-auto mt-3 lg:mt-0 justify-center px-4 "
                     data-clipboard-target="#copy-target">
                     <span class=" mr-2 font-semibold">Copy</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class=" text-secondary" width="20" height="20"

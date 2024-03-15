@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Plan;
 use App\Models\PlanToken;
 use App\Models\Token;
+use App\Models\Deposit as ModelsDeposit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
@@ -29,6 +30,7 @@ class Deposit extends Component
 
         // Reset the selectedPlan property
         $this->selectedPlan = null;
+        $this->amount = null;
     }
 
     public function updatedSelectedPlan() {
@@ -120,23 +122,10 @@ class Deposit extends Component
             'address' => $this->address,
             'percentage' => $this->percentage,
             'duration' => $this->duration,
+            'performance_fee' => $this->performance_fee,
             'status' => 0,
         ]);
     }
-
-    // public function validateTwo() {
-    //     Validator::make(
-    //         ['token' => 'required'],
-    //         ['amount' => 'required']
-    //     )->validate();
-    // }
-
-    // public function validateThree() {
-    //     Validator::make(
-    //         ['token' => 'required'],
-    //         ['amount' => 'required']
-    //     )->validate();
-    // }
 
     function next() {
         
