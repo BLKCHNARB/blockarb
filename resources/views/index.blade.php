@@ -49,7 +49,7 @@
     <main class=" antialiased relative">
               
             <nav class="sticky top-0 z-30 bg-white padding-y base:px-10 px-5 flex gap-6 justify-between w-full items-center" x-data="{ open: false }">
-                <a href="{{ route('landing') }}"><img class=" base:w-36 w-24 md:w-44" src="{{ asset('svg/logo.svg') }}" alt=""></a>
+                <a href="{{ route('landing') }}"><img class=" base:w-36 w-28 md:w-44" src="{{ asset('svg/logo.svg') }}" alt=""></a>
 
                 <div @click="open = true" class=" md:hidden cursor-pointer hover:scale-105">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -113,9 +113,6 @@
                                 <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all whitespace-nowrap">
                                     <a href="{{ route('liquidity-enhancement') }}">Liquidity Enhancement</a>
                                 </li>
-                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
-                                    <a href="{{ route('risk-management') }}">Risk Management</a>
-                                </li>
                                 <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] tranistion-all">
                                     <a href="{{ route('otc-trading') }}">OTC trading</a>
                                 </li>
@@ -144,7 +141,7 @@
                         </div>
                     </li>
 
-                    <li><a href="#contact-us" class= "border border-transparent bg-transparent rounded-[10px] p-2 hover:border-blue_300 hover:text-blue_600">Contact us</a></li>
+                    <li><a href="#contact-us" class= "border border-transparent bg-transparent rounded-[10px] p-2 hover:border-blue_300 hover:text-blue_600 leading-none whitespace-nowrap">Contact us</a></li>
                 </ul>
 
                 {{-- mobile view --}}
@@ -152,7 +149,7 @@
                 <div x-show="open" x-transition.duration.600ms.origin.top.right
                     class="absolute bg-gray_50 p-7 h-screen z-50 md:hidden w-[70%] top-0 right-0" @click.away="open = false">
 
-                    <div class="flex mb-5 justify-end">
+                    <div class="flex mb-5 justify-end cursor-pointer">
                         <svg @click="open = false" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -172,8 +169,8 @@
 
                     <ul class=" flex flex-col gap-10" >
                         @if (Auth::user())
-                        <li class=" font-semibold hover:text-blue_600">
-                            <a onclick="{{ route('home') }}" >
+                        <li class=" font-semibold cursor-pointer hover:text-blue_600">
+                            <a href="{{ route('home') }}" >
                                 Dashboard
                             </a>
                         </li>
@@ -231,9 +228,6 @@
                                     <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all whitespace-nowrap">
                                         <a href="{{ route('liquidity-enhancement') }}">Liquidity Enhancement</a>
                                     </li>
-                                    <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
-                                        <a href="{{ route('risk-management') }}">Risk Management</a>
-                                    </li>
                                     <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] tranistion-all">
                                         <a href="{{ route('otc-trading') }}">OTC trading</a>
                                     </li>
@@ -288,7 +282,7 @@
                                 </a>
                             </li>
                             
-                            <li class=" font-semibold">
+                            <li>
                                 <a href="{{ route('register') }}">
                                     <x-button class="">Get Started</x-button>
                                 </a>
@@ -333,7 +327,9 @@
                                     <span onclick="{{ route('home') }}" class=" dot-container">
                                         <div class=" opacity-0  w-[6px] h-[6px] rounded-full bg-blue_600" ></div>
                                         <span class="ml-5">
-                                            Dashboard
+                                            <a href="{{ route('home') }}" >
+                                                Dashboard
+                                            </a>
                                         </span>
                                     </span>
 
@@ -376,19 +372,19 @@
 
            {{-- Hero section --}}
             <section class="">
-                <div class="relative h-fit w-full bg-blue_600 ">
+                <div class="relative h-fit w-full bg-[#476efc7a] ">
                         
                     <video autoplay muted loop class="absolute w-full h-full object-cover bg-no-repeat">
-                        <source src="{{ asset('hero-vid1.mp4') }}" type="video/mp4">
+                        <source src="{{ asset('hero-vid.mp4') }}" type="video/mp4">
                     </video>
                     
-                    <div class=" bg-[#0000009a] md:px-20 px-10 lg:py-48 base:py-32 py-20 z-10 relative flex flex-col justify-center ">    
-                        <div class="xl:w-[55%] md:w-[70%] w-full flex flex-col base:items-start items-center">
-                            <h1 class="font-extrabold lg:text-xxxxl md:text-xxxl base:text-xxl text-xl text-white">Earn while you Hodl</h1>
-                            <p class=" text-white base:text-start text-center md:text-lg base:text-base sm:text-sm text-s base:my-4 my-2">Leveraging advancements in research and development to deliver sustainable investment results in the blockchain space through all market conditions.</p>
+                    <div class=" bg-[#476efc7a] md:px-20 px-10 lg:py-48 base:py-36 py-24 z-10 relative flex flex-col justify-center ">    
+                        <div class=" text-white xl:w-[55%] md:w-[70%] w-full flex flex-col base:items-start items-center">
+                            <h1 class=" text-shadow font-extrabold lg:text-xxxxl md:text-xxxl base:text-xxl text-xl">Earn while you Hodl</h1>
+                            <p class=" text-shadow base:text-start text-center md:text-lg base:text-base sm:text-sm text-s base:my-4 my-2 text-extrabold">Leveraging advancements in research and development to deliver sustainable investment results in the blockchain space through all market conditions.</p>
                             <div class="base:w-[30%] w-[40%] base:mt-10 mt-5">
                                 <a href="{{ route('register') }}" >
-                                    <x-button type='secondary' >Get Started</x-button>
+                                    <x-button >Get Started</x-button>
                                 </a>
                             </div>
                             
@@ -397,38 +393,6 @@
                 </div>
             </section> 
             
-            {{-- centralized section --}}
-            <section class=" padding-y padding-x md:mt-0 base:mt-10 mt-16 flex base:flex-row flex-col justify-center items-center md:gap-10 gap-5">
-                <div class="base:w-[30%] base:mb-0 mb-5 text-center w-full">
-                    <h3 class=" lg:whitespace-nowrap font-extrabold base:text-[1.5rem] text-[1.2rem] ">Centralized Exchanges</h3>
-                    <p class="mt-2 text-black_200 sm-text mx-auto w-[80%]">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit veniam, laudantium qui quae iu</p>
-                </div>
-                <div class=" flex justify-center flex-wrap base:w-[70%] w-full ">
-                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200"><img  src="{{ asset('svg/binance.svg') }}" alt="" class="md:w-[11rem] sm:w-[7rem] w-[10rem]"></span>
-                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-l"><img  src="{{ asset('images/coinbase.svg') }}" alt="" class="md:w-[11rem] sm:w-[7rem] w-[10rem]"></span>
-                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-l"><img src="{{ asset('svg/bybit.svg') }}" alt="" class="base:w-[6rem] w-[4.5rem]"></span>
-                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-t"><img src="{{ asset('svg/okx.svg') }}" alt="" class="base:w-[6rem] w-[4.5rem]"></span>
-                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-t border-l"><img src="{{ asset('svg/upbit.svg') }}" alt="" class="base:w-[2.2rem] w-[1.7rem]"><span class=" text-blue-900 base:text-[1.8rem] text-[1.2rem] font-bold ml-1">upbit</span></span>
-                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-l border-t"><img src="{{ asset('svg/kraken.svg') }}" alt="" class="md:w-[10rem] sm:w-[6rem] w-[8rem]"></span>
-                </div>
-            </section>
-
-            {{-- decentralized section --}}
-            <section class=" padding-y md:mt-0 base:mt-10 mt-16 padding-x flex base:flex-row-reverse flex-col justify-center items-center md:gap-10 gap-5">
-                <div class="base:w-[30%] base:mb-0 mb-5 text-center w-full">
-                    <h3 class=" lg:whitespace-nowrap font-extrabold base:text-[1.5rem] text-[1.2rem] ">Decentralized Exchanges</h3>
-                    <p class="mt-2 text-black_200 sm-text mx-auto w-[80%]">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit veniam, laudantium qui quae iu</p>
-                </div>
-                <div class=" flex justify-center flex-wrap base:w-[70%] w-full ">
-                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200"><img src="{{ asset('svg/jupiter.svg') }}" alt="" class="base:w-[2.9rem] w-[2.3rem]"><span class=" font-[Manrope] text-blue-900 base:text-[1.9rem] text-[1.1rem] font-bold ml-0">Jupiter</span></span>
-                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-l"><img  src="{{ asset('svg/uniswap.svg') }}" alt="" class="md:w-[14rem] sm:w-[7rem] w-[10rem]"></span>
-                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-l"><img  src="{{ asset('svg/dydx.svg') }}" alt="" class="base:w-[7rem] w-[5.5rem]"></span>
-                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-t"><img src="{{ asset('svg/raydium.svg') }}" alt="" class="md:w-[16rem] sm:w-[9rem] w-[12rem]"></span>
-                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-t border-l"><img src="{{ asset('svg/pancake.svg') }}" alt="" class="base:w-[2.1rem] w-[1.7rem]"><span class=" font-[Outfit] text-teal-500 base:text-[1.8rem] text-[1.1rem] font-semibold base:ml-2 ml-1">Pancake</span></span>
-                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-t border-l"><img src="{{ asset('svg/curve.svg') }}" alt="" class="base:w-[5rem] w-[3.4rem]"><span class=" font-[Manrope] text-red-500 base:text-[1.8rem] text-[1.1rem] font-bold -ml-3">curve</span></span>
-                </div>
-            </section>
-
             {{-- mission section --}}
             <section class="padding-y padding-x">
                 <div class=" md:gap-10 gap-14 py-20 flex justify-center md:flex-nowrap flex-wrap">
@@ -484,7 +448,7 @@
             {{-- services section --}}
             <section class=" base:pt-20 md:pb-20 pb-16 py-10 padding-x bg-blue_100 ">
                 <div class="base:-mb-7 -mb-10">
-                    <h2 class="font-extrabold base:text-[1.7rem] text-[1.2rem] base:text-start text-center ">Services We Provide</h2>
+                    <h2 class="font-extrabold base:text-[1.7rem] text-[1.2rem] base:text-start text-center "><span class="text-blue_600">Services</span> We Provide</h2>
                 </div>
 
                 <div class=" gap-10 py-20 flex justify-center md:flex-nowrap flex-wrap">
@@ -545,24 +509,14 @@
             {{-- about section --}}
             <section class="md:py-20 py-10 padding-x base:text-start text-center">
                 <div class="mb-5 md:block hidden">
-                    <h3 class=" font-extrabold base:text-[1.7rem] text-[1.2rem]">About Us</h3>
+                    <h3 class=" font-extrabold base:text-[1.7rem] text-[1.2rem]">About <span class="text-blue_600">Us</span></h3>
                 </div>
                 <div class=" flex gap-10 items-center base:justify-between justify-center md:flex-row flex-col-reverse">
                     <div class=" md:w-[58%] w-full ">
                         <div class="mb-5 md:hidden block">
                             <h4 class=" font-extrabold base:text-[1.7rem] text-[1.1rem]">About Us</h4>
                         </div>
-                        <p class=" base-text leading-7">
-                            Blockarb is committed to delivering an exceptional investment service, catering to
-                                individual,
-                                family office, and institutional investors seeking exposure in the digital assets
-                                market. Our
-                                core mission revolves around the prudent deployment of capital in digital asset markets,
-                                all
-                                while prioritizing the protection of investor capital from the inherent volatility of
-                                the space.
-                        </p> <br>
-
+                        
                         <p class=" base-text leading-7">
                             At blockarb , we employ state-of-the-art technology to execute a straightforward yet
                                 potent
@@ -573,6 +527,17 @@
                                 from any encumbrances such as penalties or restrictions. This empowers our clients to
                                 make
                                 agile decisions in response to emerging market opportunities.
+                        </p> <br>
+
+                        <p class=" base-text leading-7">
+                            Blockarb is committed to delivering an exceptional investment service, catering to
+                                individual,
+                                family office, and institutional investors seeking exposure in the digital assets
+                                market. Our
+                                core mission revolves around the prudent deployment of capital in digital asset markets,
+                                all
+                                while prioritizing the protection of investor capital from the inherent volatility of
+                                the space.
                         </p>
 
                        <div class="w-full mt-10 flex base:justify-end justify-center">
@@ -716,9 +681,9 @@
 
             {{-- we good --}}
             <section class=" padding-y padding-x text-black ">
-                <div class=" pt-10 pb-28 flex base:flex-row flex-col base:gap-20 gap-10 base:justify-between justify-center items-center">
+                <div class=" pt-10 sm:pb-28 flex base:flex-row flex-col base:gap-20 gap-10 base:justify-between justify-center items-center">
                     <div class="base:w-[35%] w-full base:mt-20 base:text-start text-center">
-                        <h3 class=" font-extrabold base:text-[1.7rem] text-[1.2rem] ">We are good at what we do</h3>
+                        <h3 class=" font-extrabold base:text-[1.7rem] text-[1.2rem] "><span class="text-blue_600">We are good</span> at what we do</h3>
                         <p class="base-text text-black_400 mt-5">With a relentless investment into research, we are always equipped with the right data to develop tailor made solutions and products best suited to an ever changing financial landscape.</p>
                     </div>
                     <div class=" lg:w-[60%] base:[70%] sm:w-full w-[90%] sm:flex-row flex-col flex gap-7 justify-center items-center">
@@ -726,7 +691,7 @@
                             <div class=" good-card good-card-up">
                                 <img src="{{ asset('svg/research.svg') }}" alt="" class="w-[3rem]">
     
-                                <h5 class=" heading ">Quantitative Research</h5>
+                                <h4 class=" heading ">Quantitative Research</h4>
                                 <p class=" base-text">
                                     With a relentless investment into research, we are always equipped with the right
                                     data
@@ -739,7 +704,7 @@
                             <div class=" good-card good-card-down">
                                 <img src="{{ asset('svg/technology.svg') }}" alt="" class="w-[3rem]">
     
-                                <h5 class=" heading ">Technology</h5>
+                                <h4 class=" heading ">Technology</h4>
                                 <p class=" base-text">
                                     Advancement in technology plays a great role in staying ahead of the times.
                                     Innovation plays a huge role in the funds ability to deliver the time tested profit
@@ -752,7 +717,7 @@
                             <div class=" good-card good-card-up">
                                 <img src="{{ asset('svg/risk.svg') }}" alt="" class="w-[3rem]">
     
-                                <h5 class=" heading ">Risk Management</h5>
+                                <h4 class=" heading ">Risk Management</h4>
                                 <p class=" base-text">
                                     A strict adherence to risk management not only guarantees that one does not give
                                     back profits to the market but also creates the perfect environment for asymmetric
@@ -763,7 +728,7 @@
                             <div class=" good-card good-card-down">
                                 <img src="{{ asset('svg/talent.svg') }}" alt="" class="w-[3rem]">
     
-                                <h5 class=" heading ">Talent</h5>
+                                <h4 class=" heading ">Talent</h4>
                                 <p class=" base-text">
                                     We believe that diverse teams with complementary strengths are critical to
                                     sustainable success hence our dedicated investment into seeking, developing and
@@ -776,174 +741,113 @@
                 
             </section>
 
-            {{-- <section class=" py-20 mx-auto xl:max-w-screen-xl lg:max-w-screen-lg px-4 sm:px-8 lg:px-10">
-                <div class="mb-20">
-                    <div class="">
-                        <h4 class=" text-5xl mb-5 font-bold text-primary">Our Investment Process</h4>
-                        <div class="grid grid-cols-1 lg:grid-cols-12">
-                            <div class=" lg:col-span-6">
-                                <p class=" text-s">BlockArb has a thorough and detailed investment process. The
-                                    investment process is divided into 6 phases</p>
-                            </div>
-                        </div>
+            {{-- investment process --}}
+            <section class=" py-20 padding-x mx-auto text-center">
+                <div class=" w-full flex flex-col items-center">
+                    <h4 class=" font-extrabold base:text-[1.7rem] text-[1.2rem] ">Our <span class="text-blue_600">Investment</span> Process</h4>
+                    <p class=" base-text text-black_400 mt-5 base:w-[60%] w-[80%]">BlockArb has a thorough and detailed investment process. The investment process is divided into 6 phases</p>
+                </div>
+
+                <div class="flex flex-wrap w-full sm:gap-8 gap-10 sm:mt-14 mt-7 justify-center ">
+                    <div class=" process-card ">
+                        <img src="{{ asset('svg/data-collection.svg') }}" alt="">
+                        <h4 class=" heading ">Data Collection</h4>
+                        <p class=" text-sm">In the first phase of our investment process we collect data from a variety of traditional and alternative sources.</p>
                     </div>
-                </div>
-
-                <div class=" lg:max-w-3xl xl:max-w-4xl mx-auto">
-                    <div class=" grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-12">
-                        <div class=" p-10">
-                            <div>
-                                <img class=" w-1/3" src="{{ asset('images/processing.svg') }}" alt="">
-                            </div>
-                            <div class="mt-10">
-                                <h2 class=" font-bold text-2xl mb-3">Data Collection</h2>
-                                <p class=" mb-5 text-sm">In the first phase of our investment process we collect data
-                                    from
-                                    a
-                                    variety
-                                    of traditional and alternative sources.</p>
-                                <a href="" class=" text-sm text-blue-600">Read More</a>
-                            </div>
-                        </div>
-
-                        <div class=" p-10">
-                            <div>
-                                <img class=" w-1/3" src="{{ asset('images/financial.svg') }}" alt="">
-                            </div>
-                            <div class="mt-10">
-                                <h2 class=" font-bold text-2xl mb-3">Data Cleaning</h2>
-                                <p class=" mb-5 text-sm">We use proprietary automated algorithms to clean the vast
-                                    amounts
-                                    of data at our disposal.</p>
-                                <a href="" class=" text-sm text-blue-600">Read More</a>
-                            </div>
-                        </div>
-
-                        <div class=" p-10">
-                            <div>
-                                <img class=" w-1/3" src="{{ asset('images/analysis.svg') }}" alt="">
-                            </div>
-                            <div class="mt-10">
-                                <h2 class=" font-bold text-2xl mb-3">Data Analysis</h2>
-                                <p class=" mb-5 text-sm">Our quantitative researchers analyze the data sets processed
-                                    in
-                                    the previous step using sophisticated and advanced statistical methods</p>
-                                <a href="" class=" text-sm text-blue-600">Read More</a>
-                            </div>
-                        </div>
-
-                        <div class=" p-10">
-                            <div>
-                                <img class=" w-1/3" src="{{ asset('images/backtesting.svg') }}" alt="">
-                            </div>
-                            <div class="mt-10">
-                                <h2 class=" font-bold text-2xl mb-3">Backtesting</h2>
-                                <p class=" mb-5 text-sm">After the data has been thoroughly analyzed, our quants apply
-                                    the
-                                    scientific method to the financial data</p>
-                                <a href="" class=" text-sm text-blue-600">Read More</a>
-                            </div>
-                        </div>
-
-                        <div class=" p-10">
-                            <div>
-                                <img class=" w-1/3" src="{{ asset('images/pilot.svg') }}" alt="">
-                            </div>
-                            <div class="mt-10">
-                                <h2 class=" font-bold text-2xl mb-3">Pilot Test</h2>
-                                <p class=" mb-5 text-sm">After backtesting, we test them in a pilot live production
-                                    environment with proprietary capital for a suitable period of time before offering
-                                    them
-                                    to our clients.</p>
-                                <a href="" class=" text-sm text-blue-600">Read More</a>
-                            </div>
-                        </div>
-
-                        <div class=" p-10">
-                            <div>
-                                <img class=" w-1/3" src="{{ asset('images/production.svg') }}" alt="">
-                            </div>
-                            <div class="mt-10">
-                                <h2 class=" font-bold text-2xl mb-3">Production</h2>
-                                <p class=" mb-5 text-sm">Having confirmed that pilot trading returns are consistent
-                                    with
-                                    the backtest and what we expected, our investment team allows our clients to invest
-                                    in
-                                    the new investment product.</p>
-                                <a href="" class=" text-sm text-blue-600">Read More</a>
-                            </div>
-                        </div>
+                    
+                    <div class=" process-card ">
+                        <img src="{{ asset('svg/1.svg') }}" alt="">
+                        <h4 class=" heading ">Data Cleaning</h4>
+                        <p class=" text-sm">We use proprietary automated algorithms to clean the vast amounts of data at our disposal.</p>
                     </div>
-                </div>
-            </section> --}}
 
-            {{-- <section class=" bg-clients bg-cover h-scree relative ">
-                <div
-                    class="absolute top-0 bg-gradient-to-r from-primary opacity-90 to-primary-700 left-0 w-full h-full -z-0">
-                </div>
-                <div class="py-20 mx-auto lg:max-w-screen-lg px-4 sm:px-8 lg:px-10 text-gray-100">
-                    <div class="grid grid-cols-12 relative z-0">
-                        <div class=" col-span-10">
-                            <h3 class=" text-8xl">Our <span class=" text-secondary">Clients</span></h3>
-                            <h5 class=" mt-14 text-lg leading-relaxed">
-                                We work with entrepreneurs, corporate executives, angel investors, private wealth
-                                managers, and other high-net worth individuals who need to outsource the investment
-                                management process. When managing investments on behalf of high networth
-                                individual(HNWI) investors, we work closely with them to understand their investment
-                                goals, current financial situation and present to them our products that suit their
-                                taste as they choose.
-                            </h5>
-                        </div>
+                    <div class=" process-card ">
+                        <img src="{{ asset('svg/2.svg') }}" alt="">
+                        <h2 class=" heading ">Data Analysis</h2>
+                        <p class=" text-sm">Our quantitative researchers analyze the data sets processed in the previous step using sophisticated and advanced statistical methods</p>
+                    </div>   
+
+                    <div class=" process-card ">
+                        <img src="{{ asset('svg/6.svg') }}" alt="">
+                        <h2 class=" heading ">Backtesting</h2>
+                        <p class=" text-sm">After the data has been thoroughly analyzed, our quants apply the scientific method to the financial data</p>
+                    </div>
+
+                    <div class=" process-card ">
+                        <img src="{{ asset('svg/4.svg') }}" alt="">
+                        <h4 class=" heading ">Pilot Test</h4>
+                        <p class=" text-sm">After backtesting, we test them in a pilot live production environment with proprietary capital for a suitable period of time before offering them to our clients.</p>
+                    </div>
+                              
+                    <div class=" process-card ">
+                        <img src="{{ asset('svg/3.svg') }}" alt="">
+                        <h4 class=" heading ">Deployment</h4>
+                        <p class=" text-sm">Having confirmed that pilot trading returns are consistent with the backtest and what we expected, our investment team allows our clients to invest in the new investment product.</p>
                     </div>
                 </div>
             </section>
 
-            <section class=" py-20 bg-gray-100 ">
-                <div class="mx-auto xl:max-w-screen-xl lg:max-w-screen-lg px-4 sm:px-8 lg:px-10">
-                    <div class=" grid grid-cols-1 md:grid-cols-2 gap-12">
-                        <div class=" text-gray-00">
-                            <div class=" mb-10">
-                                <h3 class=" font-bold text-5xl text-primary">Have an Inquiry?</h3>
-                                <h5 class="text-base mt-5">Drop a Message</h5>
-                            </div>
+           {{-- our client --}}
+            <section class=" bg-blue_100 padding-x base:py-20 py-10 ">
+                <div class=" bg-white base:p-16 p-10 rounded-[20px] text-center ">
+                    <h3 class="font-extrabold base:text-[1.7rem] text-[1.2rem]">Our <span class=" text-blue_600">Clients</span></h3>
+                    <p class="mt-3 base-text text-neutral_800 leading-7">
+                        We work with entrepreneurs, corporate executives, angel investors, private wealth
+                        managers, and other high-net worth individuals who need to outsource the investment
+                        management process. When managing investments on behalf of high networth
+                        individual(HNWI) investors, we work closely with them to understand their investment
+                        goals, current financial situation and present to them our products that suit their
+                        taste as they choose.
+                    </p>
+                </div>
+            </section>
 
-                            <form action="">
-                                <div class=" pb-12">
-                                    <label for="name" />
-                                    <input type="text"
-                                        class=" bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b-2"
-                                        placeholder="Name">
-                                </div>
+            {{-- centralized section --}}
+            <section class=" padding-y padding-x md:mt-0 base:mt-10 mt-16 flex base:flex-row flex-col justify-center items-center md:gap-10 gap-5">
+                <div class="base:w-[30%] base:mb-0 mb-5 text-center w-full">
+                    <h3 class=" lg:whitespace-nowrap font-extrabold base:text-[1.5rem] text-[1.2rem] ">Centralized <span class="text-blue_600">Exchanges</span></h3>
+                    <p class="mt-2 text-black_200 sm-text mx-auto w-[80%]">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit veniam, laudantium qui quae iu</p>
+                </div>
+                <div class=" flex justify-center flex-wrap base:w-[70%] w-full ">
+                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200"><img  src="{{ asset('svg/binance.svg') }}" alt="" class="md:w-[11rem] sm:w-[7rem] w-[10rem]"></span>
+                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-l"><img  src="{{ asset('images/coinbase.svg') }}" alt="" class="md:w-[11rem] sm:w-[7rem] w-[10rem]"></span>
+                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-l"><img src="{{ asset('svg/bybit.svg') }}" alt="" class="base:w-[6rem] w-[4.5rem]"></span>
+                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-t"><img src="{{ asset('svg/okx.svg') }}" alt="" class="base:w-[6rem] w-[4.5rem]"></span>
+                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-t border-l"><img src="{{ asset('svg/upbit.svg') }}" alt="" class="base:w-[2.2rem] w-[1.7rem]"><span class=" text-blue-900 base:text-[1.8rem] text-[1.2rem] font-bold ml-1">upbit</span></span>
+                    <span class="lg:px-10 md:px-8 base:py-16 base:p-6 px-3 py-[3.2rem] w-[33%] flex items-center justify-center border-black_200 border-l border-t"><img src="{{ asset('svg/kraken.svg') }}" alt="" class="md:w-[10rem] sm:w-[6rem] w-[8rem]"></span>
+                </div>
+            </section>
 
-                                <div class=" pb-12">
-                                    <label for="email" />
-                                    <input type="email"
-                                        class=" bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b-2"
-                                        placeholder="Email">
-                                </div>
+            {{-- decentralized section --}}
+            <section class=" padding-y md:mt-0 base:mt-10 mt-16 padding-x flex base:flex-row-reverse flex-col justify-center items-center md:gap-10 gap-5">
+                <div class="base:w-[30%] base:mb-0 mb-5 text-center w-full">
+                    <h3 class=" lg:whitespace-nowrap font-extrabold base:text-[1.5rem] text-[1.2rem] ">Decentralized <span class="text-blue_600">Exchanges</span></h3>
+                    <p class="mt-2 text-black_200 sm-text mx-auto w-[80%]">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit veniam, laudantium qui quae iu</p>
+                </div>
+                <div class=" flex justify-center flex-wrap base:w-[70%] w-full ">
+                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200"><img src="{{ asset('svg/jupiter.svg') }}" alt="" class="base:w-[2.9rem] w-[2.3rem]"><span class=" font-[Manrope] text-blue-900 base:text-[1.9rem] text-[1.1rem] font-bold ml-0">Jupiter</span></span>
+                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-l"><img  src="{{ asset('svg/uniswap.svg') }}" alt="" class="md:w-[14rem] sm:w-[7rem] w-[10rem]"></span>
+                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-l"><img  src="{{ asset('svg/dydx.svg') }}" alt="" class="base:w-[7rem] w-[5.5rem]"></span>
+                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-t"><img src="{{ asset('svg/raydium.svg') }}" alt="" class="md:w-[16rem] sm:w-[9rem] w-[12rem]"></span>
+                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-t border-l"><img src="{{ asset('svg/pancake.svg') }}" alt="" class="base:w-[2.1rem] w-[1.7rem]"><span class=" font-[Outfit] text-teal-500 base:text-[1.8rem] text-[1.1rem] font-semibold base:ml-2 ml-1">Pancake</span></span>
+                    <span class="lg:p-10 md:p-8 base:py-12 base:p-6 px-3 py-9 w-[33%] flex items-center justify-center border-black_200 border-t border-l"><img src="{{ asset('svg/curve.svg') }}" alt="" class="base:w-[5rem] w-[3.4rem]"><span class=" font-[Manrope] text-red-500 base:text-[1.8rem] text-[1.1rem] font-bold -ml-3">curve</span></span>
+                </div>
+            </section>
 
-                                <div class=" pb-12">
-                                    <label for="name" />
-                                    <textarea
-                                        class=" w-full bg-transparent border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b-2"
-                                        placeholder="Write your message here..." name="message" id="message" cols="30" rows="5"></textarea>
-                                    {{-- <input type="text"
-                                            class=" bg-transparent w-full border-t-0 focus:ring-0 focus:outline-none focus:border-non border-l-0 border-r-0 border-b-2"
-                                            placeholder="Name"> --}}
-                                {{-- </div>
-
-                                <a href=""
-                                    class=" bg-secondary py-2 px-5 text-gray-800 rounded-sm mt-5 font-bold">Submit</a>
-                            </form>
-                        </div>
-
-                        <div>
-                            <img src="{{ asset('images/inquiry.svg') }}" alt="inquiry">
-                        </div>
+            {{-- call to action --}}
+            <section class=" bg-blue_100 padding-x base:py-20 py-10 ">
+                <div class=" relative bg-white p-10 rounded-[20px] text-center ">
+                    <h3 class="start">Start Earning</h3>
+                    <div class="flex base:justify-between justify-center items-center">
+                        <p class=" w-[60%] text-md text-neutral_800 leading-7 base:text-start text-center">
+                            Automate your digital assets portfolio to begin earning consistently today.
+                        </p>
+                        <a href="{{ route('register') }}" class="w-[20%]">
+                            <x-button class="">Get Started</x-button>
+                        </a>
                     </div>
                 </div>
-            </section> --}} 
-
+            </section>
     </main>
 
     <footer class="  padding-x text-sm ">
@@ -1016,23 +920,19 @@
                 <div class="md:w-[20%] base:w-[45%] w-full sm:items-start items-center flex flex-col">
                     <h3 class=" base:text-lg text-md font-extrabold ">About</h3>
                     <ul class="bae:mt-5 mt-4 sm:text-start text-center">
-                        <li>
+                        <li class=" mt-3 text-sm hover:text-blue_800">
                             <a href="{{ route('company') }}">Company</a>
                         </li>
 
-                        <li class=" mt-3 text-sm">
+                        <li class=" mt-3 text-sm hover:text-blue_800">
                             <a href="{{ route('team') }}">Team</a>
                         </li>
 
-                        <li class=" mt-3 text-sm">
+                        <li class=" mt-3 text-sm hover:text-blue_800">
                             <a href="{{ route('investment-approach') }}">Investment Approach</a>
                         </li>
 
-                        <li class=" mt-3 text-sm">
-                            <a href="{{ route('risk-management') }}">Risk Management</a>
-                        </li>
-
-                        <li class=" mt-3 text-sm">
+                        <li class=" mt-3 text-sm hover:text-blue_800">
                             <a href="{{ route('technology') }}">Technology</a>
                         </li>
                     </ul>

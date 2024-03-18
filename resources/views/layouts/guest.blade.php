@@ -17,6 +17,19 @@
     
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+        var _smartsupp = _smartsupp || {};
+        _smartsupp.key = '4fd1c89762a2b3405110e073657c9ea76ef86c2d';
+        window.smartsupp||(function(d) {
+        var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+        s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+        c.type='text/javascript';c.charset='utf-8';c.async=true;
+        c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+        })(document);
+    </script>
+    <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+
 </head>
 
 <body>
@@ -24,7 +37,7 @@
 
         {{-- preloader --}}
 
-        <div id="preloader" style="transition: all 2s ease-out"
+        {{-- <div id="preloader" style="transition: all 2s ease-out"
             class=" bg-gradient-to-r from-primary to-primary-700 fixed left-0 top-0 right-0 bottom-0 w-full z-50">
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div class=" animate-pulse w-4 h-4 rounded-full border-4 mx-2 my-0 float-left border-secondary"></div>
@@ -35,383 +48,469 @@
                     class=" animate-pulse w-4 h-4 delay-300 rounded-full border-4 mx-2 my-0 float-left border-secondary">
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- preloader --}}
 
         {{-- navigation --}}
 
-        <div class=" border-b border-gray-30" x-data="{ open: false }">
-            <div x-show="open" x-transition.duration.600ms.origin.top.right
-                class=" fixed bg-white p-8 h-screen z-50 md:hidden w-4/5 top-0 right-0">
+        <nav class="sticky top-0 z-30 bg-white padding-y base:px-10 px-5 flex gap-6 justify-between w-full items-center" x-data="{ open: false }">
+            <a href="{{ route('landing') }}"><img class=" base:w-36 w-28 md:w-44" src="{{ asset('svg/logo.svg') }}" alt=""></a>
 
-                <div class="flex mb-14 justify-between">
-                    <img class=" w-36 md:w-44 h-" src="{{ asset('logo-1.svg') }}" alt="">
-                    <svg @click="open = false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <div @click="open = true" class=" md:hidden cursor-pointer hover:scale-105">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.8" stroke="currentColor" class="w-7 h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 9h16.5m-16.5 6.75h16.5" />
+                </svg>
+            </div>
+                
+            <ul class=" hidden md:flex items-center gap-5">
+                <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
+                    <div class="flex items-center border border-transparent bg-transparent rounded-[10px] p-2 hover:border-blue_300 hover:text-blue_600" @mouseover="open=true">
+                        <span class=" mr-2 ">About</span>
+                        <span :class=" { 'transition-transform rotate-180 duration-300': open == true, 'transition-transform rotate-0 duration-300': open == false }">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div class=" bg-white p-4 rounded-[20px] absolute left-0 top-full shadow"
+                        x-show="open" x-cloak x-transition @click.away="open = false">
+                        <ul class="divide-y text-base ">
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all w-full">
+                                <a href="{{ route('company') }}" >Company</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
+                                <a href="{{ route('team') }}">Team</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all whitespace-nowrap">
+                                <a href="{{ route('investment-approach') }}">Investment Approach</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
+                                <a href="{{ route('risk-management') }}">Risk Management</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
+                                <a href="{{ route('technology') }}">Technology</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
+                    <div class="flex items-center border border-transparent bg-transparent rounded-[10px] p-2 hover:border-blue_300 hover:text-blue_600" @mouseover="open=true">
+                        <span class=" mr-2 ">Products</span>
+                        <span :class=" { 'transition-transform rotate-180 duration-300': open == true, 'transition-transform rotate-0 duration-300': open == false }">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class=" bg-white p-4 rounded-[20px] absolute left-0 top-full shadow"
+                        x-show="open" x-cloak x-transition>
+                        <ul class=" divide-y text-base">
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
+                                <a href="{{ route('auto-arbitrage') }}">Auto Arbitrage</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
+                                <a href="{{ route('market-making') }}">Market making</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all whitespace-nowrap">
+                                <a href="{{ route('liquidity-enhancement') }}">Liquidity Enhancement</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] tranistion-all">
+                                <a href="{{ route('otc-trading') }}">OTC trading</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
+                    <div class="flex items-center border border-transparent bg-transparent rounded-[10px] p-2 hover:border-blue_300 hover:text-blue_600" @mouseover="open=true">
+                        <span class=" mr-2 ">Careers</span>
+                        <span :class=" { 'transition-transform rotate-180 duration-300': open == true, 'transition-transform rotate-0 duration-300': open == false }">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class=" bg-white p-5 rounded-[20px] absolute left-0 top-full shadow whitespace-nowrap"
+                        x-show="open" x-cloak x-transition>
+                        <ul class=" divide-y text-sm">
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
+                                <a href="{{ route('careers') }}">Overview</a>
+                            </li>
+                            <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
+                                <a href="{{ route('open-positions') }}">Open Positions</a>
+                        </ul>
+                    </div>
+                </li>
+
+                <li><a href="#contact-us" class= "border border-transparent bg-transparent rounded-[10px] p-2 hover:border-blue_300 hover:text-blue_600 leading-none whitespace-nowrap">Contact us</a></li>
+            </ul>
+
+            {{-- mobile view --}}
+
+            <div x-show="open" x-transition.duration.600ms.origin.top.right
+                class="absolute bg-gray_50 p-7 h-screen z-50 md:hidden w-[70%] top-0 right-0" @click.away="open = false">
+
+                <div class="flex mb-5 justify-end cursor-pointer">
+                    <svg @click="open = false" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-
                 </div>
-                <ul class=" flex flex-col gap-12 ">
-                    <li class=" font-bold"><a class=" font-poppins" href="{{ route('landing') }}">Home</a></li>
-                    <li class="cursor-pointer relative font-bold" x-data="{ open: false }" @click="open=!open"
-                        @click.away="open=false">
-                        <div class="flex items-center ">
-                            <span class=" mr-2 font-poppins">About</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.68 8.98665L12 16.9333L4.32 8.98665C4.11136 8.77006 3.99731 8.47946 4.00294 8.17877C4.00856 7.87809 4.13341 7.59196 4.35 7.38332C4.56659 7.17468 4.8572 7.06063 5.15788 7.06626C5.45856 7.07189 5.7447 7.19673 5.95333 7.41332L12 13.6733L18.0533 7.41332C18.262 7.19673 18.5481 7.07189 18.8488 7.06626C19.1495 7.06063 19.4401 7.17468 19.6567 7.38332C19.8733 7.59196 19.9981 7.87809 20.0037 8.17877C20.0094 8.47946 19.8953 8.77006 19.6867 8.98665H19.68Z"
-                                    fill="currentColor" fill-opacity="0.9" />
-                            </svg>
+
+                @if (Auth::user())
+
+                <div class=" border-b mb-7 pb-3">
+                    <span class="text-base font-semibold capitalize">
+                        {{ Auth()->user()?->first_name . ' ' . Auth()->user()?->last_name }}
+                    </span>
+                    <h5 class=" text-sm text-gray-400">{{ Auth()->user()?->email }}</h5>
+                </div>
+
+                @endif
+
+                <ul class=" flex flex-col gap-10" >
+                    @if (Auth::user())
+                    <li class=" font-semibold cursor-pointer hover:text-blue_600">
+                        <a href="{{ route('home') }}" >
+                            Dashboard
+                        </a>
+                    </li>
+                    @endif
+                    <li class="cursor-pointer relative" x-data="{ open: false }" @click.away="open=false">
+                        <div class="flex items-center hover:text-blue_600" @click="open=!open">
+                            <span class=" font-semibold mr-2 ">About</span>
+                            <span :class=" { 'transition-transform rotate-180 duration-300': open == true, 'transition-transform rotate-0 duration-300': open == false }">
+                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
                         </div>
-                        <div class=" z-20 bg-white text-gray-600 absolute left-0 top-full shadow-lg" x-show="open"
-                            x-cloak x-transition @click.away="open = false">
-                            <ul class=" divide-y text-sm">
-                                <li class=" p-5 hover:text-gray-400">
-                                    <a href="{{ route('company') }}">Company</a>
+
+                        <div class="z-20 bg-white p-3 rounded-[20px] absolute left-0 top-full mt-2 shadow"
+                            x-show="open" x-cloak x-transition.duration.300ms @click.away="open = false">
+                            <ul class="divide-y text-base ">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all w-full">
+                                    <a href="{{ route('company') }}" >Company</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
                                     <a href="{{ route('team') }}">Team</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400 whitespace-nowrap">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all whitespace-nowrap">
                                     <a href="{{ route('investment-approach') }}">Investment Approach</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
                                     <a href="{{ route('risk-management') }}">Risk Management</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
                                     <a href="{{ route('technology') }}">Technology</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="cursor-pointer relative font-bold" x-data="{ open: false }" @click="open=!open"
-                        @click.away="open=false">
-                        <div class="flex items-center ">
-                            <span class=" mr-2 font-poppins">Products</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.68 8.98665L12 16.9333L4.32 8.98665C4.11136 8.77006 3.99731 8.47946 4.00294 8.17877C4.00856 7.87809 4.13341 7.59196 4.35 7.38332C4.56659 7.17468 4.8572 7.06063 5.15788 7.06626C5.45856 7.07189 5.7447 7.19673 5.95333 7.41332L12 13.6733L18.0533 7.41332C18.262 7.19673 18.5481 7.07189 18.8488 7.06626C19.1495 7.06063 19.4401 7.17468 19.6567 7.38332C19.8733 7.59196 19.9981 7.87809 20.0037 8.17877C20.0094 8.47946 19.8953 8.77006 19.6867 8.98665H19.68Z"
-                                    fill="currentColor" fill-opacity="0.9" />
-                            </svg>
+
+                    <li class="cursor-pointer relative" x-data="{ open: false }" @click.away="open=false">
+                        <div class="flex items-center hover:text-blue_600" @click="open=!open">
+                            <span class=" font-semibold mr-2 ">Products</span>
+                            <span :class=" { 'transition-transform rotate-180 duration-300': open == true, 'transition-transform rotate-0 duration-300': open == false }">
+                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
                         </div>
-                        <div class=" z-20 bg-white text-gray-600 absolute left-0 top-full shadow-lg" x-show="open"
-                            x-cloak x-transition>
-                            <ul class="divide-y text-sm">
-                                <li class=" p-5 hover:text-gray-400">
+                        <div class="z-20 bg-white p-3 rounded-[20px] absolute left-0 top-full mt-2 shadow"
+                            x-show="open" x-cloak x-transition.duration.300ms @click.away="open = false">
+                            <ul class=" divide-y text-base">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
                                     <a href="{{ route('auto-arbitrage') }}">Auto Arbitrage</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
                                     <a href="{{ route('market-making') }}">Market making</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400 whitespace-nowrap">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all whitespace-nowrap">
                                     <a href="{{ route('liquidity-enhancement') }}">Liquidity Enhancement</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] tranistion-all">
                                     <a href="{{ route('otc-trading') }}">OTC trading</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    {{-- <li class=" font-bold">
-                        <a class="font-poppins" href="{{ route('insights') }}">Insights</a>
-                    </li> --}}
 
-                    <li class="cursor-pointer relative font-bold" x-data="{ open: false }" @click="open=!open"
-                        @click.away="open=false">
-                        <div class="flex items-center ">
-                            <span class=" mr-2 font-poppins">Careers</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.68 8.98665L12 16.9333L4.32 8.98665C4.11136 8.77006 3.99731 8.47946 4.00294 8.17877C4.00856 7.87809 4.13341 7.59196 4.35 7.38332C4.56659 7.17468 4.8572 7.06063 5.15788 7.06626C5.45856 7.07189 5.7447 7.19673 5.95333 7.41332L12 13.6733L18.0533 7.41332C18.262 7.19673 18.5481 7.07189 18.8488 7.06626C19.1495 7.06063 19.4401 7.17468 19.6567 7.38332C19.8733 7.59196 19.9981 7.87809 20.0037 8.17877C20.0094 8.47946 19.8953 8.77006 19.6867 8.98665H19.68Z"
-                                    fill="currentColor" fill-opacity="0.9" />
-                            </svg>
+                    <li class="cursor-pointer relative" x-data="{ open: false }" @click.away="open=false">
+                        <div class="flex items-center hover:text-blue_600" @click="open=!open">
+                            <span class=" font-semibold mr-2 ">Careers</span>
+                            <span :class=" { 'transition-transform rotate-180 duration-300': open == true, 'transition-transform rotate-0 duration-300': open == false }">
+                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
                         </div>
-                        <div class=" z-20 bg-white text-gray-600 absolute left-0 top-full shadow-lg shadow-gray-90 whitespace-nowrap"
-                            x-show="open" x-cloak x-transition>
+                        <div class="z-20 bg-white p-3 rounded-[20px] absolute left-0 top-full mt-2 shadow"
+                            x-show="open" x-cloak x-transition.duration.300ms @click.away="open = false">
                             <ul class=" divide-y text-sm">
-                                <li class=" p-5 hover:text-gray-400">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
                                     <a href="{{ route('careers') }}">Overview</a>
                                 </li>
-                                <li class=" p-5 hover:text-gray-400">
+                                <li class=" py-3 px-5 hover:bg-blue_100 hover:text-blue_600 rounded-[10px] transition-all">
                                     <a href="{{ route('open-positions') }}">Open Positions</a>
                             </ul>
                         </div>
                     </li>
 
-                    <li class="flex justify-between font-bold font-poppins">
-                        <a href="{{ route('register') }}"
-                            class=" rounded-sm px-5 py-2 bg-secondary-500 whitespace-nowrap">Create Account</a>
-                        <a href="{{ route('login') }}"
-                            class=" rounded-sm px-5 py-2 border-2 border-gray-500">Login</a>
-                    </li>
-
+                    <li @click='open=false'><a href="#contact-us" class="whitespace-nowrap font-semibold hover:text-blue_600">Contact us</a></li>
                 </ul>
+
+                <div class="mt-16">
+                @if (Auth::user())
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a
+                            href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                            this.closest('form').submit();">
+                            <x-button type="cancel" >Log Out</x-button>
+                        </a>
+                    </form>
+
+                @else
+                
+                    <ul class="gap-4 flex items-center">
+                        <li class=" cursor-pointer font-semibold hover:scale-105 border border-transparent bg-transparent rounded-[10px] p-3 hover:border-blue_300 hover:text-blue_600 transition-all ">
+                            <a href="{{ route('login') }}"
+                                class=" ">
+                                <span >Login</span>
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="{{ route('register') }}">
+                                <x-button class="">Get Started</x-button>
+                            </a>
+                        </li>
+                    </ul>
+                @endif
+                </div> 
+            </div>   
+
+            {{-- Desktop user nav --}}
+            <div class=" md:block hidden ">
+                @if (Auth::user())
+
+                <div class=" relative cursor-pointer" x-data="{ show: false }">
+                    <div  x-on:click="show = true" class=" border hover:bg-blue_600 hover:text-white rounded-full md:p-[0.6rem] p-1 md:w-[10.2rem] w-fit flex items-center justify-between " :class=" { 'bg-blue_600 text-white': show == true, 'bg-gray_50 text-black_800': show == false }">
+                        <img src="{{ asset('svg/ProfileIcon.svg')}}" alt="user placeholder" class="base:w-[2rem] w-[1.4rem]" >
+                        <p class=" base-text font-bold -ml-3 md:block hidden capitalize">
+                            {{ Auth()->user()?->first_name . ' ' . strtoupper(mb_substr(Auth()->user()?->last_name, 0, 1)) . '.' }}
+                        </p>
+                        <span class="cursor-pointer base:p-2 p-1 hover:scale-110 transition-all"
+                             :class=" { 'transition-transform rotate-180 duration-300': show == true, 'transition-transform rotate-0 duration-300': show == false }">
+                             <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>    
+                    </div>
+                    <div class=" duration-300 absolute top-[3rem] right-0 w-[15rem] bg-white rounded-[10px] box-shadow" x-show="show" x-cloak
+                    x-transition.duration.600ms @click.away="show = false"  :class="{
+                            '  opacity-100  ': show == true,
+                            '  opacity-0 ': show == false
+                        }" >
+                        <div class=" ">
+                            <div class=" py-5 px-6 rounded-t-[10px] border-b">
+                                <span class=" font-semibold capitalize">
+                                    {{ Auth()->user()?->first_name . ' ' . Auth()->user()?->last_name }}
+                                </span>
+                                <h5 class=" text-sm text-gray-400">{{ Auth()->user()?->email }}</h5>
+                            </div>
+
+                            <div class=" py-5 px-2 rounded-b-[10px] grid gap-2">
+
+                                <span onclick="{{ route('home') }}" class=" dot-container">
+                                    <div class=" opacity-0  w-[6px] h-[6px] rounded-full bg-blue_600" ></div>
+                                    <span class="ml-5">
+                                        <a href="{{ route('home') }}" >
+                                            Dashboard
+                                        </a>
+                                    </span>
+                                </span>
+
+                                <span>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <a class=" flex px-[16px] py-[12px] rounded-[6px] items-center cursor-pointer font-medium text-black hover:text-failed hover:bg-red-50 transition-all dot-container"
+                                            href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                                            <div class=" opacity-0 w-[6px] h-[6px] rounded-full bg-failed" ></div>
+                                            <span class=" ml-5 ">Log Out</span>
+                                        </a>
+                                    </form>
+                                </span>    
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                @else
+                <ul class="gap-4 hidden md:flex items-center">
+                    <li class=" cursor-pointer font-semibold hover:scale-105 border border-transparent bg-transparent rounded-[10px] p-3 hover:border-blue_300 hover:text-blue_600 transition-all ">
+                        <a href="{{ route('login') }}"
+                            class=" ">
+                            <span >Login</span>
+                        </a>
+                    </li>
+                    
+                    <li class=" font-semibold">
+                        <a href="{{ route('register') }}">
+                            <x-button class="">Get Started</x-button>
+                        </a>
+                    </li>
+                </ul>
+                @endif
+
             </div>
-            <nav
-                class=" justify-between fixe relative z-10 max-w-screen-2xl lg:px-8 flex gap-6 justify-betwen w-full px-4 items-center sm:px-6 xl:px-10 py-4 md:py-6">
-                <img class=" w-36 md:w-44 h-" src="{{ asset('logo-1.svg') }}" alt="">
-                <div @click="open = true" class=" md:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-                    </svg>
-                </div>
-
-
-
-
-                <ul class=" hidden md:flex items-center gap-8 ml-auto">
-                    <li><a href="{{ route('landing') }}">Home</a></li>
-                    <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
-                        <div class="flex items-center " @mouseover="open=true">
-                            <span class=" mr-2 ">About</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.68 8.98665L12 16.9333L4.32 8.98665C4.11136 8.77006 3.99731 8.47946 4.00294 8.17877C4.00856 7.87809 4.13341 7.59196 4.35 7.38332C4.56659 7.17468 4.8572 7.06063 5.15788 7.06626C5.45856 7.07189 5.7447 7.19673 5.95333 7.41332L12 13.6733L18.0533 7.41332C18.262 7.19673 18.5481 7.07189 18.8488 7.06626C19.1495 7.06063 19.4401 7.17468 19.6567 7.38332C19.8733 7.59196 19.9981 7.87809 20.0037 8.17877C20.0094 8.47946 19.8953 8.77006 19.6867 8.98665H19.68Z"
-                                    fill="currentColor" fill-opacity="0.9" />
-                            </svg>
-                        </div>
-                        <div class=" bg-white text-gray-600 absolute left-0 top-full shadow-lg shadow-gray-900"
-                            x-show="open" x-cloak x-transition @click.away="open = false">
-                            <ul class=" divide-y text-sm">
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('company') }}">Company</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('team') }}">Team</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400 whitespace-nowrap">
-                                    <a href="{{ route('investment-approach') }}">Investment Approach</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('risk-management') }}">Risk Management</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('technology') }}">Technology</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
-                        <div class="flex items-center " @mouseover="open=true">
-                            <span class=" mr-2 ">Products</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.68 8.98665L12 16.9333L4.32 8.98665C4.11136 8.77006 3.99731 8.47946 4.00294 8.17877C4.00856 7.87809 4.13341 7.59196 4.35 7.38332C4.56659 7.17468 4.8572 7.06063 5.15788 7.06626C5.45856 7.07189 5.7447 7.19673 5.95333 7.41332L12 13.6733L18.0533 7.41332C18.262 7.19673 18.5481 7.07189 18.8488 7.06626C19.1495 7.06063 19.4401 7.17468 19.6567 7.38332C19.8733 7.59196 19.9981 7.87809 20.0037 8.17877C20.0094 8.47946 19.8953 8.77006 19.6867 8.98665H19.68Z"
-                                    fill="currentColor" fill-opacity="0.9" />
-                            </svg>
-                        </div>
-                        <div class=" bg-white text-gray-600 absolute left-0 top-full shadow-lg shadow-gray-900"
-                            x-show="open" x-cloak x-transition>
-                            <ul class=" divide-y text-sm">
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('auto-arbitrage') }}">Auto Arbitrage</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('market-making') }}">Market making</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400 whitespace-nowrap">
-                                    <a href="{{ route('liquidity-enhancement') }}">Liquidity Enhancement</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('otc-trading') }}">OTC trading</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    {{-- <li>
-                        <a href="{{ route('insights') }}">Insights</a>
-                    </li> --}}
-
-                    <li class="cursor-pointer relative" x-data="{ open: false }" @mouseleave="open=false">
-                        <div class="flex items-center " @mouseover="open=true">
-                            <span class=" mr-2 ">Careers</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.68 8.98665L12 16.9333L4.32 8.98665C4.11136 8.77006 3.99731 8.47946 4.00294 8.17877C4.00856 7.87809 4.13341 7.59196 4.35 7.38332C4.56659 7.17468 4.8572 7.06063 5.15788 7.06626C5.45856 7.07189 5.7447 7.19673 5.95333 7.41332L12 13.6733L18.0533 7.41332C18.262 7.19673 18.5481 7.07189 18.8488 7.06626C19.1495 7.06063 19.4401 7.17468 19.6567 7.38332C19.8733 7.59196 19.9981 7.87809 20.0037 8.17877C20.0094 8.47946 19.8953 8.77006 19.6867 8.98665H19.68Z"
-                                    fill="currentColor" fill-opacity="0.9" />
-                            </svg>
-                        </div>
-                        <div class=" bg-white text-gray-600 absolute left-0 top-full shadow-lg shadow-gray-900 whitespace-nowrap"
-                            x-show="open" x-cloak x-transition>
-                            <ul class=" divide-y text-sm">
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('careers') }}">Overview</a>
-                                </li>
-                                <li class=" py-3 px-5 hover:text-gray-400">
-                                    <a href="{{ route('open-positions') }}">Open Positions</a>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-
-                <ul class=" ml-auto hidden md:flex items-center">
-                    <li class=" font-semibold">
-                        <a href="{{ route('register') }}"
-                            class=" py-1 rounded-sm bg-secondary border-2 border-transparent px-7 text-gray-900 flex">
-                            <span class=" mr-2 whitespace-nowrap">Get Started</span>
-                            <svg width="20" height="20" viewBox="0 0 25 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_6_70)">
-                                    <path
-                                        d="M9.93024 11.75C9.59872 11.75 9.28077 11.8817 9.04635 12.1161C8.81193 12.3505 8.68024 12.6685 8.68024 13C8.68024 13.3315 8.81193 13.6495 9.04635 13.8839C9.28077 14.1183 9.59872 14.25 9.93024 14.25C10.0944 14.25 10.2569 14.2177 10.4086 14.1548C10.5602 14.092 10.698 14 10.8141 13.8839C10.9302 13.7678 11.0223 13.63 11.0851 13.4784C11.1479 13.3267 11.1802 13.1642 11.1802 13C11.1802 12.8358 11.1479 12.6733 11.0851 12.5216C11.0223 12.37 10.9302 12.2322 10.8141 12.1161C10.698 12 10.5602 11.908 10.4086 11.8452C10.2569 11.7823 10.0944 11.75 9.93024 11.75ZM15.9302 11.75C15.5987 11.75 15.2808 11.8817 15.0464 12.1161C14.8119 12.3505 14.6802 12.6685 14.6802 13C14.6802 13.3315 14.8119 13.6495 15.0464 13.8839C15.2808 14.1183 15.5987 14.25 15.9302 14.25C16.2618 14.25 16.5797 14.1183 16.8141 13.8839C17.0485 13.6495 17.1802 13.3315 17.1802 13C17.1802 12.6685 17.0485 12.3505 16.8141 12.1161C16.5797 11.8817 16.2618 11.75 15.9302 11.75ZM12.9302 2C11.617 2 10.3167 2.25866 9.1034 2.7612C7.89015 3.26375 6.78776 4.00035 5.85917 4.92893C3.98381 6.8043 2.93024 9.34784 2.93024 12C2.93024 14.6522 3.98381 17.1957 5.85917 19.0711C6.78776 19.9997 7.89015 20.7362 9.1034 21.2388C10.3167 21.7413 11.617 22 12.9302 22C15.5824 22 18.1259 20.9464 20.0013 19.0711C21.8767 17.1957 22.9302 14.6522 22.9302 12C22.9302 10.6868 22.6716 9.38642 22.169 8.17317C21.6665 6.95991 20.9299 5.85752 20.0013 4.92893C19.0727 4.00035 17.9703 3.26375 16.7571 2.7612C15.5438 2.25866 14.2435 2 12.9302 2ZM12.9302 20C10.8085 20 8.77367 19.1571 7.27338 17.6569C5.77309 16.1566 4.93024 14.1217 4.93024 12C4.90024 11.7141 4.90024 11.4259 4.93024 11.14C7.31218 10.0978 9.19753 8.173 10.1902 5.77C11.1121 7.0771 12.3345 8.1436 13.7546 8.87972C15.1746 9.61585 16.7507 10.0001 18.3502 10C19.1102 10 19.8602 9.91 20.6002 9.74C21.8502 14 19.4302 18.43 15.1902 19.67C14.4302 19.89 13.6902 20 12.9302 20ZM0.930237 2C0.930237 1.46957 1.14095 0.960859 1.51602 0.585786C1.8911 0.210714 2.3998 0 2.93024 0L6.93024 0V2H2.93024V6H0.930237V2ZM24.9302 22C24.9302 22.5304 24.7195 23.0391 24.3444 23.4142C23.9694 23.7893 23.4607 24 22.9302 24H18.9302V22H22.9302V18H24.9302V22ZM2.93024 24C2.3998 24 1.8911 23.7893 1.51602 23.4142C1.14095 23.0391 0.930237 22.5304 0.930237 22V18H2.93024V22H6.93024V24H2.93024ZM22.9302 0C23.4607 0 23.9694 0.210714 24.3444 0.585786C24.7195 0.960859 24.9302 1.46957 24.9302 2V6H22.9302V2H18.9302V0H22.9302Z"
-                                        fill="currentColor" />
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_6_70">
-                                        <rect width="24" height="24" fill="white"
-                                            transform="translate(0.930237)" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </a>
-                    </li>
-
-                    <li class=" font-semibold">
-                        <a href="{{ route('login') }}"
-                            class=" py-1 rounded-sm border-2 border-gray-600 px-7 ml-5 flex">
-                            <span class=" mr-2">Login</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        </nav> 
 
         {{-- navigation --}}
         {{ $slot }}
         {{--  --}}
 
-        <footer class=" pt-20 bg-primar text-gray-20">
-            <div class=" mx-auto xl:max-w-screen-xl lg:max-w-screen-lg px-4 sm:px-8 lg:px-10 pb-20">
-                <div class=" grid grid-cols-1 md:grid-cols-3 gap-24">
-                    <div class="">
-                        <img class=" w-36 md:w-44 h-" src="{{ asset('logo-1.svg') }}" alt="">
-                        <p class=" mt-5 text-sm">Prospective Investors should read the entire website terms and
+        <footer class="  padding-x text-sm ">
+            <div class=" py-10 md:gap-6 gap-10 md:flex-nowrap flex-wrap flex justify-between w-full"> 
+                {{-- <div class=" "> --}}
+                    <div class="md:w-[30%] base:w-[45%] w-full sm:items-start items-center flex flex-col mr-5">
+                        <img class=" w-40 lg:w-52" src="{{ asset('svg/logo.svg') }}" alt="">
+                        <p class=" mt-5 text-sm sm:text-start text-center">Prospective Investors should read the entire website terms and
                             conditions
                             and
                             consult with any other investment advisors and tax advisors before making any decision
-                            concerning an investment in the fund</p>
-                        <div class="flex gap-4 mt-5 text-secondary">
-                            <div>
-                                <a target="_blank" href="https://www.linkedin.com/company/blockarb">
-                                    <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M11.0005 10.4635H15.3335V12.6218C15.9576 11.3805 17.5583 10.2652 19.9628 10.2652C24.5723 10.2652 25.6666 12.7362 25.6666 17.2698V25.6663H21V18.3023C21 15.7205 20.3758 14.2645 18.7868 14.2645C16.583 14.2645 15.6671 15.8337 15.6671 18.3012V25.6663H11.0005V10.4635ZM2.99831 25.468H7.66498V10.2652H2.99831V25.468ZM8.33348 5.30801C8.33365 5.69916 8.25608 6.08645 8.10527 6.44736C7.95445 6.80827 7.73341 7.13561 7.45498 7.41034C6.89078 7.97107 6.12709 8.28494 5.33165 8.28301C4.5376 8.28248 3.77568 7.96941 3.21065 7.41151C2.93323 7.13584 2.71293 6.80814 2.56238 6.44718C2.41183 6.08622 2.33399 5.6991 2.33331 5.30801C2.33331 4.51818 2.64831 3.76217 3.21181 3.20451C3.77635 2.64586 4.53859 2.33266 5.33281 2.33301C6.12848 2.33301 6.89148 2.64684 7.45498 3.20451C8.01731 3.76217 8.33348 4.51818 8.33348 5.30801Z"
-                                        fill="currentColor" />
-                                </svg>
-                                </a>
-
-                            </div>
-
-                            <div>
-                                <a target="_blank" href="https://medium.com/@blockarb">
-                                        <svg width="21" height="24" viewBox="0 0 25 28" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M4.5675 8.47499C4.57975 8.33297 4.56334 8.18957 4.51958 8.05627C4.47582 7.92297 4.40593 7.80347 4.3155 7.70733L2.4475 5.06249V4.66699H8.2455L12.7275 16.2228L16.6675 4.66699H22.1955V5.06249L20.5985 6.86033C20.5308 6.92128 20.4786 7.00253 20.4474 7.09541C20.4163 7.18829 20.4073 7.2893 20.4215 7.38766V20.6107C20.4073 20.709 20.4163 20.81 20.4474 20.9029C20.4786 20.9958 20.5308 21.077 20.5985 21.138L22.1585 22.937V23.3337H14.3145V22.9382L15.9305 21.0948C16.0895 20.9082 16.0895 20.8533 16.0895 20.5687V9.87966L11.5975 23.2893H10.9915L5.7615 9.87966V18.8677C5.7185 19.2445 5.8255 19.626 6.0515 19.899L8.1525 22.895V23.2893H2.1955V22.895L4.2955 19.899C4.40661 19.7637 4.48907 19.6 4.5363 19.4209C4.58353 19.2419 4.59421 19.0524 4.5675 18.8677V8.47499Z"
-                                        fill="currentColor" />
-                                </svg>
-                                     </a>
-                                
-
-                            </div>
-
-                            <div>
-                                <a target="_blank" href="https://m.facebook.com/BlockArb/">
-                                    <svg width="10" height="24" viewBox="0 0 14 28" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_82_972)">
-                                        <path
-                                            d="M3.86506 28V14.8616H0.390991V10.1311H3.86506V6.0907C3.86506 2.9157 5.91721 0 10.6458 0C12.5603 0 13.976 0.18354 13.976 0.18354L13.8645 4.60099C13.8645 4.60099 12.4207 4.58693 10.8452 4.58693C9.13995 4.58693 8.86676 5.37275 8.86676 6.67702V10.1311H14L13.7767 14.8616H8.86676V28H3.86506Z"
-                                            fill="currentColor" />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_82_972">
-                                            <rect width="13.609" height="28" fill="white"
-                                                transform="translate(0.390991)" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-                                     </a>
-                                
-
-                            </div>
-
-                            <div>
-                                <a target="_blank" href="https://m.me/BlockArb/">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
+                            concerning an investment.
+                        </p>
+                        
+                        <h3 class="base:text-lg text-md font-extrabold mt-5 sm:text-start text-center ">Follow Us</h3>    
+                        <div class="flex flex-wrap w-full sm:justify-start justify-center gap-4 base:mt-5 mt-4 ">
+                            <a target="_blank" href="https://www.linkedin.com/company/blockarb">
+                                <div class="border w-9 h-9 p-1 flex flex-center rounded-full border-neutral_800 hover:scale-105  ">
+                                    <img src="{{ asset('svg/linkedin.svg') }}" alt="linkedin icon" class='w-5'>   
+                                </div>
+                            </a>
     
-                                        <defs>
-                                        </defs>
-                                        <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                                            <path d="M 45 0 C 20.147 0 0 20.147 0 45 c 0 9.144 2.735 17.645 7.42 24.746 L 0 89.474 l 19.536 -7.375 C 26.778 87.079 35.547 90 45 90 c 24.853 0 45 -20.147 45 -45 C 90 20.147 69.853 0 45 0 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                                            <polygon points="17.4,57.49 41.27,32.51 52.83,43.7 72.6,33.62 50.78,57.49 38.47,45.93 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
-                                        </g>
-                                        </svg>
-                                   </a>
+                            <a target="_blank" href="https://medium.com/@blockarb">
+                                <div class="border w-9 h-9 p-1 flex flex-center rounded-full border-neutral_800 hover:scale-105  " >
+                                    <img src="{{ asset('svg/medium.svg') }}" alt="medium icon" class='w-5'>
+                                </div>
+                            </a>
     
-    
-                            </div>
-    
-                            <div>
-                                <a target="_blank" href="https://m.facebook.com/BlockArb/">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 256 256" xml:space="preserve">
-    
-                                        <defs>
-                                        </defs>
-                                        <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                                            <path d="M 83.924 7.756 L 4.202 38.496 c -5.442 2.183 -5.409 5.219 -0.992 6.571 l 20.455 6.385 l 7.035 23.153 c 0.925 2.553 0.469 3.566 3.151 3.566 c 2.069 0 2.983 -0.946 4.138 -2.069 l 9.941 -9.666 l 20.681 15.28 c 3.806 2.1 6.553 1.012 7.501 -3.533 l 13.577 -63.978 C 91.079 8.631 87.565 6.103 83.924 7.756 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                                            <path d="M 33.942 72.016 l -6.747 -22.204 L 79.13 19.002 L 40.751 56.789 L 33.942 72.016 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                                        </g>
-                                        </svg>
-                                </a>
-    
-    
-                            </div>
+                            <a target="_blank" href="https://m.facebook.com/BlockArb/">
+                                <div class="border w-9 h-9 p-1 flex flex-center rounded-full border-neutral_800 hover:scale-105  " >
+                                    <img src="{{ asset('svg/facebook.svg') }}" alt="facebook icon" class='w-[.6rem]'>
+                                </div>
+                            </a>
+                            
+                            <a target="_blank" href="https://m.me/BlockArb/">
+                                <div class="border w-9 h-9 p-1 flex flex-center rounded-full border-neutral_800 hover:scale-105  " >
+                                    <img src="{{ asset('svg/messanger.svg') }}" alt="messanger icon" class='w-5'>
+                                </div>
+                            </a>
+                            
+                            <a target="_blank" href="https://m.facebook.com/BlockArb/">
+                                <div class="border w-9 h-9 p-1 flex flex-center rounded-full border-neutral_800 hover:scale-105  " >
+                                    <img src="{{ asset('svg/letter.svg') }}" alt="letter icon" class='w-5'>
+                                </div>
+                            </a>
                         </div>
                     </div>
-
-                    <div>
-                        <h3 class=" text-2xl font-extrabold">Quick Links</h3>
-                        <ul class="mt-5">
-                            <li>
-                                <a href="">Company</a>
+    
+                    <div class="md:w-[20%] base:w-[45%] sm:items-start items-center flex flex-col w-full">
+                        <h3 class=" base:text-lg text-md font-extrabold">Products</h3>
+                        <ul class="base:mt-5 mt-4 sm:text-start text-center">
+                            <li class=" text-sm hover:text-blue_800">
+                                <a href="{{ route('auto-arbitrage') }}">Auto Arbitrage</a>
                             </li>
-
-                            <li class=" mt-3 text-sm">
-                                <a href="">Team</a>
+                            <li class=" mt-3 text-sm hover:text-blue_800">
+                                <a href="{{ route('market-making') }}">Market making</a>
                             </li>
-
-                            <li class=" mt-3 text-sm">
-                                <a href="">Investment Approach</a>
+                            <li class=" mt-3 text-sm hover:text-blue_800 whitespace-nowrap">
+                                <a href="{{ route('liquidity-enhancement') }}">Liquidity Enhancement</a>
                             </li>
-
-                            <li class=" mt-3 text-sm">
-                                <a href="">Risk Management</a>
+                            <li class=" mt-3 text-sm hover:text-blue_800">
+                                <a href="{{ route('risk-management') }}">Risk Management</a>
+                            </li>
+                            <li class=" mt-3 text-sm hover:text-blue_800">
+                                <a href="{{ route('otc-trading') }}">OTC trading</a>
                             </li>
                         </ul>
                     </div>
-
-                    <div>
-                        <h3 class=" text-2xl font-extrabold">Contanct Us</h3>
-                        <ul class="mt-5">
+    
+                    <div class="md:w-[20%] base:w-[45%] w-full sm:items-start items-center flex flex-col">
+                        <h3 class=" base:text-lg text-md font-extrabold ">About</h3>
+                        <ul class="bae:mt-5 mt-4 sm:text-start text-center">
+                            <li class=" mt-3 text-sm hover:text-blue_800">
+                                <a href="{{ route('company') }}">Company</a>
+                            </li>
+    
+                            <li class=" mt-3 text-sm hover:text-blue_800">
+                                <a href="{{ route('team') }}">Team</a>
+                            </li>
+    
+                            <li class=" mt-3 text-sm hover:text-blue_800">
+                                <a href="{{ route('investment-approach') }}">Investment Approach</a>
+                            </li>
+    
+                            <li class=" mt-3 text-sm hover:text-blue_800">
+                                <a href="{{ route('technology') }}">Technology</a>
+                            </li>
+                        </ul>
+                    </div>
+    
+                    <div class="md:w-[30%] base:w-[45%] w-full sm:items-start items-center flex flex-col " id="contact-us">
+                        <h3 class=" base:text-lg text-md font-extrabold">Contact</h3>
+                        <ul class="base:mt-5 mt-4">
+    
+                            <li class="text-sm">
+                                <div class="flex items-center">
+                                    <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M23.3333 4.66699H4.66668C3.38334 4.66699 2.34501 5.71699 2.34501 7.00033L2.33334 21.0003C2.33334 22.2837 3.38334 23.3337 4.66668 23.3337H23.3333C24.6167 23.3337 25.6667 22.2837 25.6667 21.0003V7.00033C25.6667 5.71699 24.6167 4.66699 23.3333 4.66699ZM22.8667 9.62533L14.6183 14.782C14.245 15.0153 13.755 15.0153 13.3817 14.782L5.13334 9.62533C5.01636 9.55965 4.91392 9.47093 4.83221 9.36452C4.75051 9.25811 4.69125 9.13623 4.65801 9.00626C4.62478 8.87628 4.61826 8.74092 4.63886 8.60835C4.65946 8.47578 4.70674 8.34877 4.77784 8.23501C4.84894 8.12125 4.94239 8.02309 5.05252 7.94649C5.16266 7.86988 5.28719 7.81642 5.41859 7.78934C5.54998 7.76226 5.68551 7.76212 5.81696 7.78893C5.94841 7.81574 6.07305 7.86895 6.18334 7.94533L14 12.8337L21.8167 7.94533C21.927 7.86895 22.0516 7.81574 22.1831 7.78893C22.3145 7.76212 22.45 7.76226 22.5814 7.78934C22.7128 7.81642 22.8374 7.86988 22.9475 7.94649C23.0576 8.02309 23.1511 8.12125 23.2222 8.23501C23.2933 8.34877 23.3406 8.47578 23.3612 8.60835C23.3818 8.74092 23.3752 8.87628 23.342 9.00626C23.3088 9.13623 23.2495 9.25811 23.1678 9.36452C23.0861 9.47093 22.9837 9.55965 22.8667 9.62533V9.62533Z"
+                                            fill="#1744E4" />
+                                    </svg>
+    
+    
+                                    <div>
+                                        <p class="text-sm ml-3"> <a href="mailto:support@blockarb.com" class="underline hover:text-blue_800">support@blockarb.com</a> </p>
+                                    </div>
+                                </div>
+                            </li>
+    
+                            <li class="mt-4 text-sm">
+                                <div class="flex items-center">
+                                    <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M23.3333 4.66699H4.66668C3.38334 4.66699 2.34501 5.71699 2.34501 7.00033L2.33334 21.0003C2.33334 22.2837 3.38334 23.3337 4.66668 23.3337H23.3333C24.6167 23.3337 25.6667 22.2837 25.6667 21.0003V7.00033C25.6667 5.71699 24.6167 4.66699 23.3333 4.66699ZM22.8667 9.62533L14.6183 14.782C14.245 15.0153 13.755 15.0153 13.3817 14.782L5.13334 9.62533C5.01636 9.55965 4.91392 9.47093 4.83221 9.36452C4.75051 9.25811 4.69125 9.13623 4.65801 9.00626C4.62478 8.87628 4.61826 8.74092 4.63886 8.60835C4.65946 8.47578 4.70674 8.34877 4.77784 8.23501C4.84894 8.12125 4.94239 8.02309 5.05252 7.94649C5.16266 7.86988 5.28719 7.81642 5.41859 7.78934C5.54998 7.76226 5.68551 7.76212 5.81696 7.78893C5.94841 7.81574 6.07305 7.86895 6.18334 7.94533L14 12.8337L21.8167 7.94533C21.927 7.86895 22.0516 7.81574 22.1831 7.78893C22.3145 7.76212 22.45 7.76226 22.5814 7.78934C22.7128 7.81642 22.8374 7.86988 22.9475 7.94649C23.0576 8.02309 23.1511 8.12125 23.2222 8.23501C23.2933 8.34877 23.3406 8.47578 23.3612 8.60835C23.3818 8.74092 23.3752 8.87628 23.342 9.00626C23.3088 9.13623 23.2495 9.25811 23.1678 9.36452C23.0861 9.47093 22.9837 9.55965 22.8667 9.62533V9.62533Z"
+                                            fill="#1744E4" />
+                                    </svg>
+    
+                                    <div>
+                                        <p class="text-sm ml-3"> <a href="mailto:info@blockarb.com" class="underline hover:text-blue_800">info@blockarb.com</a></p>
+                                    </div>
+                                </div>
+                            </li>
+    
                             <li class=" mt-4 text-sm">
                                 <div class="flex">
-                                    <svg width="17" height="24" viewBox="0 0 21 28" fill="none"
+                                    <svg class=" flex-shrink-0" width="17" height="24" viewBox="0 0 21 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_82_987)">
                                             <path
                                                 d="M9.09028 27.3C6.27083 23.7891 0 15.2797 0 10.5C0 4.70094 4.6429 0 10.3704 0C16.0957 0 20.7407 4.70094 20.7407 10.5C20.7407 15.2797 14.4213 23.7891 11.6505 27.3C10.9861 28.1367 9.75463 28.1367 9.09028 27.3ZM10.3704 14C12.277 14 13.8272 12.4305 13.8272 10.5C13.8272 8.56953 12.277 7 10.3704 7C8.46373 7 6.91358 8.56953 6.91358 10.5C6.91358 12.4305 8.46373 14 10.3704 14Z"
-                                                fill="#F2B950" />
+                                                fill="#1744E4" />
                                         </g>
                                         <defs>
                                             <clipPath id="clip0_82_987">
@@ -419,63 +518,69 @@
                                             </clipPath>
                                         </defs>
                                     </svg>
-
-                                    <p class="text-sm ml-3">Cotton Tree Dr, Central, Hong Kong</p>
+    
+                                    <div class="ml-3">
+                                        <p class="text-sm inlin">First Floor Waterside Property Eden Island, Seychelles.</p>
+                                    </div>
                                 </div>
                             </li>
-
+    
                             <li class=" mt-4 text-sm">
-                                <div class="flex">
-                                    <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
+                                <div class="flex ">
+                                    <svg class=" flex-shrink-0" width="17" height="24" viewBox="0 0 21 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M23.9015 19.9963L19.159 15.6843C18.9348 15.4805 18.6402 15.3719 18.3374 15.3812C18.0346 15.3906 17.7473 15.5172 17.5362 15.7345L14.7443 18.6056C14.0723 18.4773 12.7213 18.0561 11.3307 16.669C9.93999 15.2771 9.51883 13.9226 9.39399 13.2553L12.2628 10.4623C12.4803 10.2513 12.6072 9.96392 12.6165 9.66104C12.6259 9.35815 12.517 9.06351 12.313 8.83946L8.00216 4.09813C7.79804 3.87338 7.51435 3.73705 7.21134 3.7181C6.90832 3.69915 6.60986 3.79906 6.37933 3.99663L3.84766 6.16779C3.64596 6.37023 3.52557 6.63965 3.50933 6.92496C3.49183 7.21663 3.15816 14.1256 8.51549 19.4853C13.1892 24.1578 19.0435 24.4996 20.6558 24.4996C20.8915 24.4996 21.0362 24.4926 21.0747 24.4903C21.3599 24.4743 21.6292 24.3534 21.8307 24.1508L24.0007 21.618C24.199 21.3882 24.2997 21.0899 24.2811 20.7869C24.2626 20.484 24.1264 20.2002 23.9015 19.9963Z"
-                                            fill="#F2B950" />
+                                        <g clip-path="url(#clip0_82_987)">
+                                            <path
+                                                d="M9.09028 27.3C6.27083 23.7891 0 15.2797 0 10.5C0 4.70094 4.6429 0 10.3704 0C16.0957 0 20.7407 4.70094 20.7407 10.5C20.7407 15.2797 14.4213 23.7891 11.6505 27.3C10.9861 28.1367 9.75463 28.1367 9.09028 27.3ZM10.3704 14C12.277 14 13.8272 12.4305 13.8272 10.5C13.8272 8.56953 12.277 7 10.3704 7C8.46373 7 6.91358 8.56953 6.91358 10.5C6.91358 12.4305 8.46373 14 10.3704 14Z"
+                                                fill="#1744E4" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_82_987">
+                                                <rect width="20.7407" height="28" fill="white" />
+                                            </clipPath>
+                                        </defs>
                                     </svg>
-
-
-                                    <p class="text-sm ml-3">+1 4834 3884 834</p>
+    
+                                    <div class="ml-3">
+                                        <p class="text-sm inlin">Central Business District, Quad Central, Q3 Level 9 Triq
+                                            L-Esportaturi, Zone 1, Birkirkara
+                                            CBD, Malta.</p>
+                                    </div>
                                 </div>
                             </li>
-
+    
                             <li class=" mt-4 text-sm">
                                 <div class="flex">
-                                    <svg width="24" height="24" viewBox="0 0 28 28" fill="none"
+                                    <svg class=" flex-shrink-0" width="17" height="24" viewBox="0 0 21 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M23.3333 4.66699H4.66668C3.38334 4.66699 2.34501 5.71699 2.34501 7.00033L2.33334 21.0003C2.33334 22.2837 3.38334 23.3337 4.66668 23.3337H23.3333C24.6167 23.3337 25.6667 22.2837 25.6667 21.0003V7.00033C25.6667 5.71699 24.6167 4.66699 23.3333 4.66699ZM22.8667 9.62533L14.6183 14.782C14.245 15.0153 13.755 15.0153 13.3817 14.782L5.13334 9.62533C5.01636 9.55965 4.91392 9.47093 4.83221 9.36452C4.75051 9.25811 4.69125 9.13623 4.65801 9.00626C4.62478 8.87628 4.61826 8.74092 4.63886 8.60835C4.65946 8.47578 4.70674 8.34877 4.77784 8.23501C4.84894 8.12125 4.94239 8.02309 5.05252 7.94649C5.16266 7.86988 5.28719 7.81642 5.41859 7.78934C5.54998 7.76226 5.68551 7.76212 5.81696 7.78893C5.94841 7.81574 6.07305 7.86895 6.18334 7.94533L14 12.8337L21.8167 7.94533C21.927 7.86895 22.0516 7.81574 22.1831 7.78893C22.3145 7.76212 22.45 7.76226 22.5814 7.78934C22.7128 7.81642 22.8374 7.86988 22.9475 7.94649C23.0576 8.02309 23.1511 8.12125 23.2222 8.23501C23.2933 8.34877 23.3406 8.47578 23.3612 8.60835C23.3818 8.74092 23.3752 8.87628 23.342 9.00626C23.3088 9.13623 23.2495 9.25811 23.1678 9.36452C23.0861 9.47093 22.9837 9.55965 22.8667 9.62533V9.62533Z"
-                                            fill="#F2B950" />
+                                        <g clip-path="url(#clip0_82_987)">
+                                            <path
+                                                d="M9.09028 27.3C6.27083 23.7891 0 15.2797 0 10.5C0 4.70094 4.6429 0 10.3704 0C16.0957 0 20.7407 4.70094 20.7407 10.5C20.7407 15.2797 14.4213 23.7891 11.6505 27.3C10.9861 28.1367 9.75463 28.1367 9.09028 27.3ZM10.3704 14C12.277 14 13.8272 12.4305 13.8272 10.5C13.8272 8.56953 12.277 7 10.3704 7C8.46373 7 6.91358 8.56953 6.91358 10.5C6.91358 12.4305 8.46373 14 10.3704 14Z"
+                                                fill="#1744E4" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_82_987">
+                                                <rect width="20.7407" height="28" fill="white" />
+                                            </clipPath>
+                                        </defs>
                                     </svg>
-
-
-                                    <p class="text-sm ml-3">support@blockarb.com</p>
+    
+                                    <div class="ml-3">
+                                        <p class="text-sm inlin">Nexxus Building, Des Voeux Rd Central, Central, Hong Kong.
+                                        </p>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </div>
-            <div class=" py-3 bg-primary text-gray-100">
-                <div class=" mx-auto xl:max-w-screen-xl lg:max-w-screen-lg px-4 sm:px-8 lg:px-10">
-                    <p class="text-center text-s font-bol">Copyright 2022, All Right Reserved, Blockchain Arbitrage</p>
-                </div>
+            {{-- </div> --}}
+    
+            <div class=" py-3 border-t border-neutral_800 text-neutral_800">
+                <p class="text-center text-s font-semibold">Copyright 2022, All Right Reserved, Blockchain Arbitrage</p> 
             </div>
         </footer>
     </div>
-
-<!-- Smartsupp Live Chat script -->
-<script type="text/javascript">
-    var _smartsupp = _smartsupp || {};
-    _smartsupp.key = '4fd1c89762a2b3405110e073657c9ea76ef86c2d';
-    window.smartsupp||(function(d) {
-      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-      c.type='text/javascript';c.charset='utf-8';c.async=true;
-      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-    })(document);
-    </script>
-    <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
-
 </body>
 
 </html>

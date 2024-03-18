@@ -17,16 +17,12 @@ body {
     @apply max-w-[1440px] mx-auto;
 }
 
-h1, h2 {
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Manrope', sans-serif;
 }
 
-h3, h4, h5, h6 {
-  font-family: "Manrope", sans-serif;
-}
-
 .padding-y {
-  @apply md:py-5 base:py-4 py-2
+  @apply md:py-5 base:py-4 py-3
 }
 
 .padding-x {
@@ -50,7 +46,8 @@ h3, h4, h5, h6 {
   box-shadow: 0px 3px 15px #a1b5fe;
 }
 
-.mission-cards .heading {
+.mission-cards .heading, 
+.start {
   @apply absolute -top-5 font-bold base:text-[1.2rem] text-[.9rem] bg-blue_600 rounded-[30px] py-[9px] px-[30px] text-white;
   box-shadow: 0px 3px 15px #0337d240;
 }
@@ -107,6 +104,22 @@ h3, h4, h5, h6 {
 
 .sm-text {
   @apply base:text-sm text-s
+}
+
+.text-shadow {
+  text-shadow: 0px 0px 0px #ffffff;
+}
+
+.process-card {
+  @apply md:w-[31%] sm:w-[47%] w-[90%] flex flex-col items-center
+}
+
+.process-card .heading {
+  @apply font-bold my-4 base:text-[1.2rem] text-[1rem] text-neutral_800
+}
+
+.process-card img {
+  @apply w-[3.5rem]
 }
 
 .dz-image img {
