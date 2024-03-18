@@ -34,16 +34,27 @@
 <body class=" text-black_800">
     {{-- preloader --}}
 
-    {{-- <div id="preloader" style="transition: all 2s ease-out"
-        class=" bg-gradient-to-r from-primary to-primary-700 fixed left-0 top-0 right-0 bottom-0 w-full z-50">
+    <div id="preloader" style="transition: all 2s ease-out"
+        class=" bg-gradient-to-r from-blue_100 to-white fixed left-0 top-0 right-0 bottom-0 w-full z-50">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div class=" animate-pulse w-4 h-4 rounded-full border-4 mx-2 my-0 float-left border-secondary"></div>
-            <div class=" animate-pulse w-4 h-4 delay-150 rounded-full border-4 mx-2 my-0 float-left border-secondary">
-            </div>
-            <div class=" animate-pulse w-4 h-4 delay-300 rounded-full border-4 mx-2 my-0 float-left border-secondary">
-            </div>
+            <svg id="mainSVG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+                <defs>
+                        <radialGradient id="mainGrad" cx="400" cy="300" fx="400" fy="300" r="100" gradientUnits="userSpaceOnUse">
+                    <stop offset=".68" stop-color="#6334fb"/>
+                      <stop offset=".72" stop-color="#6639fb"/>
+                      <stop offset=".77" stop-color="#7248fb"/>
+                      <stop offset=".82" stop-color="#8561fb"/>
+                      <stop offset=".88" stop-color="#9f83fb"/>
+                      <stop offset=".93" stop-color="#c2b0fb"/>
+                      <stop offset=".99" stop-color="#ebe6fb"/>
+                      <stop offset="1" stop-color="#f1eefb"/>
+                    </radialGradient>
+                    </defs>
+                <circle id="fillDot" cx="400" cy="300" fill="#6334fb" r="100" />
+                <circle id="gradDot" cx="400" cy="300" fill="url(#mainGrad)" r="100" />
+                </svg>
         </div>
-    </div> --}}
+    </div>
 
     {{-- preloader --}}
     <main class=" antialiased relative">
@@ -836,13 +847,13 @@
 
             {{-- call to action --}}
             <section class=" bg-blue_100 padding-x base:py-20 py-10 ">
-                <div class=" relative bg-white p-10 rounded-[20px] text-center ">
-                    <h3 class="start">Start Earning</h3>
-                    <div class="flex base:justify-between justify-center items-center">
-                        <p class=" w-[60%] text-md text-neutral_800 leading-7 base:text-start text-center">
+                <div class=" relative bg-white base:p-10 py-10 px-6 rounded-[20px] text-center ">
+                    <div class="flex sm:flex-row flex-col sm:justify-between justify-center items-center">
+                        <h3 class="start">Start Earning</h3>
+                        <p class=" base:w-[60%] w-[70%] base:text-md text-base text-neutral_800 leading-7 sm:text-start text-center">
                             Automate your digital assets portfolio to begin earning consistently today.
                         </p>
-                        <a href="{{ route('register') }}" class="w-[20%]">
+                        <a href="{{ route('register') }}" class="base:w-[20%] sm:w-[25%] w-[50%] sm:mt-0 mt-5">
                             <x-button class="">Get Started</x-button>
                         </a>
                     </div>

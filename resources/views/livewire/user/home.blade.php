@@ -132,9 +132,34 @@
                        <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
                             <span class=" text-black_200 md:text-sm text-s ">Profit gathered</span>
                             <div class=" mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($usdtProfitTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">USDT</span> </div>
-                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $usdt->isNotEmpty() ? $usdt[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $usdt->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full " > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $usdt->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $usdt->isNotEmpty() ? formatNumber(( $usdt[0]->percentage / 100 ) * $usdt[0]->amount /  $usdt[0]->duration, 4) : '0' }} </span> </span>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $usdt->isNotEmpty() ? $usdt[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $usdt->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full whitespace-nowrap" > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $usdt->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $usdt->isNotEmpty() ? formatNumber(( $usdt[0]->percentage / 100 ) * $usdt[0]->amount /  $usdt[0]->duration, 4) : '0' }} </span> </span>
                         </div>  
                     </div>
+
+                     <!-- TradingView Widget BEGIN -->
+                     <div class="sm:h-[30rem] h-[22rem] w-full mt-7 rounded-[20px]">
+                        <div class="tradingview-widget-container" style="height:100%;width:100%">
+                            <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                            {
+                            "autosize": true,
+                            "symbol": "COINBASE:USDTUSD",
+                            "interval": "D",
+                            "timezone": "Etc/UTC",
+                            "theme": "light",
+                            "style": "2",
+                            "locale": "en",
+                            "enable_publishing": false,
+                            "gridColor": "rgba(240, 243, 250, 0)",
+                            "hide_top_toolbar": true,
+                            "calendar": false,
+                            "hide_volume": true,
+                            "support_host": "https://www.tradingview.com"
+                            }
+                            </script>
+                        </div>
+                    </div>
+                    <!-- TradingView Widget END -->
                 </div>
 
                 {{--BTC balance container --}}
@@ -152,9 +177,33 @@
                        <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
                             <span class=" text-black_200 md:text-sm text-s ">Profit gathered</span>
                             <div class="mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($btcProfitTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">BTC</span> </div>
-                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $btc->isNotEmpty() ? $btc[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $btc->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full " > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $btc->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $btc->isNotEmpty()  ? formatNumber(( $btc[0]->percentage / 100 ) * $btc[0]->amount /  $btc[0]->duration, 4) : '0' }} </span> </span>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $btc->isNotEmpty() ? $btc[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $btc->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full whitespace-nowrap " > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $btc->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $btc->isNotEmpty()  ? formatNumber(( $btc[0]->percentage / 100 ) * $btc[0]->amount /  $btc[0]->duration, 4) : '0' }} </span> </span>
                         </div>  
                     </div>
+
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="sm:h-[30rem] h-[22rem] w-full mt-7 rounded-[20px]">
+                        <div class="tradingview-widget-container" style="height:100%;width:100%">
+                            <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                            {
+                            "autosize": true,
+                            "symbol": "COINBASE:BTCUSD",
+                            "interval": "D",
+                            "timezone": "Etc/UTC",
+                            "theme": "light",
+                            "style": "2",
+                            "locale": "en",
+                            "enable_publishing": false,
+                            "hide_top_toolbar": true,
+                            "gridColor": "rgba(240, 243, 250, 0)",
+                            "calendar": false,
+                            "hide_volume": true,
+                            "support_host": "https://www.tradingview.com"}
+                            </script>
+                        </div>
+                    </div>
+                    <!-- TradingView Widget END -->
                 </div>
 
                 {{--ETH balance container --}}
@@ -172,10 +221,36 @@
                        <div class=" border w-[50%] flex flex-col rounded-[18px] md:py-[2rem] md:px-[1.5rem] sm:p-4 p-3 hover:border-b-2 hover:border-b-blue_600 hover:scale-105 ">
                             <span class=" text-black_200 md:text-sm text-s ">Profit gathered</span>
                             <div class=" mt-3 text-black_800 font-semibold md:text-xxl sm:text-xl text-lg "><span :class="{ 'inline-block': show == false, 'hidden': show == true } ">{{ formatNumber($ethProfitTotal, 4) }}</span><span :class="{ 'inline-block': show == true, 'hidden': show == false } " class="relative top-[5px]" >* * * *</span> <span class=" md:text-base sm:text-sm text-s text-black_200 ">ETH</span> </div>
-                            <span class=" mt-3 md:text-sm sm:text-s text-xs md:leading-normal leading-loose text-black_400 inline font-medium" ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $eth->isNotEmpty() ? $eth[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $eth->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full " > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $eth->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $eth->isNotEmpty()  ? formatNumber(( $eth[0]->percentage / 100 ) * $eth[0]->amount /  $eth[0]->duration, 4) : '0' }} </span> </span>
+                            <span class=" mt-3 md:text-sm sm:text-s text-xs leading-loose text-black_400 inline font-medium " ><img src="{{ asset('svg/earnings.svg') }}" alt="profit" class="inline relative -top-[2px] md:mr-2 mr-1 md:w-[1rem] w-[.7rem]"> Last Profit: &nbsp{{ $eth->isNotEmpty() ? $eth[0]->updated_at->format('jS M, Y') : "-- -- --" }}, &nbsp  <span class="{{ $eth->isNotEmpty() ? 'text-success bg-green-50' : 'text-black_200 bg-gray-100' }} inline md:p-2 p-1  rounded-full whitespace-nowrap" > <img src="{{ asset('svg/trending-up.svg') }}" alt="earning" class=" {{ $eth->isNotEmpty() ? 'inline' : 'hidden' }} md:w-[1rem] w-[.8rem]"> +{{ $eth->isNotEmpty()  ? formatNumber(( $eth[0]->percentage / 100 ) * $eth[0]->amount /  $eth[0]->duration, 4) : '0' }} </span> </span>
                         </div>  
                     </div>
+
+                     <!-- TradingView Widget BEGIN -->
+                     <div class="sm:h-[30rem] h-[22rem] w-full mt-7 rounded-[20px]">
+                        <div class="tradingview-widget-container" style="height:100%;width:100%">
+                            <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                            {
+                            "autosize": true,
+                            "symbol": "COINBASE:ETHUSD",
+                            "interval": "D",
+                            "timezone": "Etc/UTC",
+                            "theme": "light",
+                            "style": "2",
+                            "locale": "en",
+                            "enable_publishing": false,
+                            "gridColor": "rgba(240, 243, 250, 0)",
+                            "hide_top_toolbar": true,
+                            "calendar": false,
+                            "hide_volume": true,
+                            "support_host": "https://www.tradingview.com"
+                        }
+                            </script>
+                        </div>
+                    </div>
+                    <!-- TradingView Widget END -->
                 </div>
+
                 </div> 
             </div>
         </div>
